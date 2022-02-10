@@ -8,10 +8,11 @@ import {
 import gql from 'graphql-tag';
 
 import LoadMoreProducts from '../../components/LoadMoreProducts.client';
-import Layout from '../../components/Layout.server';
 import ProductCard from '../../components/ProductCard';
 import NotFound from '../../components/NotFound.server';
 
+import CollectionWrapper from '../../components/CollectionWrapper.server';
+import LayoutShopify from '../../components/LayoutShopify.server';
 export default function Collection({
   country = {isoCode: 'US'},
   collectionProductCount = 24,
@@ -36,27 +37,21 @@ export default function Collection({
   const hasNextPage = data.collection.products.pageInfo.hasNextPage;
 
   return (
-    <Layout>
-      <h1 className="font-bold text-4xl md:text-5xl text-gray-900 mb-6 mt-6">
-        {collection.title}
-      </h1>
+    <LayoutShopify>
       <RawHtml string={collection.descriptionHtml} className="text-lg" />
-      <p className="text-sm text-gray-500 mt-5 mb-5">
-        {products.length} {products.length > 1 ? 'products' : 'product'}
-      </p>
-
-      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-        {products.map((product) => (
-          <li key={product.id}>
-            <ProductCard product={product} />
-          </li>
-        ))}
-      </ul>
-
+      <section className={'header-offset'}>
+        <CollectionWrapper>
+          {products.map((product) => (
+            <div key={product.id}>
+              <ProductCard product={product} />
+            </div>
+          ))}
+        </CollectionWrapper>
+      </section>
       {hasNextPage && (
         <LoadMoreProducts startingCount={collectionProductCount} />
       )}
-    </Layout>
+    </LayoutShopify>
   );
 }
 

@@ -1,30 +1,81 @@
-import {each, hasIn} from 'lodash-es';
-import React, {Suspense, Fragment} from 'react';
+import React from 'react';
 import {Components} from './StrapiDynamicComponents/componentImports';
+import TransitionElement from './StrapiWrappers/TransitionElement.client';
+import StrapiBackgroundColor from './StrapiWrappers/StrapiBackgroundColor';
+import {Suspense} from 'react';
 export default function StrapiDynamicZone({data}) {
+  if (!data) return;
   const mainContent = data.attributes.main_content;
-  const formattedComponents = getDynamicComponents(mainContent, Components);
-  return (
-    <>
-      <Suspense fallback={<div>Loading...</div>}>
+  if (mainContent.length) {
+    const formattedComponents = getDynamicComponents(mainContent, Components);
+    return (
+      <>
         {formattedComponents.map((c, idx) => {
-          return CustomComponent(c, idx);
+          return <DynamicStrapiComponent component={c} key={idx} />;
         })}
-      </Suspense>
-    </>
-  );
+      </>
+    );
+  } else {
+    return;
+  }
 }
-
+function DynamicStrapiComponent({component}) {
+  if (
+    component.componentProps?.transition &&
+    component.componentProps.transition.transition !== 'none'
+  ) {
+    return (
+      <Suspense fallback={null}>
+        <TransitionElement settings={component.componentProps.transition}>
+          <ApplyBackgroundWrap component={component} />
+        </TransitionElement>
+      </Suspense>
+    );
+  } else {
+    return (
+      <Suspense fallback={null}>
+        <ApplyBackgroundWrap component={component} />
+      </Suspense>
+    );
+  }
+}
+const ApplyTransitionWrap = ({component, children}) => {
+  if (
+    component.componentProps?.transition &&
+    component.componentProps.transition.transition !== 'none'
+  ) {
+    return (
+      <TransitionElement settings={component.componentProps.transition}>
+        {children}
+      </TransitionElement>
+    );
+  } else {
+    return null;
+  }
+};
+const ApplyBackgroundWrap = ({component}) => {
+  if (component.componentProps?.bg_color) {
+    return (
+      <StrapiBackgroundColor
+        color={component.componentProps?.bg_color.background_color_component}
+      >
+        <CreateComponent component={component} />
+      </StrapiBackgroundColor>
+    );
+  } else {
+    return <CreateComponent component={component} />;
+  }
+};
 function mapComponentNames(d) {
   let formattedComponents = [];
-  each(d, function (item) {
+  d.map((item) => {
     const formattedComponentObj = {
       componentProps: item,
       formattedComponentName: '',
     };
     const pSplit = item.__component.split('.');
     let f = '';
-    each(pSplit[1].split('-'), function (s) {
+    pSplit[1].split('-').map((s) => {
       const c = titleCase(s);
       f += c;
     });
@@ -39,7 +90,7 @@ function titleCase(string) {
 function getDynamicComponents(mainContent, importedComponents) {
   const formattedComponents = mapComponentNames(mainContent);
   let availableComponents = [];
-  each(formattedComponents, function (c) {
+  formattedComponents.map((c) => {
     if (hasIn(importedComponents, c.formattedComponentName)) {
       c.JsxComponent = importedComponents[c.formattedComponentName];
       availableComponents.push(c);
@@ -52,7 +103,7 @@ function getDynamicComponents(mainContent, importedComponents) {
   return availableComponents;
 }
 
-function CustomComponent(component, idx) {
+function CreateComponent({component}) {
   if (typeof component.JsxComponent !== 'undefined') {
     return React.createElement(component.JsxComponent, {
       ...component.componentProps,
@@ -60,8 +111,8 @@ function CustomComponent(component, idx) {
   }
 
   console.warn(`Error Creating Custom Component: ${component.name}`);
-  return React.createElement(
-    () => <div>The component {component.name} has not been created yet.</div>,
-    {key: idx},
-  );
+  return;
+}
+function hasIn(object, key) {
+  return object != null && key in Object(object);
 }

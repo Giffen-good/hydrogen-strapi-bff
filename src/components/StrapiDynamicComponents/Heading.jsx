@@ -1,6 +1,6 @@
 export default function Heading({font_family, heading_elements, text}) {
   return (
-    <section className={`heading text-xl ${font_family}`}>
+    <section className={`heading text-center text-2xl gutter ${font_family}`}>
       <GetHeading heading_element={heading_elements} text={text} />
     </section>
   );

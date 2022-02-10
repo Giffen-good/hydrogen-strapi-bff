@@ -1,4 +1,5 @@
 import StrapiMedia from '../StrapiMedia';
+import {getAttributes} from './componentImports';
 export default function HeadlineCredit({credit_part}) {
   return (
     <section className="headline-credit flex flex-wrap justify-between max-w-3xl mx-auto gutter uppercase">
@@ -12,13 +13,13 @@ export default function HeadlineCredit({credit_part}) {
                 return (
                   <a
                     key={j}
-                    to={cta.url}
+                    href={cta.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className=""
                   >
                     <StrapiMedia
-                      media={cta.icon.data.attributes}
+                      media={getAttributes(cta.icon)}
                       classes={'sm-icon mx-1'}
                     />
                   </a>

@@ -1,1 +1,3 @@
-export default function PostsWidget({}) {}
+export default function PostsWidget({}) {
+  return <div></div>;
+}

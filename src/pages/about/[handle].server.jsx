@@ -1,4 +1,4 @@
-import LayoutStrapi from '../components/LayoutStrapi.server';
+import LayoutStrapi from '../../components/LayoutStrapi.server';
 import qs from 'qs';
 export default function Index({params, request}) {
   const {pathname} = new URL(request.url);
@@ -20,7 +20,7 @@ export default function Index({params, request}) {
   );
   return (
     <LayoutStrapi
-      isSingleType={false}
+      isSingleType={'false'}
       ApiSlug={'pages'}
       query={query}
       params={params}

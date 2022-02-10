@@ -3,8 +3,8 @@ import gql from 'graphql-tag';
 
 import ProductDetails from '../../components/ProductDetails.client';
 import NotFound from '../../components/NotFound.server';
-import Layout from '../../components/Layout.server';
-
+import LayoutShopify from '../../components/LayoutShopify.server';
+import RecommendedProductsServer from '../../components/RecommendedProducts.server';
 export default function Product({country = {isoCode: 'US'}, params}) {
   const {handle} = params;
 
@@ -21,12 +21,22 @@ export default function Product({country = {isoCode: 'US'}, params}) {
   }
 
   return (
-    <Layout>
+    <LayoutShopify headerSettings={headerParams}>
       <ProductDetails product={data.product} />
-    </Layout>
+      <RecommendedProductsServer country={country} />
+    </LayoutShopify>
   );
 }
-
+const headerParams = {
+  headerSettings: {
+    backgroundTransparency: 'transparent',
+    logoType: 'alt_logo',
+    useNavigation: true,
+    useSpecialLayout: false,
+  },
+  logo: null,
+  navItems: null,
+};
 const QUERY = gql`
   query product(
     $country: CountryCode

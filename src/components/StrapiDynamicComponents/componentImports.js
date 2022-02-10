@@ -9,6 +9,7 @@ import Quote from './Quote';
 import EditorialHeaderImage from './EditorialHeaderImage';
 import FeaturedPost from './FeaturedPost';
 import Heading from './Heading';
+import PostsWidget from './PostsWidget';
 export const Components = {
   ExtraPadding,
   HeadlineWDate,
@@ -21,4 +22,13 @@ export const Components = {
   EditorialHeaderImage,
   FeaturedPost,
   Heading,
+  PostsWidget,
 };
+export const getAttributes = (root) => {
+  if (hasIn(root, 'data') && hasIn(root.data, 'attributes'))
+    return root.data.attributes;
+  return;
+};
+function hasIn(object, key) {
+  return object != null && key in Object(object);
+}

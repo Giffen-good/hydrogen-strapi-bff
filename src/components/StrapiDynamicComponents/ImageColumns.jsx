@@ -1,6 +1,7 @@
 import StrapiMedia from '../StrapiMedia';
 export default function ImageColumns({Images, settings}) {
   const imgs = Images.data;
+  if (!imgs) return;
   const {containerClasses, childClasses} = getClassesFromSettings(settings);
   return (
     <section

@@ -1,15 +1,22 @@
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 module.exports = {
-  content: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'],
+  content: ['./index.html', './src/**/*.{js,jsx,ts,tsx,css}'],
   theme: {
+    screens: {
+      xs: '400px',
+      ...defaultTheme.screens,
+    },
     extend: {
       fontFamily: {
-        sans: ['NeuzeitBook'],
+        sans: ['NeuzeitBook', 'sans-serif'],
         semibold: ['NeuzeitBookHeavy', 'sans-serif'],
         serif: ['BFF'],
       },
       spacing: {
         128: '32rem',
       },
+      screens: {},
       typography: (theme) => ({
         DEFAULT: {
           css: {

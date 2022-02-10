@@ -1,4 +1,4 @@
-export default function Newsletter({landingSection}) {
+export default function NewsletterClient({landingSection}) {
   if (landingSection) {
     return <LandingNewsletter />;
   } else {

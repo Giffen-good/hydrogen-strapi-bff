@@ -10,7 +10,7 @@ export default function LineSeparatedCredits({credit}) {
   return (
     <section
       className={
-        'line-separated-credits uppercase flex justify-center items-center'
+        'gutter line-separated-credits uppercase flex justify-center items-center'
       }
     >
       {credit.map((c, i) => {

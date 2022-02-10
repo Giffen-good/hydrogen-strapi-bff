@@ -7,27 +7,30 @@ import {
   BUTTON_PRIMARY_CLASSES,
   BUTTON_SECONDARY_CLASSES,
 } from './Button.client';
+import {useState} from 'react';
+import Minus from './icons/Minus';
+import Plus from './icons/Plus';
 
 /**
  * A client component that displays detailed information about a product to allow buyers to make informed decisions
  */
 function ProductPriceMarkup() {
   return (
-    <div className="flex md:flex-col items-end font-semibold text-lg md:items-start md:mb-4">
+    <div className="flex md:flex-col items-end font-semibold  md:items-start ">
       <Product.SelectedVariant.Price
         priceType="compareAt"
-        className="text-gray-500 line-through text-lg mr-2.5"
+        className="text-gray-500 line-through  mr-2.5"
       >
         {({amount, currencyNarrowSymbol}) => `${currencyNarrowSymbol}${amount}`}
       </Product.SelectedVariant.Price>
       <Product.SelectedVariant.Price className="text-gray-900">
         {({currencyCode, amount, currencyNarrowSymbol}) =>
-          `${currencyCode} ${currencyNarrowSymbol}${amount}`
+          `${currencyNarrowSymbol}${amount} ${currencyCode}`
         }
       </Product.SelectedVariant.Price>
       <Product.SelectedVariant.UnitPrice className="text-gray-500">
         {({currencyCode, amount, currencyNarrowSymbol, referenceUnit}) =>
-          `${currencyCode} ${currencyNarrowSymbol}${amount}/${referenceUnit}`
+          ` ${currencyNarrowSymbol}${amount} ${currencyCode}/${referenceUnit}`
         }
       </Product.SelectedVariant.UnitPrice>
     </div>
@@ -39,9 +42,9 @@ function AddToCartMarkup() {
   const isOutOfStock = !selectedVariant.availableForSale;
 
   return (
-    <div className="space-y-2 mb-8">
+    <div className="space-y-2 mb-8 text-md">
       <Product.SelectedVariant.AddToCartButton
-        className={BUTTON_PRIMARY_CLASSES}
+        className={`${BUTTON_PRIMARY_CLASSES} py-3 rounded-lg`}
         disabled={isOutOfStock}
       >
         {isOutOfStock ? 'Out of stock' : 'Add to bag'}
@@ -50,7 +53,7 @@ function AddToCartMarkup() {
         <p className="text-black text-center">Available in 2-3 weeks</p>
       ) : (
         <Product.SelectedVariant.BuyNowButton
-          className={BUTTON_SECONDARY_CLASSES}
+          className={`${BUTTON_SECONDARY_CLASSES} py-3 rounded-lg`}
         >
           Buy it now
         </Product.SelectedVariant.BuyNowButton>
@@ -68,7 +71,7 @@ function SizeChart() {
       >
         Size Chart
       </h3>
-      <table className="min-w-full table-fixed text-sm text-center bg-white">
+      <table className="min-w-full table-fixed  text-center bg-white">
         <thead>
           <tr className="bg-black text-white">
             <th className="w-1/4 py-2 px-4 font-normal">Board Size</th>
@@ -109,19 +112,20 @@ function SizeChart() {
 
 export default function ProductDetails({product}) {
   const initialVariant = flattenConnection(product.variants)[0];
-
+  const [activeTab, setActiveTab] = useState(0);
+  const tabs = getTabs();
   return (
     <>
       <Seo product={product} />
       <Product product={product} initialVariantId={initialVariant.id}>
-        <div className="grid grid-cols-1 md:grid-cols-[2fr,1fr] gap-x-8 my-16">
+        <div className="grid grid-cols-1 gap-x-0 md:grid-cols-[1fr,1fr] ">
           <div className="md:hidden mt-5 mb-8">
             <Product.Title
               as="h1"
               className="text-4xl font-bold text-black mb-4"
             />
             {product.vendor && (
-              <div className="text-sm font-medium mb-2 text-gray-900">
+              <div className=" font-medium mb-2 text-gray-900">
                 {product.vendor}
               </div>
             )}
@@ -133,107 +137,156 @@ export default function ProductDetails({product}) {
 
           <Gallery />
 
-          <div>
-            <div className="hidden md:block">
-              <Product.Title
-                as="h1"
-                className="text-5xl font-bold text-black mb-4"
-              />
-              {product.vendor && (
-                <div className="text-sm font-medium mb-2 text-gray-900">
-                  {product.vendor}
+          <div className="ml-6">
+            <div className={'pt-28  md:max-w-lg'}>
+              <div className="hidden md:block uppercase">
+                {product.vendor && (
+                  <div className="text-2xl tracking-widest font-medium mb-2 text-gray-900">
+                    {product.vendor}
+                  </div>
+                )}
+                <div className={'flex justify-between items-center'}>
+                  <Product.Title
+                    as="h1"
+                    className=" font-semibold pt-3 text-black mb-4"
+                  />
+
+                  <ProductPriceMarkup />
                 </div>
-              )}
-              <ProductPriceMarkup />
-            </div>
-            {/* Product Options */}
-            <div className="mt-8">
-              <ProductOptions />
+              </div>
+              {/* Product Options */}
+              <div className="mt-10 mb-2">
+                <ProductOptions />
+                <Product.Metafield namespace="my_fields" keyName="size_chart">
+                  {({value}) => {
+                    return value ? (
+                      <a
+                        href="#size-chart"
+                        className="block underline text-gray-500  tracking-wide my-4"
+                      >
+                        Size Chart
+                      </a>
+                    ) : null;
+                  }}
+                </Product.Metafield>
+                <AddToCartMarkup />
+                <div className="flex items space-x-4">
+                  <Product.Metafield
+                    namespace="my_fields"
+                    keyName="sustainable"
+                  >
+                    {({value}) => {
+                      return value ? (
+                        <span className="flex items-center mb-8">
+                          <svg
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="stroke-current text-blue-600 mr-3"
+                          >
+                            <path
+                              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364-.7071-.7071M6.34315 6.34315l-.70711-.70711m12.72796.00005-.7071.70711M6.3432 17.6569l-.70711.7071M16 12c0 2.2091-1.7909 4-4 4-2.20914 0-4-1.7909-4-4 0-2.20914 1.79086-4 4-4 2.2091 0 4 1.79086 4 4Z"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                          <span className=" text-gray-900 font-medium">
+                            Sustainable Material
+                          </span>
+                        </span>
+                      ) : null;
+                    }}
+                  </Product.Metafield>
+                  <Product.Metafield
+                    namespace="my_fields"
+                    keyName="lifetime_warranty"
+                  >
+                    {({value}) => {
+                      return value ? (
+                        <span className="flex items-center mb-8">
+                          <svg
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="stroke-current text-blue-600 mr-3"
+                          >
+                            <path
+                              d="M9 12L11 14L15 10M20.6179 5.98434C20.4132 5.99472 20.2072 5.99997 20 5.99997C16.9265 5.99997 14.123 4.84453 11.9999 2.94434C9.87691 4.84446 7.07339 5.99985 4 5.99985C3.79277 5.99985 3.58678 5.9946 3.38213 5.98422C3.1327 6.94783 3 7.95842 3 9.00001C3 14.5915 6.82432 19.2898 12 20.622C17.1757 19.2898 21 14.5915 21 9.00001C21 7.95847 20.8673 6.94791 20.6179 5.98434Z"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                          <span className=" text-gray-900 font-medium">
+                            Lifetime Warranty
+                          </span>
+                        </span>
+                      ) : null;
+                    }}
+                  </Product.Metafield>
+                </div>
+              </div>
+              {/* Product Description */}
+              <div className={'accordion pt-6'}>
+                <div className={'tab'}>
+                  {tabs.map((item, i) => {
+                    return (
+                      <div
+                        className={`tabs ${
+                          activeTab == i ? 'open-tab' : 'closed-tab'
+                        }`}
+                        key={i}
+                      >
+                        <div
+                          role="button"
+                          onClick={() => {
+                            if (activeTab === i) {
+                              setActiveTab(null);
+                            } else {
+                              setActiveTab(i);
+                            }
+                          }}
+                          className={
+                            'flex cursor-pointer justify-between tab-label'
+                          }
+                        >
+                          <h3 className={' uppercase'}>{item.label}</h3>
+                          <span>{activeTab === i ? <Minus /> : <Plus />}</span>
+                        </div>
+
+                        <div className={'tab-content '}>{item.component}</div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
               <Product.Metafield namespace="my_fields" keyName="size_chart">
                 {({value}) => {
                   return value ? (
-                    <a
-                      href="#size-chart"
-                      className="block underline text-gray-500 text-sm tracking-wide my-4"
-                    >
-                      Size Chart
-                    </a>
+                    <div className="border-t border-gray-200">
+                      <SizeChart />
+                    </div>
                   ) : null;
                 }}
               </Product.Metafield>
-              <AddToCartMarkup />
-              <div className="flex items space-x-4">
-                <Product.Metafield namespace="my_fields" keyName="sustainable">
-                  {({value}) => {
-                    return value ? (
-                      <span className="flex items-center mb-8">
-                        <svg
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="stroke-current text-blue-600 mr-3"
-                        >
-                          <path
-                            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364-.7071-.7071M6.34315 6.34315l-.70711-.70711m12.72796.00005-.7071.70711M6.3432 17.6569l-.70711.7071M16 12c0 2.2091-1.7909 4-4 4-2.20914 0-4-1.7909-4-4 0-2.20914 1.79086-4 4-4 2.2091 0 4 1.79086 4 4Z"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                        <span className="text-sm text-gray-900 font-medium">
-                          Sustainable Material
-                        </span>
-                      </span>
-                    ) : null;
-                  }}
-                </Product.Metafield>
-                <Product.Metafield
-                  namespace="my_fields"
-                  keyName="lifetime_warranty"
-                >
-                  {({value}) => {
-                    return value ? (
-                      <span className="flex items-center mb-8">
-                        <svg
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="stroke-current text-blue-600 mr-3"
-                        >
-                          <path
-                            d="M9 12L11 14L15 10M20.6179 5.98434C20.4132 5.99472 20.2072 5.99997 20 5.99997C16.9265 5.99997 14.123 4.84453 11.9999 2.94434C9.87691 4.84446 7.07339 5.99985 4 5.99985C3.79277 5.99985 3.58678 5.9946 3.38213 5.98422C3.1327 6.94783 3 7.95842 3 9.00001C3 14.5915 6.82432 19.2898 12 20.622C17.1757 19.2898 21 14.5915 21 9.00001C21 7.95847 20.8673 6.94791 20.6179 5.98434Z"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                        <span className="text-sm text-gray-900 font-medium">
-                          Lifetime Warranty
-                        </span>
-                      </span>
-                    ) : null;
-                  }}
-                </Product.Metafield>
-              </div>
             </div>
-            {/* Product Description */}
-            <Product.Description className="prose border-t border-gray-200 pt-6 text-black text-md" />
-            <Product.Metafield namespace="my_fields" keyName="size_chart">
-              {({value}) => {
-                return value ? (
-                  <div className="border-t border-gray-200">
-                    <SizeChart />
-                  </div>
-                ) : null;
-              }}
-            </Product.Metafield>
           </div>
         </div>
       </Product>
     </>
   );
+}
+
+function getTabs() {
+  let tabs = [];
+  tabs[0] = {
+    label: 'Description',
+    component: <Product.Description className=" pt-4 text-black text-md" />,
+  };
+  return tabs;
 }

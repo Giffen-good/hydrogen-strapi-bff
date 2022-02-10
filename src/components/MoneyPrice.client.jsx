@@ -8,9 +8,9 @@ export default function MoneyPrice({money}) {
     <Money className="text-black text-md" money={money}>
       {({amount, currencyNarrowSymbol, currencyCode}) => (
         <>
-          {currencyCode}
           {currencyNarrowSymbol}
           {amount}
+          &nbsp;{currencyCode}
         </>
       )}
     </Money>

@@ -14,12 +14,17 @@ export default function ProductCard({product}) {
   }
 
   return (
-    <div className="text-md mb-4 relative">
+    <div className="text-md mb-4 relative uppercase text-sm">
       <Link to={`/products/${product.handle}`}>
-        <div className="rounded-lg border-2 border-gray-200 mb-2 relative flex items-center justify-center overflow-hidden object-cover h-96">
+        <div
+          className="mb-2 relative flex items-center justify-center overflow-hidden object-cover
+          max-h-[28rem] md:h-[36vw]
+
+        h-[56vw]"
+        >
           {selectedVariant.image ? (
             <Image
-              className="bg-white absolute w-full h-full transition-all duration-500 ease-in-out transform bg-center bg-cover object-center object-contain hover:scale-110"
+              className="bg-white absolute w-full h-full transition-all duration-500 ease-in-out transform bg-center bg-cover object-center object-contain"
               image={selectedVariant.image}
             />
           ) : null}
@@ -30,20 +35,21 @@ export default function ProductCard({product}) {
           )}
         </div>
 
-        <span className="text-black font-semibold mb-0.5">{product.title}</span>
+        <div className={'flex justify-between'}>
+          <span className="text-black  mb-0.5">{product.title}</span>
+          <div className="flex ">
+            {selectedVariant.compareAtPriceV2 && (
+              <MoneyCompareAtPrice money={selectedVariant.compareAtPriceV2} />
+            )}
+            <MoneyPrice money={selectedVariant.priceV2} />
+          </div>
+        </div>
 
         {product.vendor && (
-          <p className="text-gray-900 font-medium text-sm mb-0.5">
+          <p className="text-gray-900 font-semibold font-medium text-sm mb-0.5">
             {product.vendor}
           </p>
         )}
-
-        <div className="flex ">
-          {selectedVariant.compareAtPriceV2 && (
-            <MoneyCompareAtPrice money={selectedVariant.compareAtPriceV2} />
-          )}
-          <MoneyPrice money={selectedVariant.priceV2} />
-        </div>
       </Link>
     </div>
   );
