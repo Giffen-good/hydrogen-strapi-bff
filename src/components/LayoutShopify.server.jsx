@@ -4,6 +4,7 @@ import Header from './Header';
 import Footer from './Footer.server';
 import HeaderFallback from './FallbackHeader';
 import FooterSettings from './Footer';
+import {getGlobalPageSettings} from './StrapiHelpers/util';
 /**
  * A server component that defines a structure and organization of a page that can be used in different parts of the Hydrogen app
  */
@@ -21,7 +22,11 @@ export default function LayoutShopify({children, headerSettings}) {
       </div>
       {/* TODO: Find out why Suspense needs to be here to prevent hydration errors. */}
       <Suspense fallback={<HeaderFallback />}>
-        <Header customSettings={headerSettings} />
+        <Header
+          backgroundTransparency={headerSettings.backgroundTransparency}
+          useSpecialLayout={headerSettings.useSpecialLayout}
+          useNavigation={headerSettings.useNavigation}
+        />
       </Suspense>
       <main role="main" id="mainContent" className={`relative `}>
         <div className="flex flex-col max-w-screen text-black font-sans">

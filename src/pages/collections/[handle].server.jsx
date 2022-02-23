@@ -6,6 +6,7 @@ import {
   RawHtml,
 } from '@shopify/hydrogen';
 import gql from 'graphql-tag';
+import CollectionNavigation from '../../components/CollectionNavigation';
 
 import LoadMoreProducts from '../../components/LoadMoreProducts.client';
 import ProductCard from '../../components/ProductCard';
@@ -13,6 +14,8 @@ import NotFound from '../../components/NotFound.server';
 
 import CollectionWrapper from '../../components/CollectionWrapper.server';
 import LayoutShopify from '../../components/LayoutShopify.server';
+import {HEADER_PARAMS} from '../../components/StrapiHelpers/util';
+
 export default function Collection({
   country = {isoCode: 'US'},
   collectionProductCount = 24,
@@ -32,14 +35,27 @@ export default function Collection({
     return <NotFound />;
   }
 
+  const {data: collectionList} = useShopQuery({
+    query: COLLLECTIONS_QUERY,
+    variables: {
+      numCollections: 3,
+    },
+    cache: {
+      maxAge: 60,
+      staleWhileRevalidate: 60 * 10,
+    },
+  });
+  const collections = collectionList
+    ? flattenConnection(collectionList.collections)
+    : null;
   const collection = data.collection;
   const products = flattenConnection(collection.products);
   const hasNextPage = data.collection.products.pageInfo.hasNextPage;
-
   return (
-    <LayoutShopify>
+    <LayoutShopify headerSettings={HEADER_PARAMS}>
       <RawHtml string={collection.descriptionHtml} className="text-lg" />
       <section className={'header-offset'}>
+        <CollectionNavigation data={collections} handle={handle} />
         <CollectionWrapper>
           {products.map((product) => (
             <div key={product.id}>
@@ -90,4 +106,18 @@ const QUERY = gql`
 
   ${MediaFileFragment}
   ${ProductProviderFragment}
+`;
+const COLLLECTIONS_QUERY = gql`
+  query indexContent($numCollections: Int!) {
+    collections(first: $numCollections) {
+      edges {
+        node {
+          description
+          handle
+          id
+          title
+        }
+      }
+    }
+  }
 `;

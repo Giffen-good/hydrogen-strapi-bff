@@ -28,20 +28,12 @@ export default function ProductCard({product}) {
               image={selectedVariant.image}
             />
           ) : null}
-          {!selectedVariant?.availableForSale && (
-            <div className="absolute top-3 left-3 rounded-3xl text-xs bg-black text-white py-3 px-4">
-              Out of stock
-            </div>
-          )}
         </div>
 
         <div className={'flex justify-between'}>
           <span className="text-black  mb-0.5">{product.title}</span>
           <div className="flex ">
-            {selectedVariant.compareAtPriceV2 && (
-              <MoneyCompareAtPrice money={selectedVariant.compareAtPriceV2} />
-            )}
-            <MoneyPrice money={selectedVariant.priceV2} />
+            <SetPrice selectedVariant={selectedVariant} />
           </div>
         </div>
 
@@ -53,4 +45,18 @@ export default function ProductCard({product}) {
       </Link>
     </div>
   );
+}
+function SetPrice({selectedVariant}) {
+  if (!selectedVariant?.availableForSale) {
+    return <div className={'uppercase text-sm line-through'}>Sold Out</div>;
+  } else {
+    return (
+      <>
+        {selectedVariant.compareAtPriceV2 && (
+          <MoneyCompareAtPrice money={selectedVariant.compareAtPriceV2} />
+        )}
+        <MoneyPrice money={selectedVariant.priceV2} />
+      </>
+    );
+  }
 }

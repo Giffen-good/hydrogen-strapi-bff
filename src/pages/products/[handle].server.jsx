@@ -5,6 +5,7 @@ import ProductDetails from '../../components/ProductDetails.client';
 import NotFound from '../../components/NotFound.server';
 import LayoutShopify from '../../components/LayoutShopify.server';
 import RecommendedProductsServer from '../../components/RecommendedProducts.server';
+import {HEADER_PARAMS} from '../../components/StrapiHelpers/util';
 export default function Product({country = {isoCode: 'US'}, params}) {
   const {handle} = params;
 
@@ -21,22 +22,13 @@ export default function Product({country = {isoCode: 'US'}, params}) {
   }
 
   return (
-    <LayoutShopify headerSettings={headerParams}>
+    <LayoutShopify headerSettings={HEADER_PARAMS}>
       <ProductDetails product={data.product} />
       <RecommendedProductsServer country={country} />
     </LayoutShopify>
   );
 }
-const headerParams = {
-  headerSettings: {
-    backgroundTransparency: 'transparent',
-    logoType: 'alt_logo',
-    useNavigation: true,
-    useSpecialLayout: false,
-  },
-  logo: null,
-  navItems: null,
-};
+
 const QUERY = gql`
   query product(
     $country: CountryCode

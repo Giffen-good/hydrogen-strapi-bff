@@ -5,7 +5,6 @@ import {useProduct} from '@shopify/hydrogen/client';
  */
 export default function ProductOptions() {
   const {options, setSelectedOption, selectedOptions} = useProduct();
-  console.log(`prior: ${options[0].name}`);
   if (options[0].name !== 'Color') options.reverse();
   return (
     <div className={'product-options mb-7'}>

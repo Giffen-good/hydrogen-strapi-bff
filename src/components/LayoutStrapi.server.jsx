@@ -1,18 +1,23 @@
 import {useQuery} from '@shopify/hydrogen';
 
 import {Suspense} from 'react';
-import StrapiDynamicZone from '../components/StrapiDynamicZone';
+import StrapiDynamicZone from './StrapiHelpers/StrapiDynamicZone';
+import BuildStrapiPage from './StrapiHelpers/BuildStrapiPage';
 import HeaderFallback from './FallbackHeader';
 import Header from './Header';
 import FooterServer from './Footer.server';
 import FooterSettings from './Footer';
 import NotFound from './NotFound.server';
-
+import {
+  sanityCheckToAttributes,
+  getGlobalPageSettings,
+} from './StrapiHelpers/util';
 export default function StrapiCollectionServer({
   path,
   isSingleType,
   ApiSlug,
   query,
+  hasDynamicZone,
 }) {
   const {data} = useQuery(
     [
@@ -31,13 +36,20 @@ export default function StrapiCollectionServer({
       return await res.json();
     },
   );
-  const p = getStrapiData(isSingleType, data);
-  if (data?.error) return <NotFound />;
-  const {backgroundColor, flush} = getGlobalPageSettings(p);
+  if (data?.error || data?.data == null) return <NotFound />;
+  const p = getStrapiData(data, isSingleType, hasDynamicZone);
+  if (!isSingleType && !p) return <NotFound />;
+  const {backgroundColor, flush, useSpecialLayout, useNavigation} =
+    getGlobalPageSettings(p?.page_settings);
   return (
     <>
       <Suspense fallback={<HeaderFallback />}>
-        <Header params={p} />
+        <Header
+          params={p}
+          backgroundTransparency={flush}
+          useSpecialLayout={useSpecialLayout}
+          useNavigation={useNavigation}
+        />
       </Suspense>
 
       <Suspense fallback={<MainContent />}>
@@ -51,35 +63,28 @@ export default function StrapiCollectionServer({
         >
           <div className="flex flex-col max-w-screen text-black font-sans">
             <div className="relative mb-12">
-              <StrapiDynamicZone data={p} />
+              <BuildStrapiPage data={p} slug={ApiSlug}>
+                <StrapiDynamicZone mainContent={p?.main_content} />
+              </BuildStrapiPage>
             </div>
           </div>
         </main>
       </Suspense>
       <Suspense fallback={null}>
-        <FooterSettings params={p}>
+        <FooterSettings backgroundColor={backgroundColor}>
           <FooterServer />
         </FooterSettings>
       </Suspense>
     </>
   );
 }
-function getStrapiData(isSingleType, data) {
-  if (isSingleType) return data.data ? data.data : null;
-  return data.data[0] ? data.data[0] : null;
-}
-function getGlobalPageSettings(params) {
-  let bgColor = null;
-  let flush = null;
-  if (params && has(params, 'attributes')) {
-    if (params.attributes?.background_color)
-      bgColor = params.attributes.background_color;
-    if (params.attributes?.header_type == 'opaque') flush = true;
+function getStrapiData(data, isSingleType) {
+  if (!sanityCheckToAttributes(data)) return null;
+  if (isSingleType) {
+    return data.data.attributes;
+  } else {
+    return data.data[0]?.attributes;
   }
-  return {bgColor, flush};
-}
-function has(object, key) {
-  return object ? hasOwnProperty.call(object, key) : false;
 }
 
 function BoxFallback() {

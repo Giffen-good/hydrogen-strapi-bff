@@ -1,9 +1,55 @@
-export default function Heading({font_family, heading_elements, text}) {
+export default function Heading({
+  font_family,
+  heading_elements,
+  text,
+  font_size,
+  has_padding,
+}) {
   return (
-    <section className={`heading text-center text-2xl gutter ${font_family}`}>
+    <section
+      className={`heading text-center ${
+        !has_padding ? 'pt-0 pb-0' : ''
+      }  narrower-gutter ${getFontSize(font_size)} ${getFont(font_family)}`}
+    >
       <GetHeading heading_element={heading_elements} text={text} />
     </section>
   );
+}
+function getFontSize(font_size) {
+  switch (font_size) {
+    case 'text_xs':
+      return 'text-xs';
+    case 'text_sm':
+      return 'text-sm';
+    case 'text_lg':
+      return 'text-lg';
+    case 'text_xl':
+      return 'text-xl';
+    case 'text_2xl':
+      return 'text-2xl';
+    case 'text_3xl':
+      return 'text-3xl';
+    case 'text_4xl':
+      return 'text-4xl';
+    case 'text_5xl':
+      return 'text-5xl';
+    case 'text_6xl':
+      return 'text-6xl';
+    case 'text_7xl':
+      return 'text-7xl';
+    case 'text_8xl':
+      return 'text-8xl';
+  }
+}
+function getFont(font_family) {
+  switch (font_family) {
+    case 'font_serif':
+      return 'font-serif';
+    case 'font_semibold':
+      return 'font-semibold';
+    case 'font_sans':
+      return 'font-sans';
+  }
 }
 function GetHeading({heading_element, text}) {
   switch (heading_element) {

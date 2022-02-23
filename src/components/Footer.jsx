@@ -1,27 +1,13 @@
 import {Suspense} from 'react';
 
-export default function Footer({params, children}) {
-  let useNav = true;
-  if (
-    params &&
-    has(params, 'attributes') &&
-    has(params.attributes, 'header_type')
-  ) {
-    useNav = params.attributes.header_type.use_navigation;
-  }
-  let bgColor = null;
-  if (
-    params &&
-    has(params, 'attributes') &&
-    params.attributes?.background_color
-  ) {
-    bgColor = params.attributes.background_color;
-  }
+export default function Footer({backgroundColor, children}) {
   return (
     <Suspense fallback={null}>
       <footer
         style={
-          bgColor ? {backgroundColor: bgColor} : {backgroundColor: 'inherit'}
+          backgroundColor
+            ? {backgroundColor: backgroundColor}
+            : {backgroundColor: 'inherit'}
         }
         role="contentinfo"
       >

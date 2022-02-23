@@ -118,8 +118,8 @@ export default function ProductDetails({product}) {
     <>
       <Seo product={product} />
       <Product product={product} initialVariantId={initialVariant.id}>
-        <div className="grid grid-cols-1 gap-x-0 md:grid-cols-[1fr,1fr] ">
-          <div className="md:hidden mt-5 mb-8">
+        <div className="grid grid-cols-1 gap-x-0 pb-14 md:pb-20 md:grid-cols-[1fr,1fr] ">
+          <div className="hidden mt-5 mb-8">
             <Product.Title
               as="h1"
               className="text-4xl font-bold text-black mb-4"
@@ -138,8 +138,8 @@ export default function ProductDetails({product}) {
           <Gallery />
 
           <div className="ml-6">
-            <div className={'pt-28  md:max-w-lg'}>
-              <div className="hidden md:block uppercase">
+            <div className={'pt-12 md:pt-28 pr-7  md:max-w-lg'}>
+              <div className=" md:block uppercase">
                 {product.vendor && (
                   <div className="text-2xl tracking-widest font-medium mb-2 text-gray-900">
                     {product.vendor}

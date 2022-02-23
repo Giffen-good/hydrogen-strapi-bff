@@ -1,6 +1,10 @@
 import StrapiMedia from '../StrapiMedia';
-import {getAttributes} from './componentImports';
-export default function BannerImage({banner}) {
+import {getAttributes} from '../StrapiHelpers/componentImports';
+export default function BannerImageWithLink({
+  banner,
+  overlay_opacity,
+  page_links_0,
+}) {
   const media = getAttributes(banner);
   if (!media) return;
   return (

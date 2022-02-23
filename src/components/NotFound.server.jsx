@@ -27,9 +27,14 @@ function NotFoundHero() {
 
 export default function NotFound({country = {isoCode: 'US'}}) {
   return (
-    <LayoutShopify>
+    <LayoutShopify headerSettings={headerParams}>
       <NotFoundHero />
       <RecommendedProductsServer country={country} />
     </LayoutShopify>
   );
 }
+const headerParams = {
+  backgroundTransparency: true,
+  useNavigation: true,
+  useSpecialLayout: false,
+};

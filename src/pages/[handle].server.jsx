@@ -26,6 +26,7 @@ export default function Index({params, request}) {
       params={params}
       path={pathname}
       homepage={true}
+      hasDynamicZone={true}
     />
   );
 }

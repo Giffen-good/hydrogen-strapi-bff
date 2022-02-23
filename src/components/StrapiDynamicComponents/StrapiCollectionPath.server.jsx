@@ -2,7 +2,7 @@ import qs from 'qs';
 import {useQuery} from '@shopify/hydrogen';
 import {Suspense} from 'react';
 import Layout from '../LayoutCollection.server';
-import StrapiDynamicZone from '../StrapiDynamicZone';
+import StrapiDynamicZone from '../StrapiHelpers/StrapiDynamicZone';
 
 export default function StrapiCollectionPath({params, path}) {
   const {handle} = params;

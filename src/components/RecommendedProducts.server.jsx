@@ -24,7 +24,7 @@ export default function RecommendedProductsServer({country}) {
   const products = data ? flattenConnection(data.products) : [];
   return (
     <Suspense fallback={null}>
-      <div className="mb-10 lg:mt-64 md:mt-36">
+      <div className="mb-10 lg:mt-20 md:mt-14">
         <p className="mb-8 text-4xl text-center  text-black font-serif font-medium ">
           You might also like:
         </p>

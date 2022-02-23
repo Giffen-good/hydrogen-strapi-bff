@@ -13,10 +13,22 @@ module.exports = {
         semibold: ['NeuzeitBookHeavy', 'sans-serif'],
         serif: ['BFF'],
       },
+      fontWeight: {
+        semibold: '400',
+      },
       spacing: {
         128: '32rem',
       },
+      gridTemplateColumns: {
+        'alpha-4': ' repeat(4, minmax(56px, 0))',
+        'alpha-3': ' repeat(3, minmax(56px, 0))',
+      },
       screens: {},
+      colors: {
+        yellow: {
+          bff: '#E8D466',
+        },
+      },
       typography: (theme) => ({
         DEFAULT: {
           css: {
@@ -37,5 +49,9 @@ module.exports = {
       }),
     },
   },
-  plugins: [require('@tailwindcss/typography')],
+  plugins: [
+    require('@tailwindcss/aspect-ratio'),
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/line-clamp'),
+  ],
 };

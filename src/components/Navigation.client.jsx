@@ -1,23 +1,41 @@
-import {Link} from '@shopify/hydrogen/client';
-
-/**
- * A client component that defines the navigation for a web storefront
- */
-export default function Navigation({collections}) {
+import FreeLink from './StrapiHelpers/FreeLink';
+export default function Navigation({nav}) {
   return (
-    <nav className="hidden lg:block text-center">
-      <ul className="md:flex items-center justify-center">
-        {collections.map((collection) => (
-          <li key={collection.id}>
-            <Link
-              to={`/collections/${collection.handle}`}
-              className="block p-4 hover:opacity-80"
+    <nav
+      className={
+        'top-level-nav text-left uppercase text-xs flex justify-between z-20'
+      }
+    >
+      {nav.map((item, idx) => {
+        return (
+          <div key={idx} className={'nav-column flex-col '}>
+            <FreeLink
+              classes={'top-nav-item font-semibold'}
+              url={item.top_level_url}
             >
-              {collection.title}
-            </Link>
-          </li>
-        ))}
-      </ul>
+              {item.top_level_menu_item}
+            </FreeLink>
+            <SubNav subNav={item.sub_menu_item} />
+          </div>
+        );
+      })}
     </nav>
   );
 }
+const SubNav = (s) => {
+  return (
+    <>
+      {s.subNav.map((s, k) => {
+        return (
+          <FreeLink
+            classes={'block sub-nav-item pt-10'}
+            key={k}
+            url={s.free_sub_link}
+          >
+            {s.Label}
+          </FreeLink>
+        );
+      })}
+    </>
+  );
+};

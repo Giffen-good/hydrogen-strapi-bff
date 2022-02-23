@@ -1,5 +1,5 @@
 import StrapiMedia from '../StrapiMedia';
-import {getAttributes} from './componentImports';
+import {getAttributes} from '../StrapiHelpers/componentImports';
 export default function HeadlineCredit({credit_part}) {
   return (
     <section className="headline-credit flex flex-wrap justify-between max-w-3xl mx-auto gutter uppercase">

@@ -1,3 +1,7 @@
-export default function StrapiBackgroundColor({children, color}) {
-  return <div style={{backgroundColor: color}}>{children}</div>;
+export default function StrapiBackgroundColor({children, color, classes}) {
+  return (
+    <div className={classes} style={{backgroundColor: color}}>
+      {children}
+    </div>
+  );
 }

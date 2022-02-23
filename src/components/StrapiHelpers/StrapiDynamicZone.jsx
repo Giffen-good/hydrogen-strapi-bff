@@ -1,12 +1,10 @@
 import React from 'react';
-import {Components} from './StrapiDynamicComponents/componentImports';
-import TransitionElement from './StrapiWrappers/TransitionElement.client';
-import StrapiBackgroundColor from './StrapiWrappers/StrapiBackgroundColor';
+import {Components} from './componentImports';
+import TransitionElement from '../StrapiWrappers/TransitionElement.client';
+import StrapiBackgroundColor from '../StrapiWrappers/StrapiBackgroundColor';
 import {Suspense} from 'react';
-export default function StrapiDynamicZone({data}) {
-  if (!data) return;
-  const mainContent = data.attributes.main_content;
-  if (mainContent.length) {
+export default function StrapiDynamicZone({mainContent}) {
+  if (mainContent && mainContent.length) {
     const formattedComponents = getDynamicComponents(mainContent, Components);
     return (
       <>
@@ -26,7 +24,10 @@ function DynamicStrapiComponent({component}) {
   ) {
     return (
       <Suspense fallback={null}>
-        <TransitionElement settings={component.componentProps.transition}>
+        <TransitionElement
+          settings={component.componentProps.transition}
+          classes={component.formattedComponentName}
+        >
           <ApplyBackgroundWrap component={component} />
         </TransitionElement>
       </Suspense>
@@ -39,24 +40,12 @@ function DynamicStrapiComponent({component}) {
     );
   }
 }
-const ApplyTransitionWrap = ({component, children}) => {
-  if (
-    component.componentProps?.transition &&
-    component.componentProps.transition.transition !== 'none'
-  ) {
-    return (
-      <TransitionElement settings={component.componentProps.transition}>
-        {children}
-      </TransitionElement>
-    );
-  } else {
-    return null;
-  }
-};
+
 const ApplyBackgroundWrap = ({component}) => {
   if (component.componentProps?.bg_color) {
     return (
       <StrapiBackgroundColor
+        classes={component.formattedComponentName}
         color={component.componentProps?.bg_color.background_color_component}
       >
         <CreateComponent component={component} />
@@ -98,6 +87,7 @@ function getDynamicComponents(mainContent, importedComponents) {
       console.warn(
         `WARNING: ${c.formattedComponentName} does not have an associated template file `,
       );
+      console.log(c);
     }
   });
   return availableComponents;

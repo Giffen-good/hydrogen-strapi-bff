@@ -2,6 +2,8 @@ import {Link} from '@shopify/hydrogen/client';
 import NewsletterClient from './StrapiDynamicComponents/Newsletter.client';
 import {useEffect, useState} from 'react';
 import StrapiMediaClient from './StrapiMedia.client';
+import Arrow from './icons/Arrow';
+
 export default function Footer({menuLeft, menuRight, smMenu, time, bgColor}) {
   const [currentTime, setCurrentTime] = useState(time);
   useEffect(() => {
@@ -40,7 +42,17 @@ export default function Footer({menuLeft, menuRight, smMenu, time, bgColor}) {
                 {menuRight.map((item, i) => {
                   return (
                     <MenuLink item={item} key={i}>
-                      {item.Label}
+                      <span className={'flex items-center'}>
+                        {' '}
+                        {item.Label}{' '}
+                        {item.Label.toLowerCase() == 'support' ? (
+                          <span className={'pl-2'}>
+                            <Arrow />
+                          </span>
+                        ) : (
+                          ''
+                        )}
+                      </span>
                     </MenuLink>
                   );
                 })}

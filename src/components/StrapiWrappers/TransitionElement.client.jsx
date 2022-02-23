@@ -1,7 +1,7 @@
 import {useInView} from 'react-intersection-observer';
 import React, {forwardRef} from 'react';
 
-export default function TransitionElement({children, settings}) {
+export default function TransitionElement({children, settings, classes}) {
   const {transition, threshold, trigger_once, duration} = settings;
   const [ref, inView] = useInView({
     threshold: Math.max(0, Math.min(threshold, 100)) / 100,
@@ -9,24 +9,31 @@ export default function TransitionElement({children, settings}) {
   });
 
   return (
-    <InsersectionWrapper ref={ref} inView={inView} settings={settings}>
+    <InsersectionWrapper
+      ref={ref}
+      inView={inView}
+      settings={settings}
+      classes={classes}
+    >
       {children}
     </InsersectionWrapper>
   );
 }
-const InsersectionWrapper = forwardRef(({inView, children, settings}, ref) => {
-  const {styles} = getTransitionClasses(settings, inView);
-  return (
-    <div
-      ref={ref}
-      className={`intersection-observer-wrapper 
+const InsersectionWrapper = forwardRef(
+  ({inView, children, settings, classes}, ref) => {
+    const {styles} = getTransitionClasses(settings, inView);
+    return (
+      <div
+        ref={ref}
+        className={`intersection-observer-wrapper ${classes}
   ${getTransitionClasses(settings, inView).classes}`}
-      style={styles ? styles : ''}
-    >
-      {children}
-    </div>
-  );
-});
+        style={styles ? styles : ''}
+      >
+        {children}
+      </div>
+    );
+  },
+);
 function getTransitionClasses(settings, inView) {
   switch (settings.transition) {
     case 'fade_in':
