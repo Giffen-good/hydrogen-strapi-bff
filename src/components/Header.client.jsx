@@ -7,12 +7,13 @@ import {Fragment} from 'react';
 import {FocusTrap} from '@headlessui/react';
 import Burger from './Burger';
 import StrapiMedia from './StrapiMedia';
+import Logo from './Logo';
 /**
  * A client component that specifies the content of the header on the website
  */
 export default function Header({
   nav,
-  logos,
+  logo,
   logoType,
   useSpecialLayout,
   backgroundTransparency,
@@ -38,7 +39,11 @@ export default function Header({
   const ptClass = 'mt-5';
   return (
     <header
-      className={`relative ${isNavOpen ? 'nav-is-open' : ''}`}
+      className={`relative ${
+        useSpecialLayout && !scrollPosition && pageInitalized && !isNavOpen
+          ? 'special-layout-initialized'
+          : ''
+      } ${isNavOpen ? 'nav-is-open' : ''}`}
       role="banner"
     >
       <div
@@ -57,13 +62,19 @@ export default function Header({
               className={`flex  w-12`}
               onClick={() => setIsNavOpen((isNavOpen) => !isNavOpen)}
             >
-              {isNavOpen ? <CloseIcon /> : <Burger />}
+              {isNavOpen ? (
+                <div className={'ml-1.5'}>
+                  <CloseIcon />
+                </div>
+              ) : (
+                <Burger />
+              )}
             </button>
           </div>
           <CenterSection
             useSpecialLayout={useSpecialLayout}
             ptClass={ptClass}
-            logos={logos}
+            logo={logo}
             logoType={logoType}
             scrollPosition={scrollPosition}
             pageInitialized={pageInitalized}
@@ -85,7 +96,7 @@ export default function Header({
 const CenterSection = ({
   useSpecialLayout,
   ptClass,
-  logos,
+  logo,
   scrollPosition,
   pageInitialized,
   nav,
@@ -100,20 +111,15 @@ const CenterSection = ({
       >
         <div className={`relative ${ptClass}`}>
           <Link to="/" className={`logo `}>
-            <StrapiMedia
-              media={logos.homepageLogo}
-              classes={'mx-auto absolute inset-x-0 top-0'}
-            />
+            <div className={'mx-auto absolute inset-x-0 top-0 text-center'}>
+              <Logo />
+            </div>
           </Link>
           <Link
             to="/"
             className={`alt-logo ${pageInitialized ? '' : 'hidden'}`}
           >
-            {logos.altLogo ? (
-              <StrapiMedia media={logos.altLogo} classes={'mx-auto'} />
-            ) : (
-              ''
-            )}
+            {logo ? <StrapiMedia media={logo} classes={'mx-auto'} /> : ''}
           </Link>
         </div>
         <Navigation hasSubNav={false} nav={nav} />
@@ -123,11 +129,7 @@ const CenterSection = ({
     el = (
       <div className={`logo flex-1 ${ptClass} `}>
         <Link to="/">
-          {logos.altLogo ? (
-            <StrapiMedia media={logos.altLogo} classes={'mx-auto'} />
-          ) : (
-            ''
-          )}
+          {logo ? <StrapiMedia media={logo} classes={'mx-auto'} /> : ''}
         </Link>
       </div>
     );

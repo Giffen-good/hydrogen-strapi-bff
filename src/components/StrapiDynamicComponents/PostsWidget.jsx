@@ -1,7 +1,7 @@
 import StrapiMedia from '../StrapiMedia';
 import Arrow from '../icons/Arrow';
 
-export default function PostsWidget({title, pages}) {
+export default function PostsWidget({title, pages, include_designer_in_title}) {
   let pageBlocks = [];
   let i = 0;
   let tmp = [];
@@ -17,7 +17,7 @@ export default function PostsWidget({title, pages}) {
   });
   return (
     <section className={'post-widget'}>
-      <h2 className={' text-lg  font-semibold uppercase text-center pb-6'}>
+      <h2 className={' text-lg  font-semibold uppercase text-center pb-2'}>
         {title}
       </h2>
       <div className={'lg:flex-nowrap flex-wrap flex gap-4 w-full gutter'}>
@@ -44,24 +44,27 @@ const PageBlock = ({page}) => {
   return (
     <div
       className={
-        'border-t border-black gap-3 md:flex-1 flex flex-col flex-auto justify-between border-b py-3 md:w-auto w-full'
+        'border-t border-black gap-3 md:flex-1 flex flex-col flex-auto justify-between border-b py-4 md:w-auto w-full'
       }
     >
       <div className={'flex flex-1 '}>
-        <div className={'flex-1'}>
+        <div className={''}>
           {att.thumbnail.data ? (
             <StrapiMedia
-              classes={'aspect-w-1 aspect-h-1 pr-2 py-1 h-full object-cover'}
+              classes={
+                'w-[7.5rem] h-[8.5rem] box-content pr-2 py-1 h-full object-cover'
+              }
               media={att.thumbnail.data.attributes}
             />
           ) : (
             <div className={'fallback'}></div>
           )}
         </div>
-        <div className={'flex-1 py-1 pl-1 flex flex-col h-full '}>
+        <div className={'flex-1 py-1 pl-3 flex flex-col h-full '}>
+          <h3 className={'text-2xl'}
           <h4
             className={
-              'text-lg  text-ellipsis line-clamp-3 overflow-hidden ...'
+              'text-xl  text-ellipsis line-clamp-3 overflow-hidden ...'
             }
           >
             {att.title}
@@ -69,10 +72,10 @@ const PageBlock = ({page}) => {
           <div className={'flex-grow'}></div>
           <div
             className={
-              'text-xs post-widget-title items-center font-semibold uppercase flex justify-between'
+              'text-xs pb-1 post-widget-title items-center font-semibold uppercase flex justify-between'
             }
           >
-            <h6>Discover More</h6>
+            <h6>Read More</h6>
             <Arrow />
           </div>
         </div>

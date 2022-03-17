@@ -21,16 +21,12 @@ export default function getHeader({
     return await res.json();
   });
   const navData = data.data.attributes;
-  const logos = {
-    fullLogo: navData.logo.data.attributes,
-    altLogo: navData.alt_logo.data.attributes,
-    homepageLogo: navData.homepage_logo.data.attributes,
-  };
+  const logo = navData.alt_logo.data.attributes;
   return (
     <Suspense fallback={<HeaderFallback isHome={false} />}>
       <Header
         nav={navData.header_columns}
-        logos={logos}
+        logo={logo}
         useSpecialLayout={useSpecialLayout}
         backgroundTransparency={backgroundTransparency}
       />
