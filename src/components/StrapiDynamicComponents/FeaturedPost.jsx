@@ -24,25 +24,15 @@ export default function FeaturedPost({
           media={banner}
         />
       </section>
-      <section className={'lg:hidden'}>
-          <section className={'banner flush relative flex-grow'}>
-          <StrapiMedia
-            classes={'absolute h-full w-full  object-cover'}
-            media={banner}
-          />
-        </section>
-        <div className={'flex-auto w-full lg:flex-1 pr-12 '}>
-          <StrapiMedia classes={'xl:max-w-md mx-auto'} media={media} />
-        </div></section>
       <section
         className={
-          ' gutter  w-full   pt-6 pb-3 flex grow-0 flex-wrap md:flex-no-wrap text-white'
+          ' gutter  w-full pt-6 pb-3 flex grow-0 flex-wrap md:flex-no-wrap text-white'
         }
       >
-        <div className={'flex-auto w-full lg:flex-1 pr-12 '}>
+        <div className={'flex-auto w-full lg:flex-1 lg:pr-12 lg:px-0 px-8 sm:px-16'}>
           <StrapiMedia classes={'xl:max-w-md mx-auto'} media={media} />
         </div>
-        <div className={'flex-auto w-full lg:flex-1'}>
+        <div className={'flex-auto w-full lg:flex-1 lg:pt-0 pt-6 lg:px-0 px-8 sm:px-16'}>
           <div className={'pb-8 xl:pb-6 text-justify pr-4'}>
             <p>{excerpt}</p>
           </div>

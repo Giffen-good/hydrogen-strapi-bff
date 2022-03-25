@@ -1,6 +1,5 @@
 import Letter from '../StrapiWrappers/Letter.client';
 import RichTextBody from '../StrapiDynamicComponents/RichTextBody';
-import FreeLink from '../StrapiHelpers/FreeLink';
 import Alphabet from '../StrapiWrappers/Alphabet.client';
 export default function AlphabetPage({description, accordion}) {
   return (
@@ -9,22 +8,7 @@ export default function AlphabetPage({description, accordion}) {
       <Alphabet>
         {accordion.map((item, k) => {
           return (
-            <Letter letter={item.letter} key={k} semanticKey={k}>
-              <div className={'entries overflow-x-visible'}>
-                {item.entry.map((entry, n) => {
-                  return (
-                    <div
-                      className={`alphabet-entries lg:text-left ${alphabetClasses(
-                        k + 1,
-                      )}`}
-                    >
-                      <FreeLink url={entry.url} key={n}>
-                        {entry.name}
-                      </FreeLink>
-                    </div>
-                  );
-                })}
-              </div>
+            <Letter k={k} letter={item.letter} entries={item.entry} key={k} semanticKey={k}>
             </Letter>
           );
         })}
@@ -32,9 +16,3 @@ export default function AlphabetPage({description, accordion}) {
     </>
   );
 }
-const alphabetClasses = (k) => {
-  let classes = '';
-  if (k % 4 == 0 && k > 0) classes += 'lg:text-right ';
-  if (k % 3 == 0 && k > 0) classes += 'md:text-right ';
-  return classes;
-};
