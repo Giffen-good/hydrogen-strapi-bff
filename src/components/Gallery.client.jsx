@@ -10,7 +10,6 @@ export default function Gallery() {
   const featuredMedia = selectedVariant.image || media[0].image;
   const featuredMediaSrc = featuredMedia.url.split('?')[0];
 
-  console.log(featuredMediaSrc);
   // const galleryMedia = media.filter((med) => {
   //   if (
   //     med.mediaContentType === MODEL_3D_TYPE ||
@@ -99,18 +98,13 @@ export default function Gallery() {
           />
         );
       })}
-      <span
-        className={'cursor-pointer absolute z-10 bottom-2 left-5 prev-arrow'}
-        onClick={() => ShiftSlideOne(false)}
-      >
-        <Arrow />
-      </span>
-      <span
-        onClick={() => ShiftSlideOne()}
-        className={'cursor-pointer absolute z-10 bottom-2 right-5 next-arrow'}
-      >
-        <Arrow />
-      </span>
+      <div className={'flex justify-center'}>
+      {media.map((med, idx) => {
+        return (
+          <span className={'dot'} key={idx}></span>
+        )
+      })}
+      </div>
     </div>
   );
 }
