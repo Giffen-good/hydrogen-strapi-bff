@@ -5,7 +5,7 @@ export default function CollectionNavigation({data, handle}) {
     <>
       <nav
         className={
-          'collection-header flex justify-between py-4 uppercase w-128 mx-auto'
+          'collection-header flex justify-between pb-4 pt-8 uppercase w-128 mx-auto'
         }
       >
         <Link

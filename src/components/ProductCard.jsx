@@ -18,13 +18,13 @@ export default function ProductCard({product}) {
       <Link to={`/products/${product.handle}`}>
         <div
           className="mb-2 relative flex items-center justify-center overflow-hidden object-cover
-          max-h-[28rem] md:h-[36vw]
+          max-h-[30rem] md:h-[36vw]
 
         h-[56vw]"
         >
           {selectedVariant.image ? (
             <Image
-              className="bg-white absolute w-full h-full transition-all duration-500 ease-in-out transform bg-center bg-cover object-center object-contain"
+              className="bg-white absolute w-full h-full transition-all duration-500 ease-in-out transform bg-center bg-cover object-center object-cover"
               image={selectedVariant.image}
             />
           ) : null}
@@ -59,4 +59,10 @@ function SetPrice({selectedVariant}) {
       </>
     );
   }
+}
+function stripTrailingZeroes(selectedVariant) {
+  const splitPrice = selectedVariant.priceV2.amount.split('.');
+  const compareAt = selectedVariant.compareAtPriceV2;
+  if (splitPrice[1] == '0') selectedVariant.priceV2.amount = splitPrice[0]
+  if (compareAt && compareAt.amount.split('.')[1] == '0') selectedVariant.compareAtPriceV2 = compareAt.amount.split('.')[0];
 }

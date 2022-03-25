@@ -2,12 +2,13 @@ import {
   MediaFileFragment,
   ProductProviderFragment,
   useShopQuery,
+  useQuery,
   flattenConnection,
   RawHtml,
 } from '@shopify/hydrogen';
 import gql from 'graphql-tag';
 import CollectionNavigation from '../../components/CollectionNavigation';
-
+import qs from 'qs';
 import LoadMoreProducts from '../../components/LoadMoreProducts.client';
 import ProductCard from '../../components/ProductCard';
 import NotFound from '../../components/NotFound.server';
@@ -16,6 +17,7 @@ import CollectionWrapper from '../../components/CollectionWrapper.server';
 import LayoutShopify from '../../components/LayoutShopify.server';
 import {HEADER_PARAMS} from '../../components/StrapiHelpers/util';
 
+import CollectionBanner from '../../components/CollectionBanner'
 export default function Collection({
   country = {isoCode: 'US'},
   collectionProductCount = 24,
@@ -38,7 +40,7 @@ export default function Collection({
   const {data: collectionList} = useShopQuery({
     query: COLLLECTIONS_QUERY,
     variables: {
-      numCollections: 3,
+      numCollections: 4,
     },
     cache: {
       maxAge: 60,
@@ -51,11 +53,45 @@ export default function Collection({
   const collection = data.collection;
   const products = flattenConnection(collection.products);
   const hasNextPage = data.collection.products.pageInfo.hasNextPage;
+  const query = qs.stringify(
+    {
+      populate: 'deep',
+      filters: {
+        category: {
+          $eq: handle,
+        },
+      },
+      publicationState: 'live',
+      locale: ['en'],
+    },
+    {
+      encodeValuesOnly: true, // prettify url
+    },
+  );
+  const {data: collectionBanner} = useQuery(
+    [
+      `path_strapi_collection_server_collectionBanner_${handle}`,
+      `key_strapi_collection_server_collectionBanner_${handle}`,
+    ],
+    async () => {
+      const res = await fetch(
+        `${import.meta.env.VITE_STRAPI}/api/collection-banners?${query}`,
+        {
+          headers: {
+            accept: 'application/json',
+          },
+        },
+      );
+      return await res.json();
+    },
+  );
+  console.log(`${import.meta.env.VITE_STRAPI}/api/collection-banner?${query}`)
   return (
     <LayoutShopify headerSettings={HEADER_PARAMS}>
       <RawHtml string={collection.descriptionHtml} className="text-lg" />
       <section className={'header-offset'}>
         <CollectionNavigation data={collections} handle={handle} />
+        <CollectionBanner data={collectionBanner} />
         <CollectionWrapper>
           {products.map((product) => (
             <div key={product.id}>

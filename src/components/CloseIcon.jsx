@@ -1,7 +1,7 @@
 export default function CloseIcon() {
   return (
     <svg
-      className={'w-8'}
+      className={'w-6'}
       viewBox="0 0 52 54"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

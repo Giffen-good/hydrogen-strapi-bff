@@ -36,7 +36,6 @@ export default function Header({
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-  const ptClass = 'mt-5';
   return (
     <header
       className={`relative ${
@@ -55,15 +54,15 @@ export default function Header({
           scrollPosition={scrollPosition}
           transparentHeaderAnimation={transparentHeaderAnimation}
         />
-        <div className="text-center flex no-mw gutter z-20 pb-3 w-full flex justify-between items-start ">
+        <div className="text-center flex no-mw gutter z-20 py-5 pt-6 w-full flex justify-between items-center ">
           <div className={'flex flex-1 justify-start items-center h-full '}>
             <button
               type="button"
-              className={`flex  w-12`}
+              className={`flex  w-12 `}
               onClick={() => setIsNavOpen((isNavOpen) => !isNavOpen)}
             >
               {isNavOpen ? (
-                <div className={'ml-1.5'}>
+                <div className={'pr-3'}>
                   <CloseIcon />
                 </div>
               ) : (
@@ -73,14 +72,13 @@ export default function Header({
           </div>
           <CenterSection
             useSpecialLayout={useSpecialLayout}
-            ptClass={ptClass}
             logo={logo}
             logoType={logoType}
             scrollPosition={scrollPosition}
             pageInitialized={pageInitalized}
             nav={nav}
           />
-          <div className={`${ptClass} flex-1 justify-end text-right`}>
+          <div className={` flex-1 justify-end text-right `}>
             <CartToggle
               handleClick={() => {
                 if (isNavOpen) setIsNavOpen(false);
@@ -95,7 +93,6 @@ export default function Header({
 }
 const CenterSection = ({
   useSpecialLayout,
-  ptClass,
   logo,
   scrollPosition,
   pageInitialized,
@@ -109,8 +106,8 @@ const CenterSection = ({
           scrollPosition == 0 ? '' : 'disappear'
         }  flex-1 ${scrollPosition > 0 ? 'disappear' : ''}`}
       >
-        <div className={`relative ${ptClass}`}>
-          <Link to="/" className={`logo `}>
+        <div className={`relative `}>
+          <Link to="/" className={`logo full-logo mt-2`}>
             <div className={'mx-auto absolute inset-x-0 top-0 text-center'}>
               <Logo />
             </div>
@@ -127,7 +124,7 @@ const CenterSection = ({
     );
   } else {
     el = (
-      <div className={`logo flex-1 ${ptClass} `}>
+      <div className={`logo flex-1  `}>
         <Link to="/">
           {logo ? <StrapiMedia media={logo} classes={'mx-auto'} /> : ''}
         </Link>

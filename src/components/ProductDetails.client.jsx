@@ -10,6 +10,7 @@ import {
 import {useState} from 'react';
 import Minus from './icons/Minus';
 import Plus from './icons/Plus';
+import RichTextBody from './StrapiDynamicComponents/RichTextBody'
 
 /**
  * A client component that displays detailed information about a product to allow buyers to make informed decisions
@@ -110,7 +111,7 @@ function SizeChart() {
   );
 }
 
-export default function ProductDetails({product}) {
+export default function ProductDetails({product, designerData}) {
   const initialVariant = flattenConnection(product.variants)[0];
   const [activeTab, setActiveTab] = useState(0);
   const tabs = getTabs();
@@ -263,6 +264,30 @@ export default function ProductDetails({product}) {
                       </div>
                     );
                   })}
+                  <div className={`tabs mt-6 ${
+                          activeTab == tabs.length ? 'open-tab' : 'closed-tab'
+                        }`} >
+                        <div
+                          role="button"
+                          onClick={() => {
+                            if (activeTab === tabs.length) {
+                              setActiveTab(null);
+                            } else {
+                              setActiveTab(tabs.length);
+                            }
+                          }}
+                          className={
+                            'flex cursor-pointer justify-between tab-label'
+                          }
+                        >
+                          <h3 className={' uppercase'}>Shipping & Returns</h3>
+                          <span>{activeTab === tabs.length ? <Minus /> : <Plus />}</span>
+                        </div>
+
+                        <div className={'tab-content '}>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam laoreet ultrices massa, sed rutrum sem mattis pulvinar. Etiam consectetur sodales dolor, a efficitur dui maximus at. Vivamus orci lectus, mollis a erat eget, molestie volutpat odio. Sed et rhoncus magna. Maecenas lacinia, turpis quis tincidunt mollis, velit tortor posuere turpis, a egestas erat tellus euismod arcu. Curabitur sit amet magna non leo rutrum facilisis ac et odio. Integer finibus cursus justo, venenatis molestie neque lacinia id. Vivamus sapien arcu, viverra sed imperdiet ut, vestibulum quis urna. Pellentesque et pellentesque purus.
+                        </div>
+                  </div>
                 </div>
               </div>
               <Product.Metafield namespace="my_fields" keyName="size_chart">
@@ -274,6 +299,7 @@ export default function ProductDetails({product}) {
                   ) : null;
                 }}
               </Product.Metafield>
+              <Designer designerData={designerData} />
             </div>
           </div>
         </div>
@@ -281,7 +307,30 @@ export default function ProductDetails({product}) {
     </>
   );
 }
-
+function Designer({designerData}) {
+  if (!designerData) return 
+  const d = designerData.pageByHandle;
+  const [readMore, setReadMore] = useState(false);
+  return (
+    <section className={'pb-16'}>
+      <h3 className={'text-2xl tracking-widest font-medium mb-2 text-gray-900 mt-8 uppercase'}>Discover {d.title}</h3>
+      <div className={`... ${!readMore ? 'line-clamp-3' : ''}`}>
+        <RichTextBody noGutter={true} noPadding={true}>
+          {d.body}
+        </RichTextBody>
+      </div>
+      <div className={'pt-4 uppercase text-lg cursor-pointer flex items-center'} onClick={() => setReadMore((readMore) => !readMore)}>
+        {readMore ? 
+        (
+            <><span className={'flex items-center'}><Minus /></span><span>Read Less</span></>
+        ) :  (
+            <><span className={'flex items-center'}><Plus /></span><span>Read More</span></>
+        )
+        }
+      </div>   
+    </section>
+  )
+}
 function getTabs() {
   let tabs = [];
   tabs[0] = {

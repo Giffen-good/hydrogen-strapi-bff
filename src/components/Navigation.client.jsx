@@ -3,7 +3,7 @@ export default function Navigation({nav}) {
   return (
     <nav
       className={
-        'top-level-nav text-left uppercase text-xs flex justify-between z-20'
+        'top-level-nav text-left uppercase text-xs flex justify-center z-20 pl-24'
       }
     >
       {nav.map((item, idx) => {
@@ -15,7 +15,9 @@ export default function Navigation({nav}) {
             >
               {item.top_level_menu_item}
             </FreeLink>
-            <SubNav subNav={item.sub_menu_item} />
+            <div className={'subnav'}>
+              <SubNav subNav={item.sub_menu_item} />
+            </div>
           </div>
         );
       })}
@@ -28,7 +30,7 @@ const SubNav = (s) => {
       {s.subNav.map((s, k) => {
         return (
           <FreeLink
-            classes={'block sub-nav-item pt-10'}
+            classes={'block sub-nav-item pt-8'}
             key={k}
             url={s.free_sub_link}
           >

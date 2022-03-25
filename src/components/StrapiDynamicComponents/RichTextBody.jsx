@@ -1,9 +1,9 @@
 import Markdown from 'markdown-to-jsx';
 
-export default function RichTextBody({children, Width, text_alignment, body}) {
+export default function RichTextBody({children, Width, text_alignment, body, noGutter, noPadding}) {
   return (
     <section
-      className={`rich-text-body gutter ${getTextAlignment(
+      className={`rich-text-body ${!noGutter ? 'gutter' : ''} ${!noPadding ? '' : 'flush pb-0'} ${getTextAlignment(
         text_alignment,
       )} ${getWidth(Width)}`}
     >

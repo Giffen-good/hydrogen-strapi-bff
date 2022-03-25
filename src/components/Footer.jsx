@@ -9,6 +9,7 @@ export default function Footer({backgroundColor, children}) {
             ? {backgroundColor: backgroundColor}
             : {backgroundColor: 'inherit'}
         }
+        className={'pb-12'}
         role="contentinfo"
       >
         {children}

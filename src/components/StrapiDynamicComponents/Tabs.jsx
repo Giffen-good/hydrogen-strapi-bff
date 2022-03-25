@@ -3,7 +3,6 @@ import TabsClient from './Tabs.client';
 import TabsLabel from './TabsLabel.client';
 import TabsContent from './TabsContent.client';
 export default function Tabs({tabs}) {
-  console.log(tabs);
 
   return (
     <TabsClient>

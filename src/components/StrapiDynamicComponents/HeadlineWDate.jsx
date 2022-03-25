@@ -5,7 +5,7 @@ export default function HeadlineWDate({Heading, date}) {
   return (
     <section className="gutter text-center">
       <h1 className="text-5xl font-serif text-xs">{Heading}</h1>
-      <h4 className={'font-semibold pt-3'}>{dobFormat}</h4>
+      <h4 className={'font-semibold pt-1'}>{dobFormat}</h4>
     </section>
   );
 }

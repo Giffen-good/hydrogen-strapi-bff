@@ -1,14 +1,13 @@
 import {useShopQuery, ProductProviderFragment} from '@shopify/hydrogen';
 import gql from 'graphql-tag';
 
-import ProductDetails from '../../components/ProductDetails.client';
+import ProductDetailsWrapper from '../../components/ProductDetailsWrapper';
 import NotFound from '../../components/NotFound.server';
 import LayoutShopify from '../../components/LayoutShopify.server';
 import RecommendedProductsServer from '../../components/RecommendedProducts.server';
 import {HEADER_PARAMS} from '../../components/StrapiHelpers/util';
 export default function Product({country = {isoCode: 'US'}, params}) {
   const {handle} = params;
-
   const {data} = useShopQuery({
     query: QUERY,
     variables: {
@@ -23,7 +22,7 @@ export default function Product({country = {isoCode: 'US'}, params}) {
 
   return (
     <LayoutShopify headerSettings={HEADER_PARAMS}>
-      <ProductDetails product={data.product} />
+      <ProductDetailsWrapper product={data.product} />
       <RecommendedProductsServer country={country} />
     </LayoutShopify>
   );
@@ -62,3 +61,4 @@ const QUERY = gql`
 
   ${ProductProviderFragment}
 `;
+

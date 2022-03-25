@@ -7,7 +7,6 @@ import Arrow from './icons/Arrow';
 export default function Footer({menuLeft, menuRight, smMenu, time, bgColor}) {
   const [currentTime, setCurrentTime] = useState(time);
   useEffect(() => {
-    console.log(new Date());
     const interval = setInterval(() => {
       setCurrentTime(new Date().toLocaleTimeString());
     }, 1000);
