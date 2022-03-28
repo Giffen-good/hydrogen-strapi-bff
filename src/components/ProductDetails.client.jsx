@@ -310,6 +310,7 @@ export default function ProductDetails({product, designerData}) {
 function Designer({designerData}) {
   if (!designerData) return 
   const d = designerData.pageByHandle;
+  if (!d) return
   const [readMore, setReadMore] = useState(false);
   return (
     <section className={'pb-16'}>

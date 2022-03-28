@@ -1,10 +1,17 @@
+import React from 'react'
+
+import StrapiClientVideo from './StrapiDynamicComponents/StrapiVideo.client'
+import {cld} from './StrapiHelpers/util';
+import {image} from "@cloudinary/url-gen/qualifiers/source";
+import {Cloudinary} from "@cloudinary/url-gen";
+
 export default function StrapiMedia({media, classes}) {
   if (!media) return;
   const customCaption = media.name !== media.caption ? media.caption : '';
   const mimeType = media.mime.split('/')[0];
   const el =
     mimeType === 'video' ? (
-      <StrapiVideo />
+      <StrapiClientVideo media={media} />
     ) : (
       <StrapiImage
         image={media}
@@ -30,12 +37,11 @@ function SrcsetTags({f}) {
     </>
   );
 }
-function StrapiVideo() {
-  console.log('support for Self-hosted videos NOT enabled');
-  return;
-}
+
 function StrapiImage({image, customCaption, classes}) {
   let srcset = '';
+  let url = image.url;
+  // if (image.provider === 'cloudinary') url = getCloudinaryUrl(image);
   if (image.formats) srcset = <SrcsetTags f={image.formats} />;
   return (
     <picture>

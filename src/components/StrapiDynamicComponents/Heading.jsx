@@ -4,17 +4,20 @@ export default function Heading({
   text,
   font_size,
   has_padding,
+  width
 }) {
+  console.log(width)
   return (
     <section
-      className={`heading text-center ${
+      className={`heading text-center  ${
         !has_padding ? 'pt-0 pb-0' : ''
-      }  narrower-gutter ${getFontSize(font_size)} ${getFont(font_family)}`}
+      }  ${getFontSize(font_size)} ${getFont(font_family)} ${getWidth(width)}`}
     >
       <GetHeading heading_element={heading_elements} text={text} />
     </section>
   );
 }
+
 function getFontSize(font_size) {
   switch (font_size) {
     case 'text_xs':
@@ -65,5 +68,15 @@ function GetHeading({heading_element, text}) {
       return <h5>{text}</h5>;
     case 'h6':
       return <h6>{text}</h6>;
+  }
+}
+function getWidth(width) {
+  switch (width) {
+    case 'narrow':
+      return 'narrowest-gutter';
+    case 'wide':
+      return 'gutter'
+    default:
+      return 'narrower-gutter';
   }
 }

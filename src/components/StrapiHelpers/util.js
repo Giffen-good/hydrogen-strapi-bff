@@ -1,4 +1,5 @@
 import {EventEmitter} from 'eventemitter3';
+import {Cloudinary} from "@cloudinary/url-gen";
 
 export const has = (object, key) => {
   return object ? hasOwnProperty.call(object, key) : false;
@@ -9,7 +10,13 @@ export const sanityCheckToAttributes = (d) => {
     (d.data[0] && d.data[0]?.attributes !== null)
   );
 };
-
+export const cld = new Cloudinary({
+  cloud: {
+    cloudName: import.meta.env.VITE_CLOUDINARY_NAME,
+    apiKey: import.meta.env.VITE_CLOUDINARY_KEY,
+    apiSecret: import.meta.env.VITE_CLOUDINARY_SECRET,
+  }
+}); 
 const eventEmitter = new EventEmitter();
 export const Emitter = {
   on: (event, fn) => eventEmitter.on(event, fn),
@@ -24,6 +31,8 @@ export const EventConstants = {
   OPEN_SOMEWHERE: 'OPEN_SOMEWHERE',
   OPEN_TAB: 'OPEN_TAB',
   CHANGE_ACTIVE_TAB: 'CHANGE_ACTIVE_TAB',
+  CLOSE_LETTER: 'CLOSE_LETTER',
+  LETTER_CLOSED: 'LETTER_CLOSED'
 };
 
 export const getGlobalPageSettings = (settings) => {

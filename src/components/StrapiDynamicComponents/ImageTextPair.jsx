@@ -1,9 +1,9 @@
 import StrapiMedia from '../StrapiMedia';
 import Arrow from '../icons/Arrow';
 import FreeLink from '../StrapiHelpers/FreeLink';
-export default function ImageTextPair({image, box, cta_url}) {
+export default function ImageTextPair({image, box, cta_url, has_padding}) {
   return (
-    <section className="flex h-full flush pb-0 flex-wrap">
+    <section className={`flex h-full flex-wrap ${has_padding ? 'gutter' : 'flush pb-0 '}`}>
       <div className={'image-box lg:flex-1 relative w-full flex-auto'}>
         <StrapiMedia
           media={image.data?.attributes}

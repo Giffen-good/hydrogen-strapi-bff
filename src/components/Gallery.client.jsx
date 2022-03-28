@@ -1,5 +1,4 @@
 import {useProduct, MediaFile} from '@shopify/hydrogen/client';
-import Slider from 'react-slick';
 import React, {useState} from 'react';
 import Arrow from './icons/Arrow';
 /**
@@ -65,7 +64,7 @@ export default function Gallery() {
   return (
     <div
       className={
-        'carousel gap-4 md:sticky  top-0 w-full  md:h-screen  overflow-x-scroll no-scrollbar scroll-snap-x scroll-smooth  md:h-auto place-content-start'
+        'carousel gap-4 md:sticky  top-0 w-full  md:h-screen  overflow-x-scroll no-scrollbar scroll-snap-x scroll-smooth  md:h-auto place-content-start relative'
       } // default ''
       onTouchStart={(touchStartEvent) => handleTouchStart(touchStartEvent)}
       onTouchMove={(touchMoveEvent) => handleTouchMove(touchMoveEvent)}
@@ -87,8 +86,8 @@ export default function Gallery() {
           <MediaFile
             tabIndex={idx}
             key={med.image.url.split('?')[0]}
-            className={`w-full absolute opacity-0  md:h-screen object-cover object-center transition-all snap-start border border-gray-200 flex-shrink-0 rounded-lg
-            ${idx == currentSlide ? 'opacity-100' : ''}`}
+            className={`w-full md:absolute md:opacity-0  md:h-screen object-cover object-center transition-all snap-start flex-shrink-0
+            ${idx == currentSlide ? 'md:opacity-100 block' : 'hidden md:block'}`}
             media={med}
             options={{
               height: '485',
@@ -98,10 +97,14 @@ export default function Gallery() {
           />
         );
       })}
-      <div className={'flex justify-center'}>
+      <div className={'flex justify-center dots'}>
       {media.map((med, idx) => {
         return (
-          <span className={'dot'} key={idx}></span>
+          <span className={'dot-wrapper'} key={idx}
+          onClick={() => setCurrentSlide(idx)} 
+          >
+          <span
+          className={`dot ${currentSlide === idx ? 'active' : ''}`} ></span></span>
         )
       })}
       </div>

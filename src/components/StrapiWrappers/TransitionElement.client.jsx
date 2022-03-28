@@ -2,7 +2,7 @@ import {useInView} from 'react-intersection-observer';
 import React, {forwardRef} from 'react';
 
 export default function TransitionElement({children, settings, classes}) {
-  const {transition, threshold, trigger_once, duration} = settings;
+  const {transition, threshold, trigger_once, duration, anchor_link} = settings;
   const [ref, inView] = useInView({
     threshold: Math.max(0, Math.min(threshold, 100)) / 100,
     triggerOnce: trigger_once,
@@ -14,16 +14,18 @@ export default function TransitionElement({children, settings, classes}) {
       inView={inView}
       settings={settings}
       classes={classes}
+      anchorLink={anchor_link}
     >
       {children}
     </InsersectionWrapper>
   );
 }
 const InsersectionWrapper = forwardRef(
-  ({inView, children, settings, classes}, ref) => {
+  ({inView, children, settings, classes, anchorLink}, ref) => {
     const {styles} = getTransitionClasses(settings, inView);
     return (
       <div
+        id={anchorLink}
         ref={ref}
         className={`intersection-observer-wrapper ${classes}
   ${getTransitionClasses(settings, inView).classes}`}

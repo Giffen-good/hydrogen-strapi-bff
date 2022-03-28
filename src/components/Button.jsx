@@ -1,7 +1,8 @@
 import {Link} from '@shopify/hydrogen/client';
+import FreeLink from './StrapiHelpers/FreeLink'
 export default function Button({url, label, classes}) {
   return (
-    <Link to={url} className={classes}>
+    <FreeLink url={url} className={classes}>
       <button
         className={
           'font-semibold text-xs px-10 py-2.5 border uppercase border-current rounded-3xl'
@@ -9,6 +10,6 @@ export default function Button({url, label, classes}) {
       >
         {label}
       </button>
-    </Link>
+    </FreeLink>
   );
 }

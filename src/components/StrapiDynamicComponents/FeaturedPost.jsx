@@ -17,7 +17,7 @@ export default function FeaturedPost({
     ? banner_image.data.attributes
     : null;
   return (
-    <section className={'article-info-section flush flex-col flex flex-wrap'}>
+    <section className={'article-info-section pb-0 flush flex-col flex flex-wrap'}>
       <section className={'banner flush relative flex-grow'}>
         <StrapiMedia
           classes={'absolute h-full w-full  object-cover'}
@@ -26,14 +26,14 @@ export default function FeaturedPost({
       </section>
       <section
         className={
-          ' gutter  w-full pt-6 pb-3 flex grow-0 flex-wrap md:flex-no-wrap text-white'
+          ' gutter  w-full pt-4 pb-4 flex grow-0 flex-wrap md:flex-no-wrap text-white'
         }
       >
-        <div className={'flex-auto w-full lg:flex-1 lg:pr-12 lg:px-0 px-8 sm:px-16'}>
+        <div className={'flex-auto w-full lg:flex-1 lg:pr-12 lg:px-0 sm:px-16 md:pt-6 md:pb-6 pb-3 pt-3 lg:pt-0 lg:pb-0 pl-0 pr-0 sm:px-8'}>
           <StrapiMedia classes={'xl:max-w-md mx-auto'} media={media} />
         </div>
-        <div className={'flex-auto w-full lg:flex-1 lg:pt-0 pt-6 lg:px-0 px-8 sm:px-16'}>
-          <div className={'pb-8 xl:pb-6 text-justify pr-4'}>
+        <div className={'flex-auto w-full lg:flex-1 lg:pt-0 pt-6 lg:px-0 px-8 sm:px-16 pl-0 pr-0 sm:px-8'}>
+          <div className={'pb-8 xl:pb-6 text-justify sm:pr-4 pr-0'}>
             <p>{excerpt}</p>
           </div>
           <div
@@ -53,7 +53,7 @@ export default function FeaturedPost({
         
             <div
               className={
-                'w-full max-w-xs xl:pb-0 grow-0 uppercase flex-auto text-sm w-60 xl:order-2 order-1'
+                'w-full max-w-xs xl:pb-0 grow-0 uppercase flex-auto text-sm w-60 xl:order-2 order-1 pt-4 xs:pt-0'
               }
             >
               {lines.map((l, idx) => {

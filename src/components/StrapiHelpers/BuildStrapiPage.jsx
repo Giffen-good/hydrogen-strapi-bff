@@ -7,6 +7,6 @@ export default function BuildStrapiPage({data, slug, children}) {
   );
 }
 function StructuredPage({data, slug, children}) {
-  if (slug == 'pages' || slug == 'root') return <>{children}</>;
+  if (slug == 'pages' || slug == 'root' || slug == 'conversations' || slug == 'essays' || slug == 'presses' || slug == 'stories') return <>{children}</>;
   if (slug == 'alphabet') return <AlphabetPage {...data} />;
 }

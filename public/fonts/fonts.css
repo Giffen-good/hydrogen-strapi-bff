@@ -1,0 +1,13 @@
+@font-face {
+    font-family: NeuzeitBook;
+    src: url('https://res.cloudinary.com/dunyrmcrx/raw/upload/v1648397866/Neuzeit-S-LT-Std-Book_o2yfzx.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: NeuzeitBookHeavy;
+    src: url('https://res.cloudinary.com/dunyrmcrx/raw/upload/v1648397866/Neuzeit-S-LT-Std-Book-Heavy_jgkbnl.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: BFF;
+    src: url('https://res.cloudinary.com/dunyrmcrx/raw/upload/v1648397866/bff-regular-webfont_vn2g0a.woff') format('woff'),
+      url('https://res.cloudinary.com/dunyrmcrx/raw/upload/v1648397866/bff-regular-webfont_onbll0.otf') format('otf');
+  }

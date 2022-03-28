@@ -34,7 +34,7 @@ export default function Header({
     window.addEventListener('scroll', handleScroll, {passive: true});
     return () => {
       window.removeEventListener('scroll', handleScroll);
-    };
+    };  
   }, []);
   return (
     <header
@@ -54,15 +54,15 @@ export default function Header({
           scrollPosition={scrollPosition}
           transparentHeaderAnimation={transparentHeaderAnimation}
         />
-        <div className="text-center flex no-mw gutter z-20 py-5 pt-6 w-full flex justify-between items-center ">
+        <div className="text-center flex no-mw gutter z-20 py-5 pt-6 w-full flex justify-between items-center head-wrap">
           <div className={'flex flex-1 justify-start items-center h-full '}>
             <button
               type="button"
-              className={`flex  w-12 `}
+              className={`flex  w-12  burger`}
               onClick={() => setIsNavOpen((isNavOpen) => !isNavOpen)}
             >
               {isNavOpen ? (
-                <div className={'pr-3'}>
+                <div className={'pr-3 close-icon'}>
                   <CloseIcon />
                 </div>
               ) : (
@@ -119,7 +119,7 @@ const CenterSection = ({
             {logo ? <StrapiMedia media={logo} classes={'mx-auto'} /> : ''}
           </Link>
         </div>
-        <Navigation hasSubNav={false} nav={nav} />
+        <Navigation special={true} nav={nav} />
       </div>
     );
   } else {

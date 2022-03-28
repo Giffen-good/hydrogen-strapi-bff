@@ -7,6 +7,10 @@ module.exports = {
       xs: '400px',
       ...defaultTheme.screens,
     },
+    fontSize: {
+      xxs: '0.6rem',
+      ...defaultTheme.fontSize
+    },
     extend: {
       fontFamily: {
         sans: ['NeuzeitBook', 'sans-serif'],

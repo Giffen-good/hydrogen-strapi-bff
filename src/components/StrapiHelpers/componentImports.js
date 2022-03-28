@@ -14,6 +14,8 @@ import ImageTextPair from '../StrapiDynamicComponents/ImageTextPair';
 import Brands from '../StrapiDynamicComponents/Brands';
 import ThreeColumnBanner from '../StrapiDynamicComponents/ThreeColumnBanner';
 import Tabs from '../StrapiDynamicComponents/Tabs';
+import SingleImage from '../StrapiDynamicComponents/SingleImage';
+import CreditsWidget from '../StrapiDynamicComponents/CreditsWidget';
 
 export const Components = {
   ExtraPadding,
@@ -32,6 +34,8 @@ export const Components = {
   Brands,
   ThreeColumnBanner,
   Tabs,
+  SingleImage,
+  CreditsWidget
 };
 export const getAttributes = (root) => {
   if (hasIn(root, 'data') && hasIn(root.data, 'attributes'))

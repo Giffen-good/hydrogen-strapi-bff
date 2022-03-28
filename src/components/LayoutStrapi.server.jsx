@@ -36,8 +36,10 @@ export default function StrapiCollectionServer({
       return await res.json();
     },
   );
+  console.log( `${import.meta.env.VITE_STRAPI}/api/${ApiSlug}?${query}`,)
   if (data?.error || data?.data == null) return <NotFound />;
   const p = getStrapiData(data, isSingleType, hasDynamicZone);
+  console.log(p)
   if (!isSingleType && !p) return <NotFound />;
   const {backgroundColor, flush, useSpecialLayout, useNavigation} =
     getGlobalPageSettings(p?.page_settings);
@@ -62,7 +64,7 @@ export default function StrapiCollectionServer({
           }}
         >
           <div className="flex flex-col max-w-screen text-black font-sans">
-            <div className="relative mb-12">
+            <div className="relative mb-12 site-wrapper">
               <BuildStrapiPage data={p} slug={ApiSlug}>
                 <StrapiDynamicZone mainContent={p?.main_content} />
               </BuildStrapiPage>

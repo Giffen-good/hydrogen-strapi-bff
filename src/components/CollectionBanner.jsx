@@ -17,7 +17,7 @@ export default function CollectionBanner({data}) {
                     <h3 className={'absolute company-label text-xs uppercase'}>Black Fashion Fair</h3>
 
                     {image ? 
-                    <StrapiMedia media={image} classes={'object-cover h-full'} /> : 
+                    <StrapiMedia media={image} classes={'object-cover'} /> : 
                     ''}
                 </div>
                 <div className={'flex-1  lg:w-auto w-full flex'}>

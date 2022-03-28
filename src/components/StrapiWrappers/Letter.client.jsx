@@ -3,16 +3,38 @@ import {useEffect, useState, useRef} from 'react';
 import FreeLink from '../StrapiHelpers/FreeLink';
 export default function Letter({children, letter, semanticKey, entries, k}) {
   const [isOpen, setOpenState] = useState(false);
-  const [entryHeight, setEntryHeight] = useState(0)
+  const [entryHeight, setEntryHeight] = useState(0);
+  const [isClosing, setIsClosing] = useState(false)
   const entry = useRef();
-  const {CHANGE_LETTER, SET_LETTER, OPEN_SOMEWHERE} = EventConstants;
+  const {CHANGE_LETTER, SET_LETTER, OPEN_SOMEWHERE, CLOSE_LETTER,} = EventConstants;
   useEffect(() => {
     Emitter.on(SET_LETTER, (data) => {
       changeLetter(data, semanticKey, setOpenState, isOpen, OPEN_SOMEWHERE);
     });
+    Emitter.on(CLOSE_LETTER, () => {
+      if (isOpen) {
+        closeLetter();
+      }
+    })
+    setEntryHeight(entry.clientHeight)
     console.log(entry.clientHeight)
   }, []);
-
+  const closeLetter = () => {
+    timer = !timer && setInterval(() => {
+      setOpenState(isOpen => isOpen-1)
+    }, 100)
+    
+    if (isOpen === 0) {
+      clearInterval(timer)
+      Emitt
+    }
+  }
+  
+  useEffect(() => {
+    closeLetter()
+    
+    return () => clearInterval(timer)
+  }, [isOpen])
   return (
     <div className={`letter  ${isOpen ? 'open' : 'closed'}`}>
       <div
@@ -23,7 +45,7 @@ export default function Letter({children, letter, semanticKey, entries, k}) {
           'uppercase font-serif cursor-pointer lg:text-8xl md:text-7xl'
         }
       >
-        {letter}
+        {letter} : ({isOpen})
       </div>
       <div className={'entries grid grid-cols-2 overflow-x-visible'} ref={entry}>
                 {entries.map((entry, n) => {
@@ -43,7 +65,9 @@ export default function Letter({children, letter, semanticKey, entries, k}) {
     </div>
   );
 }
-
+const closeLetter = (isOpen, setOpenState) => {
+  
+}
 const changeLetter = (
   data,
   semanticKey,
@@ -52,8 +76,7 @@ const changeLetter = (
   OPEN_SOMEWHERE,
 ) => {
   if (data === semanticKey) {
-    setOpenState((isOpen) => !isOpen);
-    // if (isOpen) Emitter.emit(OPEN_SOMEWHERE, true);
+    if (isOpen) Emitter.emit(OPEN_SOMEWHERE, true);
   } else {
     setOpenState(false);
   }

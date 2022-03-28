@@ -48,7 +48,7 @@ export default function ProductCard({product}) {
 }
 function SetPrice({selectedVariant}) {
   if (!selectedVariant?.availableForSale) {
-    return <div className={'uppercase text-sm line-through'}>Sold Out</div>;
+    return <div className={'uppercase flex-shrink-0 text-sm line-through'}>Sold Out</div>;
   } else {
     return (
       <>

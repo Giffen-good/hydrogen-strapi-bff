@@ -4,6 +4,7 @@ import TransitionElement from '../StrapiWrappers/TransitionElement.client';
 import StrapiBackgroundColor from '../StrapiWrappers/StrapiBackgroundColor';
 import {Suspense} from 'react';
 export default function StrapiDynamicZone({mainContent}) {
+  console.log('STRAPI DYNAMIC ZONE')
   if (mainContent && mainContent.length) {
     const formattedComponents = getDynamicComponents(mainContent, Components);
     return (
@@ -19,40 +20,46 @@ export default function StrapiDynamicZone({mainContent}) {
 }
 function DynamicStrapiComponent({component}) {
   if (
-    component.componentProps?.transition &&
-    component.componentProps.transition.transition !== 'none'
+    component.componentProps?.animation && component.componentProps.animation.length !== 0
   ) {
+    console.log(component.componentProps?.transition)
     return (
       <Suspense fallback={null}>
-        <TransitionElement
-          settings={component.componentProps.transition}
-          classes={component.formattedComponentName}
-        >
-          <ApplyBackgroundWrap component={component} />
-        </TransitionElement>
+       
+          <ApplyBackgroundWrap component={component}>
+            <TransitionElement
+            settings={component.componentProps.animation}
+            classes={component.formattedComponentName}
+            >
+              <CreateComponent component={component} />
+            </TransitionElement>
+          </ApplyBackgroundWrap>
       </Suspense>
     );
   } else {
     return (
       <Suspense fallback={null}>
-        <ApplyBackgroundWrap component={component} />
+        <ApplyBackgroundWrap component={component}>
+          <CreateComponent component={component} />
+        </ApplyBackgroundWrap>
       </Suspense>
     );
   }
 }
 
-const ApplyBackgroundWrap = ({component}) => {
+const ApplyBackgroundWrap = ({component,children}) => {
   if (component.componentProps?.bg_color) {
     return (
       <StrapiBackgroundColor
         classes={component.formattedComponentName}
-        color={component.componentProps?.bg_color.background_color_component}
+        font_color={component.componentProps?.bg_color.font_color}
+        bg_color={component.componentProps?.bg_color.background_color_component}
       >
-        <CreateComponent component={component} />
+        {children}
       </StrapiBackgroundColor>
     );
   } else {
-    return <CreateComponent component={component} />;
+    return <div>{children}</div>
   }
 };
 function mapComponentNames(d) {
@@ -85,7 +92,7 @@ function getDynamicComponents(mainContent, importedComponents) {
       availableComponents.push(c);
     } else {
       console.warn(
-        `WARNING: ${c.formattedComponentName} does not have an associated template file `,
+        `WARNING: ${c.formattedComponentName} does not have an associated template file. Props include: \n ${c.componentProps} `,
       );
       console.log(c);
     }

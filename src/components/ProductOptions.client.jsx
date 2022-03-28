@@ -5,9 +5,10 @@ import {useProduct} from '@shopify/hydrogen/client';
  */
 export default function ProductOptions() {
   const {options, setSelectedOption, selectedOptions} = useProduct();
+  // Default Title
   if (options[0].name !== 'Color') options.reverse();
   return (
-    <div className={'product-options mb-7'}>
+    <div className={`product-options mb-7 ${options[0].values[0] === 'Default Title' ? 'hidden': ''}`}>
       {options.map(({name, values}) => {
         return (
           <OptionsWidget

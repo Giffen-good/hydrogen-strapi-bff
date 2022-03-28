@@ -44,7 +44,7 @@ export default function StrapiCollectionPath({params, path}) {
   return (
     <Suspense fallback={<BoxFallback />}>
       <Layout isStrapiTemplate={true}>
-        <div className="relative mb-12">
+        <div className="relative mb-12 site-wrapper">
           <StrapiDynamicZone data={data.data} />
         </div>
       </Layout>

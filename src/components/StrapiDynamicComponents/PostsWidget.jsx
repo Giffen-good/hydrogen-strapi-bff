@@ -20,7 +20,7 @@ export default function PostsWidget({title, designer, pages, include_designer_in
       <h2 className={' text-lg  font-semibold uppercase text-center pb-4'}>
         {title}
       </h2>
-      <div className={'xl:flex-nowrap flex-wrap xl:max-w-none max-w-4xl flex gap-4 w-full mx-auto px-4 xl:px-10 sm:px-4 md:px-6 lg:px-8'}>
+      <div className={'xl:flex-nowrap flex-wrap xl:max-w-none max-w-4xl flex gap-4 w-full mx-auto px-4 xl:px-10 sm:px-4 md:px-6 lg:px-8 xl:gutter-mw'}>
         {pageBlocks.map((block, k) => {
           return (
             <div
@@ -41,10 +41,9 @@ export default function PostsWidget({title, designer, pages, include_designer_in
 }
 const PageBlock = ({page}) => {
   const att = page.attributes;
-  console.log(att)
   return (
     <FreeLink
-      url={att.slug}
+      url={`/${att.slug}`}
       classes={
         'block border-t-2 border-black gap-3 md:flex-1 flex flex-col flex-auto justify-between border-b-2 py-2 w-auto'
       }
@@ -77,7 +76,7 @@ const PageBlock = ({page}) => {
               'text-xs pb-[0.3rem] post-widget-title items-center uppercase flex justify-between'
             }
           >
-            <h6 className={'text-xs'}>Read More</h6>
+            <h6 className={'text-xxs'}>Read More</h6>
             <Arrow />
           </div>
         </div>
