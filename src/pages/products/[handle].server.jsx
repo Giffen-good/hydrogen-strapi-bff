@@ -62,3 +62,7 @@ const QUERY = gql`
   ${ProductProviderFragment}
 `;
 
+// designer: metafield(namespace: "my_fields", key: "designer") {
+//   value
+//   type
+// }

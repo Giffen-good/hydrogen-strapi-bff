@@ -1,4 +1,12 @@
 export default function CreditWidget({credit_widget}) {
-    console.log(credit_widget)
-    return <div></div>
+    return ( 
+        <section className={'flex flex-wrap gutter'}>
+           {credit_widget.map((c,k) => {
+               return (<div key={k} className={'flex-1 text-center'}>
+                   <div className={''}>{c.job_title}</div>
+                   <div className={'font-semibold uppercase text-xs pt-4'}>{c.name}</div>
+               </div>) 
+           })} 
+        </section> 
+    )
 }

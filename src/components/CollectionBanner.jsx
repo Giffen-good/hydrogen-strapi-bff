@@ -30,7 +30,7 @@ export default function CollectionBanner({data}) {
                                 </RichTextBody>
                             </div>
                         </div>
-                        <div className={'callout flex justify-between pb-8'}>
+                        <div className={'callout flex justify-between pb-8 pt-6 lg:pt-0'}>
                             <div>
                                 <button className={'btn'}>
                                     <FreeLink url={attributes.link.free_sub_link}>

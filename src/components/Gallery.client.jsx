@@ -69,10 +69,6 @@ export default function Gallery() {
       onTouchStart={(touchStartEvent) => handleTouchStart(touchStartEvent)}
       onTouchMove={(touchMoveEvent) => handleTouchMove(touchMoveEvent)}
       onTouchEnd={() => handleTouchEnd()}
-      onMouseDown={(mouseDownEvent) => handleTouchStart(mouseDownEvent)}
-      onMouseMove={(mouseMoveEvent) => handleTouchMove(mouseMoveEvent)}
-      onMouseUp={() => handleTouchEnd()}
-      onMouseLeave={() => handleTouchEnd()}
     >
       {/*<SelectedVariantImage className="w-full  object-contain carousel-cell h-screen md:h-auto md:object-cover object-center flex-shrink-0 md:flex-shrink-none snap-start md:col-span-2" />*/}
       {media.map((med, idx) => {
@@ -97,7 +93,7 @@ export default function Gallery() {
           />
         );
       })}
-      <div className={'flex justify-center dots'}>
+      {!media.length ? (<div className={'flex justify-center dots'}>
       {media.map((med, idx) => {
         return (
           <span className={'dot-wrapper'} key={idx}
@@ -107,7 +103,7 @@ export default function Gallery() {
           className={`dot ${currentSlide === idx ? 'active' : ''}`} ></span></span>
         )
       })}
-      </div>
+      </div>) : ''}
     </div>
   );
 }

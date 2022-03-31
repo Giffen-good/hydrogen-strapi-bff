@@ -23,6 +23,7 @@ export default function LayoutShopify({children, headerSettings}) {
       {/* TODO: Find out why Suspense needs to be here to prevent hydration errors. */}
       <Suspense fallback={<HeaderFallback />}>
         <Header
+          flush={true}
           backgroundTransparency={headerSettings.backgroundTransparency}
           useSpecialLayout={headerSettings.useSpecialLayout}
           useNavigation={headerSettings.useNavigation}

@@ -45,7 +45,7 @@ export default function Letter({children, letter, semanticKey, entries, k}) {
           'uppercase font-serif cursor-pointer lg:text-8xl md:text-7xl'
         }
       >
-        {letter} : ({isOpen})
+        {letter}
       </div>
       <div className={'entries grid grid-cols-2 overflow-x-visible'} ref={entry}>
                 {entries.map((entry, n) => {

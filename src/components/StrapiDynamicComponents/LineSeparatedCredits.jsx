@@ -17,7 +17,7 @@ export default function LineSeparatedCredits({credit}) {
         return (
           <>
             <LineSeparator i={i} />
-            <hgroup key={i} className={'credit'}>
+            <hgroup key={i} className={'credit flex-1'}>
               <h3 className={'font-semibold text-xs pr-1 inline-block'}>
                 {c.Title}
               </h3>

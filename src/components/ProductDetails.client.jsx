@@ -1,4 +1,4 @@
-import {Product, flattenConnection, useProduct} from '@shopify/hydrogen/client';
+import {Product, flattenConnection, useProduct, useParsedMetafields} from '@shopify/hydrogen/client';
 
 import ProductOptions from './ProductOptions.client';
 import Gallery from './Gallery.client';
@@ -115,6 +115,29 @@ export default function ProductDetails({product, designerData}) {
   const initialVariant = flattenConnection(product.variants)[0];
   const [activeTab, setActiveTab] = useState(0);
   const tabs = getTabs();
+  // const meta = product.metafields.edges.map(({node}) => node)
+  // console.log(meta)
+  function getTabs() {
+   const productMetafields = useParsedMetafields(product.metafields);
+
+    let tabs = [];
+    let editorsNotes;
+    for (let i = 0; i < productMetafields.length;i++) {
+      console.log(productMetafields[i])
+      if (productMetafields[i].key === 'editor_s_notes') editorsNotes = productMetafields[i];
+    }
+    tabs[0] = {
+      label: 'DETAILS & CARE',
+      component: <Product.Description className=" pb-8 pt-4 text-black text-md" />,
+    };
+    if (editorsNotes)
+      tabs[1] = {
+        label: "Editor's Notes",
+        component: <div></div>,
+      }
+    return tabs;
+  }
+  // console.log({productMetafields})
   return (
     <>
       <Seo product={product} />
@@ -158,6 +181,18 @@ export default function ProductDetails({product, designerData}) {
               {/* Product Options */}
               <div className="mt-10 mb-2">
                 <ProductOptions />
+                <Product.Metafield namespace="my_fields" keyName="size_chart">
+                  {({value}) => {
+                    return value ? (
+                      <a
+                        href="#size-chart"
+                        className="block underline text-gray-500  tracking-wide my-4"
+                      >
+                        Size Chart
+                      </a>
+                    ) : null;
+                  }}
+                </Product.Metafield>
                 <Product.Metafield namespace="my_fields" keyName="size_chart">
                   {({value}) => {
                     return value ? (
@@ -232,13 +267,14 @@ export default function ProductDetails({product, designerData}) {
                   </Product.Metafield>
                 </div>
               </div>
+              <Designer designerData={designerData} />
               {/* Product Description */}
-              <div className={'accordion pt-6'}>
+              <div className={'accordion md:pt-6'}>
                 <div className={'tab'}>
                   {tabs.map((item, i) => {
                     return (
                       <div
-                        className={`tabs ${
+                        className={`tabs pb-4 ${
                           activeTab == i ? 'open-tab' : 'closed-tab'
                         }`}
                         key={i}
@@ -264,30 +300,6 @@ export default function ProductDetails({product, designerData}) {
                       </div>
                     );
                   })}
-                  <div className={`tabs mt-6 ${
-                          activeTab == tabs.length ? 'open-tab' : 'closed-tab'
-                        }`} >
-                        <div
-                          role="button"
-                          onClick={() => {
-                            if (activeTab === tabs.length) {
-                              setActiveTab(null);
-                            } else {
-                              setActiveTab(tabs.length);
-                            }
-                          }}
-                          className={
-                            'flex cursor-pointer justify-between tab-label'
-                          }
-                        >
-                          <h3 className={' uppercase'}>Shipping & Returns</h3>
-                          <span>{activeTab === tabs.length ? <Minus /> : <Plus />}</span>
-                        </div>
-
-                        <div className={'tab-content '}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam laoreet ultrices massa, sed rutrum sem mattis pulvinar. Etiam consectetur sodales dolor, a efficitur dui maximus at. Vivamus orci lectus, mollis a erat eget, molestie volutpat odio. Sed et rhoncus magna. Maecenas lacinia, turpis quis tincidunt mollis, velit tortor posuere turpis, a egestas erat tellus euismod arcu. Curabitur sit amet magna non leo rutrum facilisis ac et odio. Integer finibus cursus justo, venenatis molestie neque lacinia id. Vivamus sapien arcu, viverra sed imperdiet ut, vestibulum quis urna. Pellentesque et pellentesque purus.
-                        </div>
-                  </div>
                 </div>
               </div>
               <Product.Metafield namespace="my_fields" keyName="size_chart">
@@ -299,7 +311,7 @@ export default function ProductDetails({product, designerData}) {
                   ) : null;
                 }}
               </Product.Metafield>
-              <Designer designerData={designerData} />
+              <Designer designerData={designerData} desktop={true} />
             </div>
           </div>
         </div>
@@ -307,13 +319,13 @@ export default function ProductDetails({product, designerData}) {
     </>
   );
 }
-function Designer({designerData}) {
+function Designer({designerData, desktop}) {
   if (!designerData) return 
   const d = designerData.pageByHandle;
   if (!d) return
   const [readMore, setReadMore] = useState(false);
   return (
-    <section className={'pb-16'}>
+    <section className={`pb-16 pt-0 ${desktop ? 'hidden md:block ' : 'md:hidden'}`}>
       <h3 className={'text-2xl tracking-widest font-medium mb-2 text-gray-900 mt-8 uppercase'}>Discover {d.title}</h3>
       <div className={`... ${!readMore ? 'line-clamp-3' : ''}`}>
         <RichTextBody noGutter={true} noPadding={true}>
@@ -332,11 +344,6 @@ function Designer({designerData}) {
     </section>
   )
 }
-function getTabs() {
-  let tabs = [];
-  tabs[0] = {
-    label: 'Description',
-    component: <Product.Description className=" pt-4 text-black text-md" />,
-  };
-  return tabs;
-}
+
+// EDITOR'S NOTE
+// DETAILS & CARE

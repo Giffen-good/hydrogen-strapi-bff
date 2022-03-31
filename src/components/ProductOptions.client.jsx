@@ -51,7 +51,7 @@ function ButtonView({name, values, selectedOptions, setSelectedOption}) {
                 onChange={() => setSelectedOption(name, value)}
               />
               <div
-                className={`hover:bg-gray-900 hover:text-white p-2 rounded-xl border cursor-pointer rounded text-sm md:text-md ${
+                className={`hover:bg-gray-900 hover:text-white p-2 rounded-xl border cursor-pointer  text-sm md:text-md ${
                   checked ? 'bg-gray-900 text-white' : 'text-gray-900'
                 }`}
               >

@@ -25,7 +25,7 @@ export default function RecommendedProductsServer({country}) {
   return (
     <Suspense fallback={null}>
       <div className="mb-10 lg:mt-20 md:mt-14">
-        <p className="mb-8 text-4xl text-center  text-black font-serif font-medium ">
+        <p className="mb-8 text-2xl text-center  text-black font-serif font-medium ">
           You might also like:
         </p>
         <CollectionWrapperServer>

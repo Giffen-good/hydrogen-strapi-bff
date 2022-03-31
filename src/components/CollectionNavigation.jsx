@@ -5,7 +5,7 @@ export default function CollectionNavigation({data, handle}) {
     <>
       <nav
         className={
-          'collection-header flex justify-between pb-4 pt-8 uppercase w-128 mx-auto'
+          'sm:flex hidden collection-header  justify-between pb-4 pt-8 uppercase w-128 mx-auto'
         }
       >
         <Link
@@ -30,7 +30,7 @@ export default function CollectionNavigation({data, handle}) {
           );
         })}
       </nav>
-      <div className={'gutter  no-mw'}>
+      <div className={'gutter sm:block hidden  no-mw'}>
         <div className={'border-t-2 pt-8'}></div>
       </div>
     </>

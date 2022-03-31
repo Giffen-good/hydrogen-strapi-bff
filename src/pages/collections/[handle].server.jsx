@@ -12,6 +12,7 @@ import qs from 'qs';
 import LoadMoreProducts from '../../components/LoadMoreProducts.client';
 import ProductCard from '../../components/ProductCard';
 import NotFound from '../../components/NotFound.server';
+import CollectionMobileNavigation from '../../components/CollectionMobileNavigation.client';
 
 import CollectionWrapper from '../../components/CollectionWrapper.server';
 import LayoutShopify from '../../components/LayoutShopify.server';
@@ -92,6 +93,7 @@ export default function Collection({
       <section className={'header-offset'}>
         <CollectionNavigation data={collections} handle={handle} />
         <CollectionBanner data={collectionBanner} />
+        <CollectionMobileNavigation  data={collections} handle={handle}   />
         <CollectionWrapper>
           {products.map((product) => (
             <div key={product.id}>

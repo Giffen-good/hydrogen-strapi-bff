@@ -19,16 +19,19 @@ export default function StrapiDynamicZone({mainContent}) {
   }
 }
 function DynamicStrapiComponent({component}) {
+  console.log(component.componentProps.component_settings)
+  if (component.componentProps?.component_settings && component.componentProps.component_settings.hide_section) return 
   if (
-    component.componentProps?.animation && component.componentProps.animation.length !== 0
+    component.componentProps?.component_settings && component.componentProps.component_settings.animation
   ) {
-    console.log(component.componentProps?.transition)
+    const a = component.componentProps.component_settings;
+    const settings = {transition: a.animation, threshold: a.animation_threshold, trigger_once: a.trigger_animation_once, duration: a.animation_duration, anchor_link: a.anchor_link}
     return (
       <Suspense fallback={null}>
        
           <ApplyBackgroundWrap component={component}>
             <TransitionElement
-            settings={component.componentProps.animation}
+            settings={settings}
             classes={component.formattedComponentName}
             >
               <CreateComponent component={component} />
@@ -48,12 +51,14 @@ function DynamicStrapiComponent({component}) {
 }
 
 const ApplyBackgroundWrap = ({component,children}) => {
-  if (component.componentProps?.bg_color) {
+  if (component.componentProps?.component_settings) {
+    const a = component.componentProps.component_settings;
+    console.log(a)
     return (
       <StrapiBackgroundColor
         classes={component.formattedComponentName}
-        font_color={component.componentProps?.bg_color.font_color}
-        bg_color={component.componentProps?.bg_color.background_color_component}
+        font_color={a.component_font_color}
+        bg_color={a.component_bg_color}
       >
         {children}
       </StrapiBackgroundColor>

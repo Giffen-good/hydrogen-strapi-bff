@@ -1,10 +1,11 @@
 import {useQuery} from '@shopify/hydrogen';
 import FooterClient from './Footer.client';
 import {Suspense} from 'react';
+import SpecialFooter from './SpecialFooter.client'
 /**
  * A server component that specifies the content of the footer on the website
  */
-export default function Footer() {
+export default function Footer({useSpecialFooter}) {
   const {data} = useQuery(['footer', 'footer_key'], async () => {
     const res = await fetch(
       `${import.meta.env.VITE_STRAPI}/api/footer?populate=deep`,
@@ -16,7 +17,7 @@ export default function Footer() {
     );
     return await res.json();
   });
-
+  console.log(useSpecialFooter)
   const smMenu =
     data && data.data ? data.data.attributes.footer_social_media : null;
 
@@ -24,15 +25,21 @@ export default function Footer() {
     data && data.data ? data.data.attributes.footer_menu_item_left : null;
   const menuRight =
     data && data.data ? data.data.attributes.footer_menu_right : null;
+  const specialFooterNav =  data && data.data ? data.data.attributes.special_footer_nav : null;
   const time = new Date().toLocaleTimeString();
   return (
     <Suspense fallback={null}>
+      { useSpecialFooter ? (
+      <SpecialFooter
+      smMenu={smMenu}
+      specialFooterNav={specialFooterNav}
+      />) : (
       <FooterClient
         time={time}
         menuLeft={menuLeft}
         menuRight={menuRight}
         smMenu={smMenu}
-      />
+      />)}
     </Suspense>
   );
   // if (data?.data == null || data?.data.attributes == null) return;

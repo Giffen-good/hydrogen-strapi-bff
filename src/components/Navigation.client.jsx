@@ -1,7 +1,7 @@
 import FreeLink from './StrapiHelpers/FreeLink';
 import {useState} from 'react';
 
-export default function Navigation({nav, special}) {
+export default function Navigation({nav, special, setIsNavOpen}) {
   const [openNavItem, setOpenNavItem] = useState(null)
   return (
     <>
@@ -13,14 +13,16 @@ export default function Navigation({nav, special}) {
         {nav.map((item, idx) => {
           return (
             <div key={idx} className={'nav-column flex-col '}>
-              <FreeLink
+              <span
+                onClick={() => {setIsNavOpen(false)}}
+                ><FreeLink
                 classes={'top-nav-item font-semibold'}
                 url={item.top_level_url}
               >
                 {item.top_level_menu_item}
-              </FreeLink>
+              </FreeLink></span>
               <div className={'subnav'}>
-                <SubNav s={item.sub_menu_item} classes={'block sub-nav-item pt-8'} />
+                <SubNav setIsNavOpen={setIsNavOpen} s={item.sub_menu_item} classes={'block sub-nav-item pt-8'} />
               </div>
             </div>
           );
@@ -51,7 +53,7 @@ export default function Navigation({nav, special}) {
                   {item.top_level_menu_item}
                 </span>
                 <div className={'subnav text-lg'}>
-                  <SubNav s={item.sub_menu_item} classes={'block sub-nav-item pt-4'} />
+                  <SubNav setIsNavOpen={setIsNavOpen} s={item.sub_menu_item} classes={'block sub-nav-item pt-4'} />
                 </div>
               </div>
             );
@@ -61,18 +63,21 @@ export default function Navigation({nav, special}) {
     </>
   );
 }
-const SubNav = ({s, classes}) => {
+const SubNav = ({s, classes, setIsNavOpen}) => {
   return (
     <>
       {s.map((s, k) => {
         return (
-          <FreeLink
+          <span
+          key={k}
+
+                onClick={() => {setIsNavOpen(false)}}
+                ><FreeLink
             classes={classes}
-            key={k}
             url={s.free_sub_link}
           >
             {s.Label}
-          </FreeLink>
+          </FreeLink></span>
         );
       })}
     </>

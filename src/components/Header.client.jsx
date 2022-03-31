@@ -16,6 +16,7 @@ export default function Header({
   logo,
   logoType,
   useSpecialLayout,
+  flush,
   backgroundTransparency,
 }) {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -27,6 +28,8 @@ export default function Header({
     const position = window.pageYOffset;
     setScrollPosition(position);
   };
+
+
   useEffect(() => {
     setScrollPosition(window.pageYOffset);
     initialScrollPosition = window.pageYOffset;
@@ -52,6 +55,7 @@ export default function Header({
           backgroundTransparency={backgroundTransparency}
           useSpecialLayout={useSpecialLayout}
           scrollPosition={scrollPosition}
+          flush={flush}
           transparentHeaderAnimation={transparentHeaderAnimation}
         />
         <div className="text-center flex no-mw gutter z-20 py-5 pt-6 w-full flex justify-between items-center head-wrap">
@@ -71,6 +75,7 @@ export default function Header({
             </button>
           </div>
           <CenterSection
+            setIsNavOpen={setIsNavOpen}
             useSpecialLayout={useSpecialLayout}
             logo={logo}
             logoType={logoType}
@@ -87,7 +92,7 @@ export default function Header({
           </div>
         </div>
       </div>
-      <Navigation nav={nav} isNavOpen={isNavOpen} />
+      <Navigation nav={nav} setIsNavOpen={setIsNavOpen} />
     </header>
   );
 }
@@ -96,6 +101,7 @@ const CenterSection = ({
   logo,
   scrollPosition,
   pageInitialized,
+  setIsNavOpen,
   nav,
 }) => {
   let el;
@@ -119,7 +125,7 @@ const CenterSection = ({
             {logo ? <StrapiMedia media={logo} classes={'mx-auto'} /> : ''}
           </Link>
         </div>
-        <Navigation special={true} nav={nav} />
+        <Navigation setIsNavOpen={setIsNavOpen} special={true} nav={nav} />
       </div>
     );
   } else {
@@ -138,14 +144,14 @@ const Background = ({
   backgroundTransparency,
   useSpecialLayout,
   transparentHeaderAnimation,
+  flush
 }) => {
   let el;
   if (useSpecialLayout || backgroundTransparency) {
     el = (
       <>
         <div
-          style={{...transparentHeaderAnimation(scrollPosition)}}
-          className={'topbar-overlay bg-white w-full h-full absolute'}
+          className={`topbar-overlay ${flush ? 'opacity-0' : ''} bg-white w-full h-full absolute ${scrollPosition ? 'show-header' : ''}`}
         ></div>
         <NavBackground />
       </>

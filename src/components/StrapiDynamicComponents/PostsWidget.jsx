@@ -45,7 +45,7 @@ const PageBlock = ({page}) => {
     <FreeLink
       url={`/${att.slug}`}
       classes={
-        'block border-t-2 border-black gap-3 md:flex-1 flex flex-col flex-auto justify-between border-b-2 py-2 w-auto'
+        'block border-t border-black gap-3 md:flex-1 flex flex-col flex-auto justify-between border-b py-2 w-auto'
       }
     >
       <div className={'flex flex-1 '}>

@@ -1,6 +1,6 @@
 import StrapiMedia from '../StrapiMedia';
 import FreeLink from '../StrapiHelpers/FreeLink';
-
+import JustifiedText from '../StrapiPartials/JustifiedText'
 export default function FeaturedPost({
   button_link,
   button_text,
@@ -56,9 +56,9 @@ export default function FeaturedPost({
                 'w-full max-w-xs xl:pb-0 grow-0 uppercase flex-auto text-sm w-60 xl:order-2 order-1 pt-4 xs:pt-0'
               }
             >
-              {lines.map((l, idx) => {
-                return <div key={idx}>{l}</div>
-              })}
+              <JustifiedText>
+                  {justified_text}
+              </JustifiedText>
             </div>
           </div>
         </div>

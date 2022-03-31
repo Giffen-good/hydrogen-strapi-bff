@@ -39,15 +39,16 @@ export default function StrapiCollectionServer({
   console.log( `${import.meta.env.VITE_STRAPI}/api/${ApiSlug}?${query}`,)
   if (data?.error || data?.data == null) return <NotFound />;
   const p = getStrapiData(data, isSingleType, hasDynamicZone);
-  console.log(p)
   if (!isSingleType && !p) return <NotFound />;
-  const {backgroundColor, flush, useSpecialLayout, useNavigation} =
+  const {backgroundColor, flush, useSpecialLayout, useNavigation, useSpecialFooter, useFullLogo} =
     getGlobalPageSettings(p?.page_settings);
   return (
     <>
       <Suspense fallback={<HeaderFallback />}>
         <Header
+          useFullLogo={useFullLogo}
           params={p}
+          flush={flush}
           backgroundTransparency={flush}
           useSpecialLayout={useSpecialLayout}
           useNavigation={useNavigation}
@@ -73,9 +74,11 @@ export default function StrapiCollectionServer({
         </main>
       </Suspense>
       <Suspense fallback={null}>
-        <FooterSettings backgroundColor={backgroundColor}>
-          <FooterServer />
-        </FooterSettings>
+        {useNavigation ? (
+          <FooterSettings backgroundColor={backgroundColor}  >
+            <FooterServer  useSpecialFooter={useSpecialFooter} />
+          </FooterSettings>
+        ) : ''}
       </Suspense>
     </>
   );

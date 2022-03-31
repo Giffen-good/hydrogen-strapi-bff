@@ -3,11 +3,13 @@ import Header from './Header.client';
 import {Suspense} from 'react';
 import HeaderFallback from './FallbackHeader';
 import {useQuery} from '@shopify/hydrogen';
+import Logo from './Logo';
 
 export default function getHeader({
   backgroundTransparency,
   useSpecialLayout,
   useNavigation,
+  flush
 }) {
   const {data} = useQuery(['use', 'asdfsadf'], async () => {
     const res = await fetch(
@@ -24,13 +26,27 @@ export default function getHeader({
   const logo = navData.alt_logo.data.attributes;
   return (
     <Suspense fallback={<HeaderFallback isHome={false} />}>
-      <Header
-        nav={navData.header_columns}
-        logo={logo}
-        useSpecialLayout={useSpecialLayout}
-        backgroundTransparency={backgroundTransparency}
-      />
+      {useNavigation ? (
+        <Header
+          nav={navData.header_columns}
+          logo={logo}
+          useSpecialLayout={useSpecialLayout}
+          backgroundTransparency={backgroundTransparency}
+          flush={flush}
+          useNavigation={useNavigation}
+        />
+      ) : <NoNavHeader />}
       <Cart />
     </Suspense>
   );
 }
+const NoNavHeader = () => {
+  return (
+    <div className={' flex place-content-between absolute z-20  w-full  mx-auto noNavHeader'}>
+      <div className={'text-center flex no-mw gutter z-20  pt-2 w-full flex justify-center items-center head-wrap alt-logo'}>
+        <Logo />
+      </div>
+    </div>
+  )
+}
+
