@@ -1,11 +1,13 @@
 import StrapiMedia from '../StrapiMedia';
 import Arrow from '../icons/Arrow';
 import FreeLink from '../StrapiHelpers/FreeLink'
-export default function PostsWidget({title, designer, pages, include_designer_in_title}) {
+export default function PostsWidget({title, designer, pages, conversations, stories, essays, include_designer_in_title}) {
+  const posts = [...pages.data, ...conversations.data, ...stories.data, ...essays.data]
+  console.log({pages})
   let pageBlocks = [];
   let i = 0;
   let tmp = [];
-  pages.data.forEach((p) => {
+  posts.forEach((p) => {
     tmp.push(p);
     if (i === 1) {
       pageBlocks.push(tmp);

@@ -16,8 +16,10 @@ import ThreeColumnBanner from '../StrapiDynamicComponents/ThreeColumnBanner';
 import Tabs from '../StrapiDynamicComponents/Tabs';
 import SingleImage from '../StrapiDynamicComponents/SingleImage';
 import CreditsWidget from '../StrapiDynamicComponents/CreditsWidget';
+import Button from '../StrapiDynamicComponents/Button';
 
 export const Components = {
+  Button,
   ExtraPadding,
   HeadlineWDate,
   BannerImageWithLink,

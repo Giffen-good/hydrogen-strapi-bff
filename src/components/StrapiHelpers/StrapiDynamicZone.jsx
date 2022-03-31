@@ -19,7 +19,6 @@ export default function StrapiDynamicZone({mainContent}) {
   }
 }
 function DynamicStrapiComponent({component}) {
-  console.log(component.componentProps.component_settings)
   if (component.componentProps?.component_settings && component.componentProps.component_settings.hide_section) return 
   if (
     component.componentProps?.component_settings && component.componentProps.component_settings.animation
