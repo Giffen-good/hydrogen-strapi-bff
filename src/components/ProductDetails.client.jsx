@@ -10,8 +10,8 @@ import {
 import {useState} from 'react';
 import Minus from './icons/Minus';
 import Plus from './icons/Plus';
-import RichTextBody from './StrapiDynamicComponents/RichTextBody'
-
+import RichTextBody from './StrapiDynamicComponents/RichTextBody.client'
+import {sanityCheckToAttributes} from './StrapiHelpers/util'
 /**
  * A client component that displays detailed information about a product to allow buyers to make informed decisions
  */
@@ -63,81 +63,42 @@ function AddToCartMarkup() {
   );
 }
 
-function SizeChart() {
-  return (
-    <>
-      <h3
-        className="text-xl text-black font-semibold mt-8 mb-4"
-        id="size-chart"
-      >
-        Size Chart
-      </h3>
-      <table className="min-w-full table-fixed  text-center bg-white">
-        <thead>
-          <tr className="bg-black text-white">
-            <th className="w-1/4 py-2 px-4 font-normal">Board Size</th>
-            <th className="w-1/4 py-2 px-4 font-normal">154</th>
-            <th className="w-1/4 py-2 px-4 font-normal">158</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td className="p-3 border border-black">Weight Range</td>
-            <td className="p-3 border border-black">120-180 lbs. /54-82kg</td>
-            <td className="p-3 border border-black">150-200 lbs. /68-91 kg</td>
-          </tr>
-          <tr>
-            <td className="p-3 border border-black">Waist Width</td>
-            <td className="p-3 border border-black">246mm</td>
-            <td className="p-3 border border-black">255mm</td>
-          </tr>
-          <tr>
-            <td className="p-3 border border-black">Stance Width</td>
-            <td className="p-3 border border-black">-40</td>
-            <td className="p-3 border border-black">-40</td>
-          </tr>
-          <tr>
-            <td className="p-3 border border-black">Binding Sizes</td>
-            <td className="p-3 border border-black">
-              Men&rsquo;s S/M, Women&rsquo;s S/M
-            </td>
-            <td className="p-3 border border-black">
-              Men&rsquo;s L, Women&rsquo;s L
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </>
-  );
-}
 
 export default function ProductDetails({product, designerData}) {
   const initialVariant = flattenConnection(product.variants)[0];
   const [activeTab, setActiveTab] = useState(0);
   const tabs = getTabs();
-  // const meta = product.metafields.edges.map(({node}) => node)
-  // console.log(meta)
+
   function getTabs() {
    const productMetafields = useParsedMetafields(product.metafields);
 
     let tabs = [];
     let editorsNotes;
     for (let i = 0; i < productMetafields.length;i++) {
-      console.log(productMetafields[i])
       if (productMetafields[i].key === 'editor_s_notes') editorsNotes = productMetafields[i];
     }
-    tabs[0] = {
-      label: 'DETAILS & CARE',
-      component: <Product.Description className=" pb-8 pt-4 text-black text-md" />,
-    };
+    if (product.descriptionHtml)
+      tabs[0] = {
+        label: 'DETAILS & CARE',
+        component: <Product.Description className=" pb-8 pt-4 text-black text-md" />,
+      };
     if (editorsNotes)
-      tabs[1] = {
+      tabs.push({
         label: "Editor's Notes",
-        component: <div></div>,
-      }
+        component: (
+          <Product.Metafield namespace="my_fields" keyName="editor_s_notes">
+                {({value}) => {
+                  return value ? (
+                    <div className="pt-4">
+                      <RichTextBody noGutter={true} noPadding={true} >{value}</RichTextBody>,
+                    </div>
+                  ) : null;
+                }}
+              </Product.Metafield>
+        )
+      })
     return tabs;
   }
-  // console.log({productMetafields})
   return (
     <>
       <Seo product={product} />
@@ -267,7 +228,7 @@ export default function ProductDetails({product, designerData}) {
                   </Product.Metafield>
                 </div>
               </div>
-              <Designer designerData={designerData} />
+              <Designer designerData={designerData} vendor={product.vendor} />
               {/* Product Description */}
               <div className={'accordion md:pt-6'}>
                 <div className={'tab'}>
@@ -289,7 +250,7 @@ export default function ProductDetails({product, designerData}) {
                             }
                           }}
                           className={
-                            'flex cursor-pointer justify-between tab-label'
+                            'flex cursor-pointer justify-between tab-label border-none'
                           }
                         >
                           <h3 className={' uppercase'}>{item.label}</h3>
@@ -311,7 +272,7 @@ export default function ProductDetails({product, designerData}) {
                   ) : null;
                 }}
               </Product.Metafield>
-              <Designer designerData={designerData} desktop={true} />
+              <Designer designerData={designerData} desktop={true} vendor={product.vendor} />
             </div>
           </div>
         </div>
@@ -345,5 +306,53 @@ function Designer({designerData, desktop}) {
   )
 }
 
-// EDITOR'S NOTE
-// DETAILS & CARE
+
+
+
+function SizeChart() {
+  return (
+    <>
+      <h3
+        className="text-xl text-black font-semibold mt-8 mb-4"
+        id="size-chart"
+      >
+        Size Chart
+      </h3>
+      <table className="min-w-full table-fixed  text-center bg-white">
+        <thead>
+          <tr className="bg-black text-white">
+            <th className="w-1/4 py-2 px-4 font-normal">Board Size</th>
+            <th className="w-1/4 py-2 px-4 font-normal">154</th>
+            <th className="w-1/4 py-2 px-4 font-normal">158</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td className="p-3 border border-black">Weight Range</td>
+            <td className="p-3 border border-black">120-180 lbs. /54-82kg</td>
+            <td className="p-3 border border-black">150-200 lbs. /68-91 kg</td>
+          </tr>
+          <tr>
+            <td className="p-3 border border-black">Waist Width</td>
+            <td className="p-3 border border-black">246mm</td>
+            <td className="p-3 border border-black">255mm</td>
+          </tr>
+          <tr>
+            <td className="p-3 border border-black">Stance Width</td>
+            <td className="p-3 border border-black">-40</td>
+            <td className="p-3 border border-black">-40</td>
+          </tr>
+          <tr>
+            <td className="p-3 border border-black">Binding Sizes</td>
+            <td className="p-3 border border-black">
+              Men&rsquo;s S/M, Women&rsquo;s S/M
+            </td>
+            <td className="p-3 border border-black">
+              Men&rsquo;s L, Women&rsquo;s L
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </>
+  );
+}

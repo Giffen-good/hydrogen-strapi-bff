@@ -1,11 +1,9 @@
 import React from 'react'
 
 import StrapiClientVideo from './StrapiDynamicComponents/StrapiVideo.client'
-import {cld} from './StrapiHelpers/util';
-import {image} from "@cloudinary/url-gen/qualifiers/source";
-import {Cloudinary} from "@cloudinary/url-gen";
+import StrapiClientImage from './StrapiDynamicComponents/StrapiImage.client'
 
-export default function StrapiMedia({media, classes}) {
+export default function StrapiMedia({media, classes, thumbnail}) {
   if (!media) return;
   const customCaption = media.name !== media.caption ? media.caption : '';
   const mimeType = media.mime.split('/')[0];
@@ -13,10 +11,10 @@ export default function StrapiMedia({media, classes}) {
     mimeType === 'video' ? (
       <StrapiClientVideo media={media} />
     ) : (
-      <StrapiImage
-        image={media}
+      <StrapiClientImage
+        media={media}
         classes={classes}
-        customCaption={customCaption}
+        thumbnail={thumbnail}
       />
     );
   return el;

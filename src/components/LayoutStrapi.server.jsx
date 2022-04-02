@@ -8,6 +8,7 @@ import Header from './Header';
 import FooterServer from './Footer.server';
 import FooterSettings from './Footer';
 import NotFound from './NotFound.server';
+
 import {
   sanityCheckToAttributes,
   getGlobalPageSettings,
@@ -40,6 +41,7 @@ export default function StrapiCollectionServer({
   if (data?.error || data?.data == null) return <NotFound />;
   const p = getStrapiData(data, isSingleType, hasDynamicZone);
   if (!isSingleType && !p) return <NotFound />;
+  
   const {backgroundColor, flush, useSpecialLayout, useNavigation, useSpecialFooter, useFullLogo} =
     getGlobalPageSettings(p?.page_settings);
   return (

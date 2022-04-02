@@ -1,5 +1,6 @@
 import {Image, Link} from '@shopify/hydrogen';
 
+import FreeLink from './StrapiHelpers/FreeLink';
 import MoneyCompareAtPrice from './MoneyCompareAtPrice.client';
 import MoneyPrice from './MoneyPrice.client';
 
@@ -12,10 +13,10 @@ export default function ProductCard({product}) {
   if (selectedVariant == null) {
     return null;
   }
-
+  const url = `/products/${product.handle}`;
   return (
     <div className="text-md mb-4 relative uppercase text-sm">
-      <Link to={`/products/${product.handle}`}>
+      <a href={url}>
         <div
           className="mb-2 relative flex items-center justify-center overflow-hidden object-cover
           max-h-[30rem] md:h-[36vw]
@@ -26,6 +27,10 @@ export default function ProductCard({product}) {
             <Image
               className="bg-white absolute w-full h-full transition-all duration-500 ease-in-out transform bg-center bg-cover object-center object-cover"
               image={selectedVariant.image}
+              options={{
+                height: '485',
+                crop: 'center',
+              }}
             />
           ) : null}
         </div>
@@ -42,7 +47,7 @@ export default function ProductCard({product}) {
             {product.vendor}
           </p>
         )}
-      </Link>
+      </a>
     </div>
   );
 }

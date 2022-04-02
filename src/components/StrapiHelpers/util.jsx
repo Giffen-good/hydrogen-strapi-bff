@@ -1,5 +1,6 @@
 import {EventEmitter} from 'eventemitter3';
 import {Cloudinary} from "@cloudinary/url-gen";
+import SeoShopify from '../Seo.client';
 
 export const has = (object, key) => {
   return object ? hasOwnProperty.call(object, key) : false;
@@ -53,6 +54,17 @@ export const getGlobalPageSettings = (settings) => {
   return {backgroundColor, flush, useSpecialLayout, useNavigation, useSpecialFooter, useFullLogo};
 };
 
+export const Seo = ({d}) => {
+  const page = {
+    seo: {
+      title: 'BBF',
+      description: 'this is a test'
+    }
+  }
+  // return <div></div>
+  console.log(page)
+  return <SeoShopify type="page" data={page} />
+}
 export const HEADER_PARAMS = {
   backgroundTransparency: true,
   useNavigation: true,

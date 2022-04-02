@@ -86,14 +86,14 @@ export default function Gallery() {
             ${idx == currentSlide ? 'md:opacity-100 block' : 'hidden md:block'}`}
             media={med}
             options={{
-              height: '485',
+              height: '1500',
               crop: 'center',
             }}
             {...extraProps}
           />
         );
       })}
-      {!media.length ? (<div className={'flex justify-center dots'}>
+      {media.length > 1 ? (<div className={'flex justify-center dots'}>
       {media.map((med, idx) => {
         return (
           <span className={'dot-wrapper'} key={idx}

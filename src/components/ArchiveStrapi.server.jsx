@@ -77,8 +77,10 @@ export default function StrapiCollectionServer({
         </main>
       </Suspense>
       <Suspense fallback={null}>
-        <FooterSettings >
-          <FooterServer />
+        <FooterSettings backgroundColor={'#000'} >
+          <div className={" text-white"}>
+            <FooterServer />
+          </div>
         </FooterSettings>
       </Suspense>
     </>
@@ -127,7 +129,7 @@ function PostWidgetTwo({post, slug}) {
     return (
       <FreeLink url={`/${slug}/${post.attributes.slug}`} classes={''}>
         <article>
-                <div className={'six-9'}>{img ? <StrapiMedia media={img} classes={'absolute top-0 left-0 w-full h-full'} /> : ''}</div>
+                <div className={'six-9'}>{img ? <StrapiMedia media={img} classes={'absolute top-0 left-0 w-full h-full object-cover'} /> : ''}</div>
                 <h2 className={'uppercase text-2xl font-semibold pb-0.5 pt-2'}>{att.title}</h2>
                 <div className={'line-clamp-5 text-xs'}>
                     <RichTextBody noGutter={true} noPadding={true}>
@@ -147,7 +149,7 @@ function ExternalPost({post}) {
         <FreeLink url={`${att.external_url}`} classes={''}>
           <article className={'text-center'}>
                   <div className={'pb-2'}>{postDate(att.publishedAt)}</div>
-                  <div className={'sixty-five'}>{img ? <StrapiMedia media={img} classes={'absolute top-0 left-0 w-full h-full'} /> : ''}</div>
+                  <div className={'sixty-five'}>{img ? <StrapiMedia media={img} classes={'absolute top-0 left-0 w-full h-full object-cover'} /> : ''}</div>
                   <h2 className={'uppercase text-2xl font-semibold pb-2 pt-4'}>{att.title}</h2>
                   <div className={' text-xs'}>
                       <RichTextBody noGutter={true} noPadding={true}>
@@ -160,8 +162,8 @@ function ExternalPost({post}) {
     } else {
       return (
         <article className={'text-center'}>
-                  <div className={'pb-2'}>{postDate(att.publishedAt)}</div>
-                  <div className={'sixty-five'}>{img ? <StrapiMedia media={img} classes={'absolute top-0 left-0 w-full h-full'} /> : ''}</div>
+                  {/* <div className={'pb-2'}>{postDate(att.publishedAt)}</div> */}
+                  <div className={'sixty-five'}>{img ? <StrapiMedia media={img} classes={'absolute top-0 left-0 w-full h-full object-cover'} /> : ''}</div>
                   <h2 className={'uppercase text-2xl font-semibold pb-2 pt-4'}>{att.title}</h2>
                   <div className={' text-xs'}>
                       <RichTextBody noGutter={true} noPadding={true}>

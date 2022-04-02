@@ -1,4 +1,3 @@
-import {Image, Video, Transformation} from 'cloudinary-react';
 import { AdvancedVideo } from '@cloudinary/react';
 import {cld} from '../StrapiHelpers/util';
 

@@ -3,7 +3,6 @@ import Arrow from '../icons/Arrow';
 import FreeLink from '../StrapiHelpers/FreeLink'
 export default function PostsWidget({title, designer, pages, conversations, stories, essays, include_designer_in_title}) {
   const posts = [...pages.data, ...conversations.data, ...stories.data, ...essays.data]
-  console.log({pages})
   let pageBlocks = [];
   let i = 0;
   let tmp = [];
@@ -54,6 +53,7 @@ const PageBlock = ({page}) => {
         <div className={''}>
           {att.thumbnail.data ? (
             <StrapiMedia
+              thumbnail={true}
               classes={
                 'w-[6rem] h-[6.5rem] box-content pr-2 py-1 h-full object-cover'
               }
