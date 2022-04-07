@@ -3,7 +3,6 @@ import {Emitter, EventConstants} from '../StrapiHelpers/util';
 import FreeLink from '../StrapiHelpers/FreeLink';
 const isDone = [];
 export default function Alphabet({children, letters}) {
-  const [characterOpen, setCharacterOpen] = useState(null);
   const [currentLetter, setCurrentLetter] = useState(null)
   const [currentCharacter, setCurrentCharacter] = useState(null)
   const [offsetHeight, setOffsetHeight] = useState(0)
@@ -42,25 +41,15 @@ export default function Alphabet({children, letters}) {
   //   changeHeight(offsetHeight);
   // }, isRunning ? delay : null);
 
-  useEffect(() => {
-    console.log('use EFFECT')
-    if (characterOpen === null) return
-  }, [characterOpen])
+  // useEffect(() => {
+  //   console.log('use EFFECT')
+  //   if (characterOpen === null) return
+  // }, [characterOpen])
  
-  const closeLetter = () => {
-    setCharacterOpen(null)
-  }
+  // const closeLetter = () => {
+  //   setCharacterOpen(null)
+  // }
 
-  const openLetter = (letter) => {
-    console.log(letter)
-    if (characterOpen && characterOpen.key === letter.key) {
-      setCharacterOpen(null)
-    } else {
-      setCharacterOpen(letter)
-      // console.log(letter.ref.current.offsetHeight)
-    }
-
-  }
 const changeHeight = (letter, open) => {
 
 }
@@ -85,18 +74,28 @@ function useInterval(callback, delay) {
   }, [delay]);
 }
   const Letter = ({ letter, semanticKey, entries}) => {
+    const [characterOpen, setCharacterOpen] = useState(null);
     const [entryHeight, setEntryHeight] = useState(0);
     const [heightSet, seHeightSet] = useState('auto')
     const mounted = useIsMounted();
     const entry = useRef(null);
     const inner = useRef(null);
 
+    const openLetter = (letter) => {
+      console.log(letter)
+      if (characterOpen && characterOpen.key === letter.key) {
+        setCharacterOpen(null)
+      } else {
+        setCharacterOpen(letter)
+        // console.log(letter.ref.current.offsetHeight)
+      }
+  
+    }
     useEffect(() => {
       if(entry.current){
         let height = entry.current.offsetHeight;
         let width  = entry.current.offsetWidth;
         setEntryHeight(height);
-        console.log('ENTRY EFFECT')
         seHeightSet('0')
         entry.current.style.position = 'relative';
         inner.current.style.position = 'absolute';
@@ -107,7 +106,6 @@ function useInterval(callback, delay) {
       <div className={`letter`}>
         <div
           onClick={() => {
-            console.log('changeLetter(entry)')
             const letter = {
               ref:entry.current,
               key: semanticKey,
@@ -147,7 +145,7 @@ function useInterval(callback, delay) {
   }
   return (
     <section
-      className={`alphabet-section grid justify-between grid-cols-alpha-4  gutter gap-4
+      className={`alphabet-section grid justify-between grid-cols-alpha-4 relative gap-4
       `}
     >
       {letters.map((item, k) => {

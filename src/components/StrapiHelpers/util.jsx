@@ -43,13 +43,14 @@ export const getGlobalPageSettings = (settings) => {
   let useSpecialLayout = false;
   let useSpecialFooter = false;
   let useFullLogo = false
-  
+  console.log("NAVIGATION:")
+  console.log(typeof settings?.use_navigations !== 'undefined' )
   if (settings?.background_color) backgroundColor = settings.background_color;
-  if (settings.background_transparency === 'transparent') flush = true;
+  if (settings?.background_transparency && settings.background_transparency === 'transparent') flush = true;
   if (settings?.use_special_layout) useSpecialLayout = true;
   if (settings?.use_special_footer) useSpecialFooter = true
   if (settings?.use_full_logo) useFullLogo = true
-  if (!settings.use_navigations) useNavigation = false
+  if (typeof settings?.use_navigations !== 'undefined'  && !settings.use_navigations) useNavigation = false
 
   return {backgroundColor, flush, useSpecialLayout, useNavigation, useSpecialFooter, useFullLogo};
 };

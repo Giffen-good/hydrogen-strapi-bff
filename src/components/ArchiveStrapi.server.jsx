@@ -148,7 +148,7 @@ function ExternalPost({post}) {
       return (
         <FreeLink url={`${att.external_url}`} classes={''}>
           <article className={'text-center'}>
-                  <div className={'pb-2'}>{postDate(att.publishedAt)}</div>
+                  {/* <div className={'pb-2'}>{postDate(att.publishedAt)}</div> */}
                   <div className={'sixty-five'}>{img ? <StrapiMedia media={img} classes={'absolute top-0 left-0 w-full h-full object-cover'} /> : ''}</div>
                   <h2 className={'uppercase text-2xl font-semibold pb-2 pt-4'}>{att.title}</h2>
                   <div className={' text-xs'}>
