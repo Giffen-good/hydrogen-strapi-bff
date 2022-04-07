@@ -80,16 +80,25 @@ function useInterval(callback, delay) {
     const mounted = useIsMounted();
     const entry = useRef(null);
     const inner = useRef(null);
-
+    const { CHANGE_LETTER } = EventConstants;
+    Emitter.on(CHANGE_LETTER, () => {
+      if (characterOpen) {
+        setCharacterOpen(null)
+      } 
+    })
     const openLetter = (letter) => {
       console.log(letter)
       if (characterOpen && characterOpen.key === letter.key) {
         setCharacterOpen(null)
+      } else if (document.querySelector('.entries.open')){
+        // console.log(letter.ref.current.offsetHeight)
+        Emitter.emit(CHANGE_LETTER)
+        console.log('change letter')
+        letter.delayed = true;
+        setCharacterOpen(letter)
       } else {
         setCharacterOpen(letter)
-        // console.log(letter.ref.current.offsetHeight)
-      }
-  
+      }  
     }
     useEffect(() => {
       if(entry.current){
@@ -110,7 +119,8 @@ function useInterval(callback, delay) {
               ref:entry.current,
               key: semanticKey,
               targetHeight: entryHeight,
-              height:0
+              height:0,
+              delayed: false
             }
             openLetter(letter)
           }}
@@ -121,7 +131,7 @@ function useInterval(callback, delay) {
           {letter}
         </div>
           <div 
-          className={`entries absolute ${alphabetClasses(semanticKey+1)}  overflow-x-visible ${(characterOpen && characterOpen.key == semanticKey) ? 'open' : ''}`}
+          className={`entries absolute ${alphabetClasses(semanticKey+1)}  overflow-x-visible ${(characterOpen && characterOpen.key == semanticKey) ? 'open' : ''}  ${(characterOpen && characterOpen.key == semanticKey && characterOpen.delayed) ? 'delayed' : ''}`}
           style={{
             height: (characterOpen && characterOpen.key == semanticKey) ? `${characterOpen.targetHeight}px` : heightSet}}
           ref={entry}>

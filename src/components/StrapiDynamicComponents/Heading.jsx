@@ -6,7 +6,6 @@ export default function Heading({
   has_padding,
   width
 }) {
-  console.log(width)
   return (
     <section
       className={`heading text-center  ${

@@ -52,7 +52,6 @@ function DynamicStrapiComponent({component}) {
 const ApplyBackgroundWrap = ({component,children}) => {
   if (component.componentProps?.component_settings) {
     const a = component.componentProps.component_settings;
-    console.log(a)
     return (
       <StrapiBackgroundColor
         classes={component.formattedComponentName}
