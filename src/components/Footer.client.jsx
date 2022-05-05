@@ -62,7 +62,7 @@ export default function Footer({menuLeft, menuRight, smMenu, time, bgColor, useS
                     {smMenu.map((item, i) => {
                       return (
                         <a
-                          className={'px-1'}
+                          className={'px-1 flex items-center'}
                           target="_blank"
                           rel="noopener noreferrer"
                           href={item.url}
@@ -133,7 +133,7 @@ export default function Footer({menuLeft, menuRight, smMenu, time, bgColor, useS
                   {smMenu.map((item, i) => {
                     return (
                       <a
-                        className={'px-2'}
+                          className={'px-2 flex items-center'}
                         target="_blank"
                         rel="noopener noreferrer"
                         href={item.url}

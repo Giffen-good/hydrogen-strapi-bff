@@ -24,7 +24,7 @@ export default function SpecialFooter({specialFooterNav, smMenu}) {
                   {smMenu.map((item, i) => {
                     return (
                       <a
-                        className={'px-2'}
+                        className={'px-2 flex items-center'}
                         target="_blank"
                         rel="noopener noreferrer"
                         href={item.url}

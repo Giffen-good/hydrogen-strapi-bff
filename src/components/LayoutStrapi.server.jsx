@@ -42,7 +42,7 @@ export default function StrapiCollectionServer({
   const p = getStrapiData(data, isSingleType, hasDynamicZone);
   if (!isSingleType && !p) return <NotFound />;
   
-  const {backgroundColor, flush, useSpecialLayout, useNavigation, useSpecialFooter, useFullLogo} =
+  const {backgroundColor, flush, useSpecialLayout, useNavigation, useSpecialFooter, useFullLogo, footerTextColor, footerBackgroundColor} =
     getGlobalPageSettings(p?.page_settings);
   return (
     <>
@@ -67,7 +67,7 @@ export default function StrapiCollectionServer({
           }}
         >
           <div className="flex flex-col max-w-screen text-black font-sans">
-            <div className="relative mb-12 site-wrapper">
+            <div className="relative site-wrapper">
               <BuildStrapiPage data={p} slug={ApiSlug}>
                 <StrapiDynamicZone mainContent={p?.main_content} />
               </BuildStrapiPage>
@@ -77,7 +77,7 @@ export default function StrapiCollectionServer({
       </Suspense>
       <Suspense fallback={null}>
         {useNavigation ? (
-          <FooterSettings backgroundColor={backgroundColor}  >
+          <FooterSettings textColor={footerTextColor} backgroundColor={footerBackgroundColor}  >
             <FooterServer  useSpecialFooter={useSpecialFooter} />
           </FooterSettings>
         ) : ''}

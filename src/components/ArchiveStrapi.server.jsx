@@ -64,7 +64,7 @@ export default function StrapiCollectionServer({
           className={`relative header-offset `}
         >
           <div className="flex flex-col max-w-screen text-black font-sans">
-            <div className="relative mb-12 site-wrapper">
+            <div className="relative site-wrapper">
                 <h1 className={'text-8xl uppercase text-center pt-4 md:pt-8 font-semibold pb-6 '}>{slugName}</h1>
                 <section className={'grid xl:grid-cols-3 grid-cols-1 gap-14 md:grid-cols-2 gutter'}>
                     {p.map((post) => {
@@ -108,11 +108,12 @@ function PostWidget({slug, post}) {
 }
 function PostWidgetOne({post, slug}) {
     const att = post.attributes
+    console.log(att)
     return (
       <FreeLink url={`/${slug}/${post.attributes.slug}`} classes={''}>
         <article>
                 <h4 className={'uppercase text-2xl font-serif text-yellow-bff pb-1 '}>{att.volume_tag}</h4>
-                <h2 className={'uppercase text-3xl font-semibold pb-0.5'}>{att.title}</h2>
+                <h2 className={'uppercase text-3xl font-semibold pb-0.5'}>{att.title_drop_text} {att.title}</h2>
                 <div className={'line-clamp-5 text-xs'}>
                     <RichTextBody noGutter={true} noPadding={true}>
                         {att.excerpt}
@@ -130,7 +131,7 @@ function PostWidgetTwo({post, slug}) {
       <FreeLink url={`/${slug}/${post.attributes.slug}`} classes={''}>
         <article>
                 <div className={'six-9'}>{img ? <StrapiMedia media={img} classes={'absolute top-0 left-0 w-full h-full object-cover'} /> : ''}</div>
-                <h2 className={'uppercase text-2xl font-semibold pb-0.5 pt-2'}>{att.title}</h2>
+                <h2 className={'uppercase text-2xl font-semibold pb-0.5 pt-2'}>{att.title_drop_text} {att.title}</h2>
                 <div className={'line-clamp-5 text-xs'}>
                     <RichTextBody noGutter={true} noPadding={true}>
                         {att.excerpt}

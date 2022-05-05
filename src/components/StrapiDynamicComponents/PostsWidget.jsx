@@ -11,8 +11,6 @@ function addPostType(pages, conversations, essays, presses, covers) {
   if (covers?.data) [...covers.data].map((p) => {p.post_type = 'covers'});
 }
 export default function PostsWidget({title, designer, pages, conversations, stories, essays, covers, presses, post_style, sort_posts, show_all_posts}) {
-  console.log(covers)
-
   addPostType(pages, conversations, essays, presses, covers) 
   const posts = [...pages.data, ...conversations.data, ...stories.data, ...essays.data, ...presses.data, ...covers.data]
   if ((!posts && sort_posts !== 'manual' && show_all_posts !== 'false') && (sort_posts !== 'manual' && show_all_posts === 'false')) return
@@ -88,7 +86,7 @@ function PostWidgetTwo({post}) {
   return (
       <article>
               {att.volume_tag ? <h4 className={'uppercase text-2xl font-serif text-yellow-bff pb-1 '}>{att.volume_tag}</h4> : ""}
-              <h2 className={'uppercase text-3xl font-semibold pb-0.5'}>{att.title}</h2>
+              <h2 className={'uppercase text-3xl font-semibold pb-0.5'}>{att.title_drop_text} {att.title}</h2>
               {att.excerpt ?(
               <div className={'line-clamp-5 text-xs'}>
                   <RichTextBody noGutter={true} noPadding={true}>
@@ -106,7 +104,7 @@ function PostWidgetThree({post}) {
   return (
       <article>
               <div className={'six-9'}>{img ? <StrapiMedia media={img} classes={'absolute top-0 left-0 w-full h-full object-cover'} /> : ''}</div>
-              <h2 className={'uppercase text-2xl font-semibold pb-0.5 pt-2'}>{att.title}</h2>
+              <h2 className={'uppercase text-2xl font-semibold pb-0.5 pt-2'}>{att.title_drop_text} {att.title}</h2>
               <div className={'line-clamp-5 text-xs'}>
                   {att.excerpt ? (
                   <RichTextBody noGutter={true} noPadding={true}>
@@ -127,7 +125,7 @@ function PostWidgetFive({post}) {
       {/* <div className={'pb-2'}>{postDate(att.publishedAt)}</div> */}
       <div className={'four-five'}>{img ? <StrapiMedia media={img} classes={'absolute top-0 left-0 w-full h-full object-cover'} /> : ''}</div>
       {att.volume_tag ? <h4 className={'uppercase text-3xl font-serif pt-3'}>{att.volume_tag}</h4> : ""}
-      { att.title ? <h2 className={' pb-2'}>{att.title}</h2> : ''}
+      { att.title ? <h2 className={' pb-2'}>{att.title_drop_text} {att.title}</h2> : ''}
       <div className={' text-xs uppercase font-semibold'}>
       {att.author ? <h3 className={'uppercase  text-xs font-semibold'}>Documented by {att.author}</h3> : ''}
      </div>
@@ -141,7 +139,7 @@ function PostWidgetFour({post}) {
       <article className={'text-center'}>
                 {/* <div className={'pb-2'}>{postDate(att.publishedAt)}</div> */}
                 <div className={'sixty-five'}>{img ? <StrapiMedia media={img} classes={'absolute top-0 left-0 w-full h-full object-cover'} /> : ''}</div>
-                { att.title ? <h2 className={'uppercase text-2xl font-semibold pb-2 pt-4'}>{att.title}</h2> : ''}
+                { att.title ? <h2 className={'uppercase text-2xl font-semibold pb-2 pt-4'}>{att.title_drop_text} {att.title}</h2> : ''}
                 <div className={' text-xs'}>
                   {att.excerpt ? (
                     <RichTextBody noGutter={true} noPadding={true}>
@@ -167,7 +165,7 @@ const PostWidgetOne = ({posts}) => {
       i++;
     }
   });
-  if (tmp) pageBlocks.push(tmp);
+  if (tmp.length) pageBlocks.push(tmp);
   return (
       
       <div className={'xl:flex-nowrap flex-wrap xl:max-w-none max-w-4xl flex gap-4 w-full mx-auto px-4 xl:px-10 sm:px-4 md:px-6 lg:px-8 xl:gutter-mw'}>

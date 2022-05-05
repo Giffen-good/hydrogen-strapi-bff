@@ -1,15 +1,15 @@
 import {Suspense} from 'react';
 
-export default function Footer({backgroundColor, children}) {
+export default function Footer({backgroundColor, children, textColor}) {
+  let styles = {
+    backgroundColor: backgroundColor ? backgroundColor : 'inherit',
+    color: textColor ? textColor : 'inherit'
+  }
   return (
     <Suspense fallback={null}>
       <footer
-        style={
-          backgroundColor
-            ? {backgroundColor: backgroundColor}
-            : {backgroundColor: 'inherit'}
-        }
-        className={'pb-12'}
+        style={styles}
+        className={`pb-12 pt-12 ${textColor && (textColor === '#FFF' || textColor === '#FFFFFF' ) ? 'invert-sm-icons' : '' }`}
         role="contentinfo"
       >
         {children}

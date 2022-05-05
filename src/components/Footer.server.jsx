@@ -17,7 +17,6 @@ export default function Footer({useSpecialFooter}) {
     );
     return await res.json();
   });
-  console.log(useSpecialFooter)
   const smMenu =
     data && data.data ? data.data.attributes.footer_social_media : null;
 

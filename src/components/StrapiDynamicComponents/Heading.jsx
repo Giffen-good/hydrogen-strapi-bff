@@ -1,14 +1,19 @@
+import {getFont, getTextAlignment} from '../StrapiHelpers/util';
+
 export default function Heading({
   font_family,
   heading_elements,
   text,
   font_size,
   has_padding,
-  width
+  width,
+  text_alignment
 }) {
   return (
     <section
-      className={`heading text-center  ${
+      className={`heading t ${getTextAlignment(
+        text_alignment,
+      )} ${
         !has_padding ? 'pt-0 pb-0' : ''
       }  ${getFontSize(font_size)} ${getFont(font_family)} ${getWidth(width)}`}
     >
@@ -43,16 +48,7 @@ function getFontSize(font_size) {
       return 'text-8xl';
   }
 }
-function getFont(font_family) {
-  switch (font_family) {
-    case 'font_serif':
-      return 'font-serif';
-    case 'font_semibold':
-      return 'font-semibold';
-    case 'font_sans':
-      return 'font-sans';
-  }
-}
+
 function GetHeading({heading_element, text}) {
   switch (heading_element) {
     case 'h1':

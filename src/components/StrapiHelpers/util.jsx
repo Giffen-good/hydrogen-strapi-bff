@@ -36,23 +36,27 @@ export const EventConstants = {
   LETTER_CLOSED: 'LETTER_CLOSED'
 };
 
+
 export const getGlobalPageSettings = (settings) => {
   let backgroundColor = null;
   let flush = false;
   let useNavigation = true;
   let useSpecialLayout = false;
   let useSpecialFooter = false;
-  let useFullLogo = false
+  let useFullLogo = false;
+  let footerTextColor = null
+  let footerBackgroundColor = null
   console.log("NAVIGATION:")
-  console.log(typeof settings?.use_navigations !== 'undefined' )
   if (settings?.background_color) backgroundColor = settings.background_color;
+  if (settings?.footer_text_color) footerTextColor = settings.footer_text_color
   if (settings?.background_transparency && settings.background_transparency === 'transparent') flush = true;
   if (settings?.use_special_layout) useSpecialLayout = true;
   if (settings?.use_special_footer) useSpecialFooter = true
   if (settings?.use_full_logo) useFullLogo = true
+  if (settings?.footer_background_color) footerBackgroundColor = settings.footer_background_color
   if (typeof settings?.use_navigations !== 'undefined'  && !settings.use_navigations) useNavigation = false
 
-  return {backgroundColor, flush, useSpecialLayout, useNavigation, useSpecialFooter, useFullLogo};
+  return {backgroundColor, flush, useSpecialLayout, useNavigation, useSpecialFooter, useFullLogo, footerTextColor, footerBackgroundColor};
 };
 
 export const Seo = ({d}) => {
@@ -72,3 +76,26 @@ export const HEADER_PARAMS = {
   useSpecialLayout: false,
   useSpecialFooter: false
 };
+
+export const getFont = (font_family) => {
+  switch (font_family) {
+    case 'font_serif':
+      return 'font-serif';
+    case 'font_semibold':
+      return 'font-semibold';
+    case 'font_sans':
+      return 'font-sans';
+  }
+}
+export const getTextAlignment = (text_alignment) => {
+  switch (text_alignment) {
+    case 'left_aligned':
+      return 'text-left';
+    case 'centered':
+      return 'text-center';
+    case 'right_aligned':
+      return 'text-right';
+    case 'justified':
+        return 'text-justify';
+  }
+}
