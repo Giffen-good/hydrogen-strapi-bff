@@ -8,9 +8,9 @@ export default function SpecialFooter({specialFooterNav, smMenu}) {
             <div className={'mx-auto text-center'}>
                 <Logo />
             </div>
-            <div className={'footer text-lg pt-10 pb-28 flex justify-center font-semibold '}>
+            <div className={'footer text-lg pt-10 pb-28 flex justify-center font-semibold  flex-wrap sm:flex-nowrap'}>
                 {specialFooterNav.map((item, k) => {
-                    return <FreeLink classes={'px-8'} key={k} url={item.free_sub_link}>{item.Label}</FreeLink>
+                    return <FreeLink classes={'px-8 w-6/12 text-center sm:pb-0 pb-4'} key={k} url={item.free_sub_link}>{item.Label}</FreeLink>
                 })}
             </div>
             <div className={'flex justify-between text-sm w-full gutter no'}>
@@ -20,7 +20,7 @@ export default function SpecialFooter({specialFooterNav, smMenu}) {
                 <div className={'flex-1 text-center'}>
                     <span className={''}>Black Fashion Fair © 2022</span>
                 </div>
-                <div className={'sm-menu flex text-right flex-1'}>
+                <div className={'sm-menu flex text-right flex-1 '}>
                   {smMenu.map((item, i) => {
                     return (
                       <a

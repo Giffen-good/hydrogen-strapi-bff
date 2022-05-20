@@ -3,15 +3,16 @@ import Arrow from '../icons/Arrow';
 import FreeLink from '../StrapiHelpers/FreeLink'
 import RichTextBody from './RichTextBody'
 
-function addPostType(pages, conversations, essays, presses, covers) {
+function addPostType(pages, conversations, essays, presses, covers, stories) {
   if (pages?.data) [...pages.data].map((p) => {p.post_type = 'pages'});
   if (conversations?.data) [...conversations.data].map((p) => {p.post_type = 'conversations'});
   if (essays?.data) [...essays.data].map((p) => {p.post_type = 'essays'});
   if (presses?.data) [...presses.data].map((p) => {p.post_type = 'presses'});
+  if (stories?.data) [...stories.data].map((p) => {p.post_type = 'stories'});
   if (covers?.data) [...covers.data].map((p) => {p.post_type = 'covers'});
 }
 export default function PostsWidget({title, designer, pages, conversations, stories, essays, covers, presses, post_style, sort_posts, show_all_posts}) {
-  addPostType(pages, conversations, essays, presses, covers) 
+  addPostType(pages, conversations, essays, presses, covers, stories)
   const posts = [...pages.data, ...conversations.data, ...stories.data, ...essays.data, ...presses.data, ...covers.data]
   if ((!posts && sort_posts !== 'manual' && show_all_posts !== 'false') && (sort_posts !== 'manual' && show_all_posts === 'false')) return
   return (
@@ -23,9 +24,9 @@ export default function PostsWidget({title, designer, pages, conversations, stor
 }
 function PostWrapper({posts, post_style, sort_posts, show_all_posts}) {
   console.log("POST WRAPPER")
-  console.log(sort_posts)
   if (sort_posts == 'manual') {
     if (!posts) return
+    console.log(posts)
     if (post_style === 'post_widget_1') {
       return <PostWidgetOne posts={posts} />
     } else {
@@ -72,7 +73,7 @@ function StyledPosts({posts, post_style}) {
   if (post_style === 'post_widget_2') {}
 }
 function PostWidget({post_style, post}) {
-  console.log('post:')
+  console.log('POST:')
   console.log(post)
   if (post_style === 'post_widget_2') return (<PostWidgetTwo post={post}  />)
   if (post_style === 'post_widget_3') return (<PostWidgetThree post={post} />)
@@ -188,6 +189,7 @@ const PostWidgetOne = ({posts}) => {
 }
 const PostBlock = ({page}) => {
   const att = page.attributes;
+  console.log(att)
   return (
     <FreeLink
       url={getPostUrl(page)}
@@ -213,7 +215,7 @@ const PostBlock = ({page}) => {
           <h4 className={'tracking-widest uppercase text-sm font-semibold'}>{att.designer}</h4>
           <h3
             className={
-              'text-xl py-1  text-ellipsis line-clamp-2 overflow-hidden ...'
+              'text-xl py-1  text-ellipsis line-clamp-2 overflow-hidden ... uppercase'
             }
           >
             {att.title}

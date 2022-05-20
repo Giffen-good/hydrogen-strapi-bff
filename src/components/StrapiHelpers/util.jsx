@@ -1,6 +1,9 @@
 import {EventEmitter} from 'eventemitter3';
 import {Cloudinary} from "@cloudinary/url-gen";
 import SeoShopify from '../Seo.client';
+import React, {Suspense} from "react";
+import TransitionElement from "../StrapiWrappers/TransitionElement.client";
+import StrapiBackgroundColor from "../StrapiWrappers/StrapiBackgroundColor";
 
 export const has = (object, key) => {
   return object ? hasOwnProperty.call(object, key) : false;
@@ -36,6 +39,10 @@ export const EventConstants = {
   LETTER_CLOSED: 'LETTER_CLOSED'
 };
 
+export const copyrightText = () => {
+  const d = new Date();
+  return `ALL IMAGES © BLACK FASHION FAIR ${d.getFullYear()}`
+}
 
 export const getGlobalPageSettings = (settings) => {
   let backgroundColor = null;
@@ -67,7 +74,7 @@ export const Seo = ({d}) => {
     }
   }
   // return <div></div>
-  console.log(page)
+  // console.log(page)
   return <SeoShopify type="page" data={page} />
 }
 export const HEADER_PARAMS = {
@@ -99,3 +106,12 @@ export const getTextAlignment = (text_alignment) => {
         return 'text-justify';
   }
 }
+
+
+
+
+
+
+
+
+

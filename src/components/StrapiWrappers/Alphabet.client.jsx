@@ -108,7 +108,7 @@ function useInterval(callback, delay) {
         seHeightSet('0')
         entry.current.style.position = 'relative';
         inner.current.style.position = 'absolute';
-    }
+      }
     }, [entry])
 
     return (
@@ -187,6 +187,6 @@ const useIsMounted = () =>  {
 const alphabetClasses = (k) => {
   let classes = '';
   if (k % 4 == 0 && k > 0) classes += 'lg:text-right end-piece ';
-  if (k % 3 == 0 && k > 0) classes += 'md:text-right ';
+  if ((k + 1) % 4 == 0 && k > 0) classes += 'second-to-end-piece ';
   return classes;
 };

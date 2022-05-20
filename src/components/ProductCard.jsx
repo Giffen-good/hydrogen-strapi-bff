@@ -28,7 +28,7 @@ export default function ProductCard({product}) {
               className="bg-white absolute w-full h-full transition-all duration-500 ease-in-out transform bg-center bg-cover object-center object-cover"
               image={selectedVariant.image}
               options={{
-                height: '485',
+                height: '900',
                 crop: 'center',
               }}
             />

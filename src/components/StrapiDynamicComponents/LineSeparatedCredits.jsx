@@ -3,7 +3,7 @@ export default function LineSeparatedCredits({credit}) {
     if (i === 0) return;
     return (
       <div className={'flex items-middle mx-2'}>
-        <div className={'separator h-px w-12 border-b border-black'}></div>
+        <div className={'separator h-px w-12 border-b '}></div>
       </div>
     );
   }
