@@ -1,0 +1,24 @@
+.aspect_4x6 {
+    padding-bottom: 150%;
+}
+.aspect_3x4 {
+    padding-bottom: 133.33%;
+}
+.aspect_4x5 {
+    padding-bottom: 125%;
+}
+.aspect_5x7 {
+    padding-bottom:140%;
+}
+.aspect_1x1 {
+    padding-bottom:100%;
+}
+.aspect_3x2 {
+    padding-bottom: 66.66%;
+}
+.aspect_5x4 {
+    padding-bottom:80%;
+}
+.aspect_16x9 {
+    padding-bottom: 56.25%
+}
