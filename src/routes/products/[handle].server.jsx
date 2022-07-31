@@ -12,20 +12,27 @@ import NotFound from '../../components/NotFound.server';
 import LayoutShopify from '../../components/LayoutShopify.server';
 import RecommendedProductsServer from '../../components/RecommendedProducts.server';
 import {HEADER_PARAMS} from '../../components/StrapiHelpers/util';
-import {useParsedMetafields} from '@shopify/hydrogen/client';
 export default function Product({country = {isoCode: 'US'}, params}) {
   const {handle} = useRouteParams();
   const {countryCode = 'US'} = useSession();
 
   const {languageCode} = useShop();
-
-  const {
-    data
-  } = useShopQuery({
+  console.log('ahead of request..\n\n');
+  const {data} = useShopQuery({
     query: QUERY,
     variables: {
       country: countryCode,
       language: languageCode,
+      metafieldsIdentifiers: [
+        {
+          key: 'designer',
+          namespace: 'my_fields',
+        },
+        {
+          key: 'editor_s_notes',
+          namespace: 'my_fields',
+        },
+      ],
       handle,
     },
     preload: true,
@@ -33,29 +40,35 @@ export default function Product({country = {isoCode: 'US'}, params}) {
   if (!data.product) {
     return <NotFound />;
   }
-  const productMetafields = useParsedMetafields(data.product.metafields);
-  const designer = productMetafields.find(
-    (metafield) =>
-      metafield.namespace === 'my_fields' && metafield.key === 'designer',
-  );
-  const id = designer ? designer.value.split('/')[designer.value.split('/').length - 1] : ''
-  const vendor = data.product.vendor ? data.product.vendor.replace(/[^a-zA-Z ]/g, "").toLowerCase().split(' ').join('-') : null
-  const {data: designerData} = vendor ? useShopQuery({query: DESIGNER_QUERY, variables: {handle:vendor}}) : {data: null};
-
+  const metafields = data.product.metafields;
+  console.log('metafields', metafields)
+  const designer = metafields  ? metafields.filter(m => m?.key === 'designer')[0] : null;
+  const id = designer
+    ? designer.value.split('/')[designer.value.split('/').length - 1]
+    : '';
+  const {data: designerData} = id
+    ? useShopQuery({
+        query: DESIGNER_QUERY,
+        variables: {
+          language: languageCode,
+          id: `gid://shopify/Page/${id}`
+        },
+      })
+    : {data: null};
   return (
     <LayoutShopify headerSettings={HEADER_PARAMS}>
       <Seo type="product" data={data} />
 
-      <ProductDetails product={data.product} designerData={designerData} />
+      <ProductDetails product={data.product} designer={designerData} />
       <RecommendedProductsServer />
     </LayoutShopify>
   );
 }
 
-
 const DESIGNER_QUERY = gql`
-  query PageDetails($handle: String!) {
-    pageByHandle(handle: $handle) {
+  query PageDetails($id: ID, $language: LanguageCode)
+  @inContext(language: $language) {
+    page(id: $id) {
       title
       body
     }
@@ -67,6 +80,7 @@ const QUERY = gql`
     $country: CountryCode
     $language: LanguageCode
     $handle: String!
+    $metafieldsIdentifiers: [HasMetafieldsIdentifier!]!
   ) @inContext(country: $country, language: $language) {
     product: product(handle: $handle) {
       id
@@ -82,33 +96,15 @@ const QUERY = gql`
           }
         }
       }
-      metafields(first: 20) {
-        edges {
-          node {
-            id
-            type
-            namespace
-            key
-            value
-            createdAt
-            updatedAt
-            description
-            reference {
-              __typename
-              ... on MediaImage {
-                id
-                mediaContentType
-                image {
-                  id
-                  url
-                  altText
-                  width
-                  height
-                }
-              }
-            }
-          }
-        }
+      metafields(identifiers: $metafieldsIdentifiers) {
+        id
+        type
+        namespace
+        key
+        value
+        createdAt
+        updatedAt
+        description
       }
       media(first: 6) {
         edges {
@@ -215,4 +211,3 @@ const QUERY = gql`
     }
   }
 `;
-

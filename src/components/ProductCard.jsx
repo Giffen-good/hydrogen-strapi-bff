@@ -16,7 +16,7 @@ export default function ProductCard({product}) {
   const url = `/products/${product.handle}`;
   return (
     <div className="text-md mb-4 relative uppercase text-sm">
-      <a href={url}>
+      <FreeLink url={url}>
         <div
           className="mb-2 relative flex items-center justify-center overflow-hidden object-cover
           max-h-[30rem] md:h-[36vw]
@@ -35,19 +35,19 @@ export default function ProductCard({product}) {
           ) : null}
         </div>
 
-        <div className={'flex justify-between'}>
+        <div className={'flex justify-between flex-wrap sm:flex-nowrap '}>
           <span className="text-black  mb-0.5">{product.title}</span>
-          <div className="flex ">
+          <div className="flex sm:pt-0 pt-4 sm:w-auto w-full">
             <SetPrice selectedVariant={selectedVariant} />
           </div>
         </div>
 
         {product.vendor && (
-          <p className="text-gray-900 font-semibold font-medium text-sm mb-0.5">
+          <p className="text-gray-900 font-semibold  text-sm mb-0.5">
             {product.vendor}
           </p>
         )}
-      </a>
+      </FreeLink>
     </div>
   );
 }
@@ -64,10 +64,4 @@ function SetPrice({selectedVariant}) {
       </>
     );
   }
-}
-function stripTrailingZeroes(selectedVariant) {
-  const splitPrice = selectedVariant.priceV2.amount.split('.');
-  const compareAt = selectedVariant.compareAtPriceV2;
-  if (splitPrice[1] == '0') selectedVariant.priceV2.amount = splitPrice[0]
-  if (compareAt && compareAt.amount.split('.')[1] == '0') selectedVariant.compareAtPriceV2 = compareAt.amount.split('.')[0];
 }

@@ -32,8 +32,8 @@ export default function LayoutShopify({children, headerSettings}) {
           useNavigation={headerSettings.useNavigation}
         />
       </Suspense>
-      <TransitionLayout>
-        <main role="main" id="mainContent" className={`relative `}>
+      <TransitionLayout classes={'main-root'}>
+        <main role="main" id="mainContent" className={`relative main-body-area `}>
           <div className="flex flex-col max-w-screen text-black font-sans">
             <Suspense fallback={null}>{children}</Suspense>
           </div>

@@ -9,6 +9,8 @@ import FooterServer from './Footer.server';
 import FooterSettings from './Footer';
 import NotFound from './NotFound.server';
 import TransitionLayout from "./TransitionLayout.client";
+import {Head} from '@shopify/hydrogen';
+
 import {
   sanityCheckToAttributes,
   getGlobalPageSettings,
@@ -43,32 +45,19 @@ export default function StrapiCollectionServer({
   const p = getStrapiData(data, isSingleType, hasDynamicZone);
 
   if (!isSingleType && !p) return <NotFound />;
-  function SeoForHomepage() {
-    console.log('SeoForHomepage')
-    console.log(p)
-    const title = ''
-    // const {
-    //   data: {
-    //     shop: {title, description},
-    //   },
-    // } = useShopQuery({
-    //   query: SEO_QUERY,
-    //   cache: CacheDays(),
-    //   preload: true,
-    // });
-    //
-    // return (
-    //   <Seo
-    //     type="homepage"
-    //     data={{
-    //       title,
-    //       description,
-    //     }}
-    //   />
-    // );
-  }
+
   const {backgroundColor, flush, useSpecialLayout, useNavigation, useSpecialFooter, useFullLogo, footerTextColor, footerBackgroundColor} =
     getGlobalPageSettings(p?.page_settings);
+  function SEO() {
+    const {meta_title, meta_description} = p?.page_settings
+    return (
+      <Head titleTemplate="%s">
+        { meta_title ? (<title>{`${meta_title} — Black Fashion Fair`}</title>) : '' }
+        { meta_description ? (<meta property={'description'} content={meta_description} />) : ''}
+      </Head>
+    )
+  }
+
   return (
     <>
       <Suspense fallback={<HeaderFallback />}>
@@ -83,8 +72,8 @@ export default function StrapiCollectionServer({
       </Suspense>
 
       <Suspense fallback={<MainContent />}>
-        <TransitionLayout>
-          <SeoForHomepage />
+        <TransitionLayout classes={'main-body-area'}>
+          <SEO />
         <main
           role="main"
           id="mainContent"

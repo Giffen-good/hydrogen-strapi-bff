@@ -5,7 +5,6 @@ export default function Heading({
   heading_elements,
   text,
   font_size,
-  has_padding,
   width,
   text_alignment
 }) {
@@ -13,9 +12,7 @@ export default function Heading({
     <section
       className={`heading t ${getTextAlignment(
         text_alignment,
-      )} ${
-        !has_padding ? 'pt-0 pb-0' : ''
-      }  ${getFontSize(font_size)} ${getFont(font_family)} ${getWidth(width)}`}
+      )} ${getFontSize(font_size)} ${getFont(font_family)} ${getWidth(width)}`}
     >
       <GetHeading heading_element={heading_elements} text={text} />
     </section>

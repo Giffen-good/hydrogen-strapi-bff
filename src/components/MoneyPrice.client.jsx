@@ -4,12 +4,11 @@ import {useMoney} from '@shopify/hydrogen';
  * A client component that defines the currency code, currency symbol, and amount of a product
  */
 export default function MoneyPrice({money}) {
-  const {currencyCode, currencyNarrowSymbol, amount} = useMoney(money);
+  const {currencyCode, withoutTrailingZeros} = useMoney(money);
   return (
-    <span className="text-black text-md">
+    <span className="text-black text-md whitespace-nowrap">
+      {withoutTrailingZeros}{' '}
       {currencyCode}
-      {currencyNarrowSymbol}
-      {amount}
     </span>
   );
 }

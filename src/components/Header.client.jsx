@@ -17,6 +17,7 @@ export default function Header({
                                  logoType,
                                  useSpecialLayout,
                                  flush,
+                                cartIcon,
                                  backgroundTransparency,
                                }) {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -42,6 +43,8 @@ export default function Header({
   return (
     <header
       className={`relative ${
+        useSpecialLayout && scrollPosition < 100 ? 'invert-icons' : ''
+      } ${
         useSpecialLayout && !scrollPosition && pageInitalized && !isNavOpen
           ? 'special-layout-initialized'
           : ''
@@ -56,7 +59,6 @@ export default function Header({
           useSpecialLayout={useSpecialLayout}
           scrollPosition={scrollPosition}
           flush={flush}
-          transparentHeaderAnimation={transparentHeaderAnimation}
         />
         <div className="text-center flex no-mw gutter z-20 py-5 pt-6 w-full flex justify-between items-center head-wrap">
           <div className={'flex flex-1 justify-start items-center h-full '}>
@@ -85,6 +87,7 @@ export default function Header({
           />
           <div className={` flex-1 justify-end text-right `}>
             <CartToggle
+              icon={cartIcon}
               handleClick={() => {
                 if (isNavOpen) setIsNavOpen(false);
               }}
@@ -140,32 +143,19 @@ const CenterSection = ({
   return el;
 };
 const Background = ({
-                      scrollPosition,
-                      backgroundTransparency,
-                      useSpecialLayout,
-                      transparentHeaderAnimation,
-                      flush
-                    }) => {
-  let el;
-  if (useSpecialLayout || backgroundTransparency) {
-    el = (
-      <>
-        <div
-          className={`topbar-overlay ${flush ? 'opacity-0' : ''} bg-white w-full h-full absolute ${scrollPosition ? 'show-header' : ''}`}
-        ></div>
-        <NavBackground />
-      </>
-    );
-  } else {
-    el = (
-      <>
-        <div className={'topbar-overlay bg-white w-full h-full absolute'}></div>
-        <NavBackground />
-      </>
-    );
-  }
-
-  return el;
+    scrollPosition,
+    backgroundTransparency,
+    useSpecialLayout,
+    flush
+  }) => {
+      return (
+        <>
+          <div
+            className={`topbar-overlay bg-white w-full h-full absolute ${backgroundTransparency ? 'transparent-bg' : ''} ${scrollPosition > 100 ? 'show-header' : ''}`}
+          ></div>
+          <NavBackground />
+        </>
+      )
 };
 const NavBackground = () => {
   return (
@@ -176,16 +166,16 @@ const NavBackground = () => {
     ></div>
   );
 };
-const transparentHeaderAnimation = (scrollPosition) => {
-  return {
-    // transform: `translateY(${Math.min(
-    //   0,
-    //   -100 + 100 * Math.min(1, scrollPosition / 400),
-    // )}px)`,
-    opacity: `${Math.min(1, scrollPosition / 100)}`,
-    filter: `blur(${Math.max(
-      0,
-      15 - 15 * Math.min(1, scrollPosition / 100),
-    )}px)`,
-  };
-};
+// const transparentHeaderAnimation = (scrollPosition) => {
+//   return {
+//     // transform: `translateY(${Math.min(
+//     //   0,
+//     //   -100 + 100 * Math.min(1, scrollPosition / 400),
+//     // )}px)`,
+//     opacity: `${Math.min(1, scrollPosition / 100)}`,
+//     filter: `blur(${Math.max(
+//       0,
+//       15 - 15 * Math.min(1, scrollPosition / 100),
+//     )}px)`,
+//   };
+// };

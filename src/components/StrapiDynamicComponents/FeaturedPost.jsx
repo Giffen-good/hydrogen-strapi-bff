@@ -38,10 +38,10 @@ export default function FeaturedPost({
           </div>
           <div
             className={
-              'flex justify-between items-center flex-wrap xl:flex-nowrap'
+              'flex justify-center xs:justify-between items-center flex-wrap xs:flex-nowrap'
             }
           >
-            <FreeLink url={button_link} classes={''}>
+            <FreeLink url={button_link} classes={'xs:order-1 order-2 w-full xs:w-auto text-center pt-6 xs:pt-0 xs:pb-0 pb-6'}>
               <button
                 className={
                   'hover:bg-white hover:text-black font-semibold text-xs px-11 py-4 border uppercase border-current rounded-3xl'
@@ -53,7 +53,7 @@ export default function FeaturedPost({
         
             <div
               className={
-                'w-full max-w-xs xl:pb-0 grow-0 uppercase flex-auto text-sm w-60 xl:order-2 order-1 pt-4 xs:pt-0'
+                'w-full max-w-xs xl:pb-0 grow-0 uppercase flex-auto text-sm w-60 xl:order-2 order-1 '
               }
             >
               <JustifiedText>

@@ -6,16 +6,15 @@ const CardWidget = ({
   card_style,
   image_aspect_ratio,
   content_card,
-  fluid_width,
+  gap_size,
 }) => {
+  const breakpoint = content_card.length > 3 ? 'lg' : 'md';
   return (
     <section
-      className={`CardWidget flex lg:flex-nowrap flex-wrap ${
-        fluid_width ? '' : 'gutter gap-4'
-      }`}
+      className={`CardWidget flex ${breakpoint}:flex-nowrap flex-wrap ${getGapSize(gap_size)}`}
     >
       {content_card.map((c, n) => (
-        <Wrapper key={n} link={c.link}>
+        <Wrapper key={n} link={c.link} breakpoint={breakpoint}>
           <ResponsiveImage media={c.image} aspect={image_aspect_ratio} />
           <TextSection c={c} style={card_style} />
         </Wrapper>
@@ -23,11 +22,24 @@ const CardWidget = ({
     </section>
   );
 }
-const Wrapper = ({children, link}) => {
+
+const getGapSize = (g) => {
+  switch (g) {
+    case 'no_gap':
+      return '';
+    case 'large_gap':
+      return 'gutter gap-8';
+    default:
+      return 'gutter gap-4';
+  }
+}
+
+
+const Wrapper = ({children, link, breakpoint}) => {
   if (link) {
-    return <FreeLink url={link} classes={'lg:flex-1 grow sm:basis-5/12 md:w-auto w-full'}>{children}</FreeLink>;
+    return <FreeLink url={link} classes={`${breakpoint}:flex-1 grow sm:basis-5/12 md:w-auto w-full`}>{children}</FreeLink>;
   } else {
-    return <article className={'lg:flex-1 grow sm:basis-5/12 md:w-auto w-full '}>{children}</article>;
+    return <article className={` ${breakpoint}:flex-1 grow sm:basis-5/12 md:w-auto w-full`}>{children}</article>;
   }
 }
 

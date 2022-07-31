@@ -24,10 +24,12 @@ export default function getHeader({
   });
   const navData = data.data.attributes;
   const logo = navData.alt_logo.data.attributes;
+  const cartIcon = navData.cart_icon?.data?.attributes;
   return (
     <Suspense fallback={<HeaderFallback isHome={false} />}>
       {useNavigation ? (
         <Header
+          cartIcon={cartIcon}
           nav={navData.header_columns}
           logo={logo}
           useSpecialLayout={useSpecialLayout}

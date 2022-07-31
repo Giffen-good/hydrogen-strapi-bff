@@ -1,5 +1,5 @@
 import {useProduct, MediaFile} from '@shopify/hydrogen/client';
-import React, {useState} from 'react';
+import React, { useEffect, useState } from "react";
 import Arrow from './icons/Arrow';
 /**
  * A client component that defines a media gallery for hosting images, 3D models, and videos of products
@@ -8,7 +8,10 @@ export default function Gallery() {
   const {media, selectedVariant} = useProduct();
   const featuredMedia = selectedVariant.image || media[0].image;
   const featuredMediaSrc = featuredMedia.url.split('?')[0];
-  console.log(media)
+
+
+
+
   const galleryMedia = media.filter((med) => {
     if (
       med.mediaContentType === MODEL_3D_TYPE ||
@@ -26,6 +29,24 @@ export default function Gallery() {
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
 
+  useEffect( () => {
+    console.log(selectedVariant)
+    console.log(media)
+    const i = findVariantInSlide(media, selectedVariant);
+    console.log(i)
+    if (i) setCurrentSlide(i);
+  }, [selectedVariant]);
+
+  function findVariantInSlide(media, selectedVariant) {
+    const id = selectedVariant.image.url;
+    console.log({id})
+    for (let i = 0; i < media.length;i++) {
+      const id2 = media[i].image.url;
+      console.log({id2})
+      if (id === id2) return i;
+    }
+    return null;
+  }
   function handleTouchStart(e) {
     setTouchStart(e.targetTouches[0].clientX);
   }
@@ -70,7 +91,6 @@ export default function Gallery() {
       onTouchMove={(touchMoveEvent) => handleTouchMove(touchMoveEvent)}
       onTouchEnd={() => handleTouchEnd()}
     >
-      {/*<SelectedVariantImage className="w-full  object-contain carousel-cell h-screen md:h-auto md:object-cover object-center flex-shrink-0 md:flex-shrink-none snap-start md:col-span-2" />*/}
       {media.map((med, idx) => {
         let extraProps = {};
 

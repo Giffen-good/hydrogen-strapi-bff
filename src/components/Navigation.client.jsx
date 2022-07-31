@@ -7,14 +7,16 @@ export default function Navigation({nav, special, setIsNavOpen}) {
     <>
       <nav
         className={
-          'top-level-nav text-left uppercase text-xs lg:flex justify-center z-20 pl-24 hidden '
+          'top-level-nav text-left uppercase text-xs md:flex justify-center z-20 pl-24 hidden '
         }
       >
         {nav.map((item, idx) => {
           return (
             <div key={idx} className={'nav-column flex-col '}>
               <span
-                onClick={() => {setIsNavOpen(false)}}
+                onClick={() => {
+                  setIsNavOpen(false);
+                }}
               ><FreeLink
                 classes={'top-nav-item font-semibold'}
                 url={item.top_level_url}
@@ -30,7 +32,7 @@ export default function Navigation({nav, special, setIsNavOpen}) {
       </nav>
       <nav
         className={
-          `top-level-nav text-cen†er  flex-wrap uppercase text-xs  justify-center z-20 text-2xl lg:hidden ${special ? 'hidden' : 'flex'}`
+          `top-level-nav text-center  flex-wrap uppercase text-xs  justify-center z-20 text-2xl  md:hidden ${special ? 'hidden' : 'flex mobile-nav'}`
         }
       >
         <div>
@@ -41,7 +43,6 @@ export default function Navigation({nav, special, setIsNavOpen}) {
                   className={'top-nav-item font-semibold cursor-pointer'}
                   url={item.top_level_url}
                   onClick={() => {
-                    console.log(openNavItem, idx)
                     if (openNavItem === idx) {
                       setOpenNavItem(null)
                     } else {
@@ -52,7 +53,7 @@ export default function Navigation({nav, special, setIsNavOpen}) {
                 >
                   {item.top_level_menu_item}
                 </span>
-                <div className={'subnav text-lg'}>
+                <div className={'subnav text-md'}>
                   <SubNav setIsNavOpen={setIsNavOpen} s={item.sub_menu_item} classes={'block sub-nav-item pt-4'} />
                 </div>
               </div>

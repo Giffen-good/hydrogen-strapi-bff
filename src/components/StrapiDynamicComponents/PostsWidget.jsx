@@ -19,7 +19,7 @@ export default function PostsWidget({title, designer, pages, conversations, stor
   if ((sort_posts !== 'manual' && show_all_posts === 'false')) return
   return (
     <section className={'post-widget'}>
-      {title ? <h2>{title}</h2> : ''}
+      {title ? <h2 className={'text-xl text-center font-semibold pb-4'}>{title}</h2> : ''}
       <PostWrapper posts={posts} post_style={post_style} sort_posts={sort_posts} show_all_posts={show_all_posts} />
     </section>
   )
@@ -210,12 +210,12 @@ const PostWidgetOne = ({posts, slug}) => {
   if (tmp.length) pageBlocks.push(tmp);
   return (
       
-      <div className={'xl:flex-nowrap flex-wrap xl:max-w-none max-w-4xl flex gap-4 w-full mx-auto px-4 xl:px-10 sm:px-4 md:px-6 lg:px-8 xl:gutter-mw'}>
+      <div className={'lg:flex-nowrap flex-wrap lg:max-w-none max-w-4xl flex gap-4 w-full mx-auto px-4 lg:px-10 sm:px-4 md:px-6 lg:px-8 lg:gutter-mw'}>
         {pageBlocks.map((block, k) => {
           return (
             <div
               className={
-                'block xl:w-auto w-full gap-4 flex-auto xl:flex-1 grid sm:grid-cols-2 xl:flex  flex-auto xl:flex-nowrap flex-wrap xl:flex-1'
+                'block lg:w-auto w-full gap-4 flex-auto lg:flex-1 grid sm:grid-cols-2 lg:flex  flex-auto lg:flex-nowrap flex-wrap lg:flex-1'
               }
               key={k}
             >
@@ -251,8 +251,8 @@ const PostBlock = ({page, slug}) => {
             <div className={'fallback'}></div>
           )}
         </div>
-        <div className={'flex-1 py-1 pl-2 flex flex-col h-full '}>
-          <h4 className={'tracking-widest uppercase text-sm font-semibold'}>{att.designer}</h4>
+        <div className={'flex-1 pb-1  pl-2 flex flex-col h-full '}>
+          <h4 className={'tracking-widest uppercase text-sm font-semibold'}>{att.sub_title}</h4>
           <h3
             className={
               'text-xl py-1  text-ellipsis line-clamp-2 overflow-hidden ... uppercase'

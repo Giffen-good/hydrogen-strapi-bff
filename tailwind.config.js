@@ -27,11 +27,12 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['NeuzeitBook', 'sans-serif'],
-        semibold: ['NeuzeitBookHeavy', 'sans-serif'],
+        semibold: ['NeuzeitBook', 'sans-serif'],
         serif: ['BFF'],
       },
       fontWeight: {
-        semibold: '400',
+        semibold: '600',
+        sans: '400',
       },
       spacing: {
         128: '32rem',

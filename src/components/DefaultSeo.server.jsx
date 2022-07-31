@@ -20,6 +20,7 @@ export default function DefaultSeo() {
       data={{
         title: name,
         description,
+        titleTemplate: `%s  —  ${name}`
       }}
     />
   );
