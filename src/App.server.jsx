@@ -13,10 +13,14 @@ import NotFound from './components/NotFound.server';
 import LoadingFallback from './components/LoadingFallback';
 import ServerCartProvider from './components/ServerCartProvider.server';
 
-function App() {
+function App({request}) {
+  const pathname = new URL(request.normalizedUrl).pathname;
+  const localeMatch = /^\/([a-z]{2})(\/|$)/i.exec(pathname);
+  const countryCode = localeMatch ? localeMatch[1] : undefined;
+
   return (
     <Suspense fallback={<LoadingFallback />}>
-      <ShopifyProvider>
+      <ShopifyProvider countryCode={countryCode}>
         <ServerCartProvider>
           <DefaultSeo />
           <Router>

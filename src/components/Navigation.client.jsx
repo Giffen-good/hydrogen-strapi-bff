@@ -2,7 +2,7 @@ import FreeLink from './StrapiHelpers/FreeLink';
 import {useState} from 'react';
 
 export default function Navigation({nav, special, setIsNavOpen}) {
-  const [openNavItem, setOpenNavItem] = useState(null)
+  const [openNavItem, setOpenNavItem] = useState(null);
   return (
     <>
       <nav
@@ -17,44 +17,58 @@ export default function Navigation({nav, special, setIsNavOpen}) {
                 onClick={() => {
                   setIsNavOpen(false);
                 }}
-              ><FreeLink
-                classes={'top-nav-item font-semibold'}
-                url={item.top_level_url}
               >
-                {item.top_level_menu_item}
-              </FreeLink></span>
+                <FreeLink
+                  classes={'top-nav-item font-semibold'}
+                  url={item.top_level_url}
+                >
+                  {item.top_level_menu_item}
+                </FreeLink>
+              </span>
               <div className={'subnav'}>
-                <SubNav setIsNavOpen={setIsNavOpen} s={item.sub_menu_item} classes={'block sub-nav-item pt-8'} />
+                <SubNav
+                  setIsNavOpen={setIsNavOpen}
+                  s={item.sub_menu_item}
+                  classes={`block sub-nav-item py-4 `}
+                />
               </div>
             </div>
           );
         })}
       </nav>
       <nav
-        className={
-          `top-level-nav text-center  flex-wrap uppercase text-xs  justify-center z-20 text-2xl  md:hidden ${special ? 'hidden' : 'flex mobile-nav'}`
-        }
+        className={`top-level-nav text-center  flex-wrap uppercase text-xs  justify-center z-20   md:hidden ${
+          special ? 'hidden' : 'flex mobile-nav'
+        }`}
       >
         <div>
           {nav.map((item, idx) => {
             return (
-              <div key={idx} className={`w-full text-center py-4 ${openNavItem === idx ? 'open-nav-item' : ''}`}>
+              <div
+                key={idx}
+                className={`w-full text-center py-4 ${
+                  openNavItem === idx ? 'open-nav-item' : ''
+                }`}
+              >
                 <span
                   className={'top-nav-item font-semibold cursor-pointer'}
                   url={item.top_level_url}
                   onClick={() => {
                     if (openNavItem === idx) {
-                      setOpenNavItem(null)
+                      setOpenNavItem(null);
                     } else {
-                      setOpenNavItem(idx)
+                      setOpenNavItem(idx);
                     }
-                  }
-                  }
+                  }}
                 >
                   {item.top_level_menu_item}
                 </span>
                 <div className={'subnav text-md'}>
-                  <SubNav setIsNavOpen={setIsNavOpen} s={item.sub_menu_item} classes={'block sub-nav-item pt-4'} />
+                  <SubNav
+                    setIsNavOpen={setIsNavOpen}
+                    s={item.sub_menu_item}
+                    classes={'block sub-nav-item pt-4'}
+                  />
                 </div>
               </div>
             );
@@ -71,14 +85,17 @@ const SubNav = ({s, classes, setIsNavOpen}) => {
         return (
           <span
             key={k}
-
-            onClick={() => {setIsNavOpen(false)}}
-          ><FreeLink
-            classes={classes}
-            url={s.free_sub_link}
+            onClick={() => {
+              setIsNavOpen(false);
+            }}
           >
-            {s.Label}
-          </FreeLink></span>
+            <FreeLink
+              classes={`${classes} ${k === 0 ? 'pt-8' : ''}`}
+              url={s.free_sub_link}
+            >
+              {s.Label}
+            </FreeLink>
+          </span>
         );
       })}
     </>

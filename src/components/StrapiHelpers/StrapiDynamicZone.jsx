@@ -105,7 +105,6 @@ function getDynamicComponents(mainContent, importedComponents) {
       console.warn(
         `WARNING: ${c.formattedComponentName} does not have an associated template file. Props include: \n ${c.componentProps} `,
       );
-      console.log(c);
     }
   });
   return availableComponents;

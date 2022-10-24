@@ -1,20 +1,17 @@
-import {LocalizationProvider, useQuery} from '@shopify/hydrogen';
 import {Suspense} from 'react';
 import Header from './Header';
 import Footer from './Footer.server';
 import HeaderFallback from './FallbackHeader';
 import FooterSettings from './Footer';
-import {getGlobalPageSettings} from './StrapiHelpers/util';
-import TransitionLayout from "./TransitionLayout.client";
+import TransitionLayout from './TransitionLayout.client';
 
 /**
  * A server component that defines a structure and organization of a page that can be used in different parts of the Hydrogen app
  */
 
 export default function LayoutShopify({children, headerSettings}) {
-  console.log(headerSettings)
   return (
-    <LocalizationProvider>
+    <>
       <div className="absolute top-0 left-0 font-sans">
         <a
           href="#mainContent"
@@ -33,7 +30,11 @@ export default function LayoutShopify({children, headerSettings}) {
         />
       </Suspense>
       <TransitionLayout classes={'main-root'}>
-        <main role="main" id="mainContent" className={`relative main-body-area `}>
+        <main
+          role="main"
+          id="mainContent"
+          className={`relative main-body-area `}
+        >
           <div className="flex flex-col max-w-screen text-black font-sans">
             <Suspense fallback={null}>{children}</Suspense>
           </div>
@@ -44,6 +45,6 @@ export default function LayoutShopify({children, headerSettings}) {
           </FooterSettings>
         </Suspense>
       </TransitionLayout>
-    </LocalizationProvider>
+    </>
   );
 }

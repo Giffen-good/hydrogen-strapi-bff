@@ -4,9 +4,12 @@ import {
   useShopQuery,
   Seo,
   useRouteParams,
+  ProductOptionsProvider,
   gql,
 } from '@shopify/hydrogen';
+import {Suspense} from 'react';
 
+import {MEDIA_FRAGMENT} from '~/lib/fragments';
 import ProductDetails from '../../components/ProductDetails.client';
 import NotFound from '../../components/NotFound.server';
 import LayoutShopify from '../../components/LayoutShopify.server';
@@ -17,6 +20,7 @@ export default function Product({country = {isoCode: 'US'}, params}) {
   const {countryCode = 'US'} = useSession();
 
   const {languageCode} = useShop();
+
   console.log('ahead of request..\n\n');
   const {data} = useShopQuery({
     query: QUERY,
@@ -41,8 +45,7 @@ export default function Product({country = {isoCode: 'US'}, params}) {
     return <NotFound />;
   }
   const metafields = data.product.metafields;
-  console.log('metafields', metafields)
-  const designer = metafields  ? metafields.filter(m => m?.key === 'designer')[0] : null;
+  const designer = metafields ? metafields.filter(m => m?.key === 'designer')[0] : null;
   const id = designer
     ? designer.value.split('/')[designer.value.split('/').length - 1]
     : '';
@@ -57,9 +60,10 @@ export default function Product({country = {isoCode: 'US'}, params}) {
     : {data: null};
   return (
     <LayoutShopify headerSettings={HEADER_PARAMS}>
-      <Seo type="product" data={data} />
-
-      <ProductDetails product={data.product} designer={designerData} />
+      <Seo type="product" data={data.product} />
+      <ProductOptionsProvider data={data.product}>
+        <ProductDetails product={data.product} designer={designerData} />
+      </ProductOptionsProvider>
       <RecommendedProductsServer />
     </LayoutShopify>
   );
@@ -76,6 +80,7 @@ const DESIGNER_QUERY = gql`
 `;
 
 const QUERY = gql`
+  ${MEDIA_FRAGMENT}
   query product(
     $country: CountryCode
     $language: LanguageCode
@@ -106,49 +111,9 @@ const QUERY = gql`
         updatedAt
         description
       }
-      media(first: 6) {
-        edges {
-          node {
-            ... on MediaImage {
-              mediaContentType
-              image {
-                id
-                url
-                altText
-                width
-                height
-              }
-            }
-            ... on Video {
-              mediaContentType
-              id
-              previewImage {
-                url
-              }
-              sources {
-                mimeType
-                url
-              }
-            }
-            ... on ExternalVideo {
-              mediaContentType
-              id
-              embedUrl
-              host
-            }
-            ... on Model3d {
-              mediaContentType
-              id
-              alt
-              mediaContentType
-              previewImage {
-                url
-              }
-              sources {
-                url
-              }
-            }
-          }
+      media(first: 7) {
+        nodes {
+          ...Media
         }
       }
       priceRange {

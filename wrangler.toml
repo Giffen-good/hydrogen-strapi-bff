@@ -10,3 +10,7 @@ bucket = "dist/client"
 
 [build]
 command = "yarn && yarn build"
+
+#[build.upload]
+#format = "modules"
+#main = "./worker.mjs"

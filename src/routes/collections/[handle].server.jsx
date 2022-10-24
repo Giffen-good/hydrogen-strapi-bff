@@ -5,6 +5,7 @@ import {
   flattenConnection,
   useQuery,
   Seo,
+  useLocalization,
   gql,
 } from '@shopify/hydrogen';
 import qs from 'qs';
@@ -19,16 +20,18 @@ import {HEADER_PARAMS} from '../../components/StrapiHelpers/util';
 import CollectionWrapper from '../../components/CollectionWrapper.server';
 
 export default function Collection({collectionProductCount = 24, params}) {
-  const {languageCode} = useShop();
-  const {countryCode = 'US'} = useSession();
 
+  const {
+    language: {isoCode: language},
+    country: {isoCode: country},
+  } = useLocalization();
   const {handle} = params;
   const {data} = useShopQuery({
     query: QUERY,
     variables: {
       handle,
-      country: countryCode,
-      language: languageCode,
+      country,
+      language,
       numProducts: collectionProductCount,
     },
     preload: true,

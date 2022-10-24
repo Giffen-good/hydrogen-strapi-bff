@@ -1,7 +1,7 @@
 import {
   useShopQuery,
   Seo,
-  CacheDays,
+  CacheLong,
   gql,
 } from '@shopify/hydrogen';
 
@@ -38,11 +38,11 @@ export default function Index({params, request}) {
 function SeoForHomepage() {
   const {
     data: {
-      shop: {title, description},
+      shop: {description},
     },
   } = useShopQuery({
     query: SEO_QUERY,
-    cache: CacheDays(),
+    cache: CacheLong(),
     preload: true,
   });
 

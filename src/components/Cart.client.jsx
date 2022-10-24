@@ -9,13 +9,12 @@ import {
   CartLinePrice,
   CartLineQuantity,
   CartShopPayButton,
-  CartEstimatedCost,
   useCartLine,
+  Money,
 } from '@shopify/hydrogen';
 import {Dialog} from '@headlessui/react';
-import CloseIcon from "./CloseIcon";
+import CloseIcon from './CloseIcon';
 import {useCartUI} from './CartUIProvider.client';
-import CartIconWithItems from './CartIconWithItems.client';
 import {BUTTON_PRIMARY_CLASSES} from './Button.client';
 
 /**
@@ -37,7 +36,7 @@ export default function Cart() {
       <Dialog open={isCartOpen} onClose={closeCart}>
         <Dialog.Overlay className="fixed z-20 inset-0 bg-gray-50 opacity-20" />
         <div
-          className={`absolute flex flex-col md:block z-20 top-0 left-0 right-0 bottom-0  h-full md:left-auto md:right-0 md:bottom-auto md:h-auto md:max-h-[calc(100vh-56px)] bg-gray-50 w-full md:w-[470px] rounded-b-lg shadow-2xl ${
+          className={`absolute flex flex-col md:block z-20 top-0 left-0 right-0 bottom-0  h-full md:left-auto md:right-0 md:bottom-auto md:h-auto md:max-h-[calc(100vh-56px)] bg-white w-full md:w-[470px] rounded-b-lg shadow-2xl ${
             totalQuantity === 0 ? 'overflow-hidden' : 'overflow-y-scroll'
           }`}
         >
@@ -60,8 +59,7 @@ function CartHeader() {
   const {closeCart} = useCartUI();
   return (
     <header className=" bg-white py-3 pt-8 px-6 flex justify-between items-center sticky top-0">
-      <button type="button" onClick={closeCart}>
-      </button>
+      <button type="button" onClick={closeCart}></button>
 
       <button type="button" onClick={closeCart}>
         <CloseIcon />
@@ -96,8 +94,10 @@ function LineInCart() {
       <div role="cell" className="flex-shrink-0 mr-7">
         <Link to={`/products/${merchandise.product.handle}`}>
           <CartLineImage
-            className="bg-white border border-black border-opacity-5 rounded-xl "
-            loaderOptions={{width: 98, height: 98, crop: 'center'}}
+            width={98}
+            height={98}
+            className="bg-white border border-black border-opacity-5"
+            loaderOptions={{ crop: 'center'}}
           />
         </Link>
       </div>
@@ -193,6 +193,8 @@ function CartItemQuantity() {
 }
 
 function CartFooter() {
+  const {cost} = useCart();
+
   return (
     <footer className="bottom-0 sticky pb-8 border-t border-black border-opacity-5">
       <div className="relative h-60 bg-white text-gray-900 p-7">
@@ -201,11 +203,13 @@ function CartFooter() {
             <span className="font-semibold" role="rowheader">
               Subtotal
             </span>
-            <CartEstimatedCost
-              amountType="subtotal"
-              role="cell"
-              className="text-right "
-            />
+            <span role="cell" className="uppercase">
+              {cost?.subtotalAmount?.amount ? (
+                <Money data={cost?.subtotalAmount} />
+              ) : (
+                '-'
+              )}
+            </span>
           </div>
           <div role="row" className="flex justify-between mt-2">
             <span className="font-semibold" role="rowheader">

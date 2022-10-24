@@ -62,13 +62,15 @@ function StructuredPage({data, slug, children}) {
       </div>
       { data.post_tags ? 
           <ArticleTagWrapper>
-            <div  style={styles} className={'pt-8 gutter'}>
-              <h4 style={{borderColor: footerTextColor ? footerTextColor : 'inherit'}} className={'text-xl uppercase font-semibold pb-2 border-b-2'}>In this Article</h4>
-              <div className={'flex justify-between pt-6'}>
-                <InThisArticleWidget type={'Topics'} d={data.post_tags.topics} />
-                <InThisArticleWidget type={'People'} d={data.post_tags.people} />
-                <InThisArticleWidget type={'Organizations'} d={data.post_tags.organization} />
-                <InThisArticleWidget type={'Location'} d={data.post_tags.location} />
+            <div  style={styles} className={'pt-8'}>
+              <div className={'gutter no-mw'}>
+                <h4 style={{borderColor: footerTextColor ? footerTextColor : 'inherit'}} className={'text-xl uppercase font-semibold pb-2 border-b-2'}>In this Article</h4>
+                <div className={'flex justify-between pt-6'}>
+                  <InThisArticleWidget type={'Topics'} d={data.post_tags.topics} />
+                  <InThisArticleWidget type={'People'} d={data.post_tags.people} />
+                  <InThisArticleWidget type={'Organizations'} d={data.post_tags.organization} />
+                  <InThisArticleWidget type={'Location'} d={data.post_tags.location} />
+                </div>
               </div>
             </div>
           </ArticleTagWrapper>

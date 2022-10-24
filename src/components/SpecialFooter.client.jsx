@@ -2,7 +2,6 @@ import Logo from './Logo';
 import FreeLink from './StrapiHelpers/FreeLink';
 import StrapiMediaClient from './StrapiMedia.client'
 export default function SpecialFooter({specialFooterNav, smMenu}) {
-    console.log(specialFooterNav)
     return (
         <div className={' text-white uppercase pt-12 md:pt-24 special-footer'}>
             <div className={'mx-auto text-center'}>

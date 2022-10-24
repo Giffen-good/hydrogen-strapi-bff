@@ -12,7 +12,7 @@ import RichTextBody from './StrapiDynamicComponents/RichTextBody'
 import FreeLink from './StrapiHelpers/FreeLink'
 import StrapiMedia from './StrapiMedia'
 import {
-    HEADER_PARAMS,
+  HEADER_PARAMS,
   sanityCheckToAttributes,
   getGlobalPageSettings,
 } from './StrapiHelpers/util';
@@ -44,7 +44,6 @@ export default function StrapiCollectionServer({
   if (data?.error || data?.data == null) return <NotFound />;
   const p = data.errors ? null : data.data;
   if (!p) return <NotFound />;
-  console.log(p)
   const slugName = ApiSlug === 'presses' ? 'press' : ApiSlug;
   return (
     <>
@@ -108,7 +107,6 @@ function PostWidget({slug, post}) {
 }
 function PostWidgetOne({post, slug}) {
     const att = post.attributes
-    console.log(att)
     return (
       <FreeLink url={`/${slug}/${post.attributes.slug}`} classes={''}>
         <article>

@@ -1,10 +1,10 @@
-import {useProduct} from '@shopify/hydrogen/client';
+import {useProductOptions} from '@shopify/hydrogen/client';
 
 /**
  * A client component that tracks a selected variant and/or selling plan state, as well as callbacks for modifying the state
  */
 export default function ProductOptions() {
-  const {options, setSelectedOption, selectedOptions} = useProduct();
+  const {options, setSelectedOption, selectedOptions} = useProductOptions();
   // Default Title
   if (options[0].name !== 'Color') options.reverse();
   return (

@@ -2,8 +2,6 @@ import {
   useShop,
   useShopQuery,
   flattenConnection,
-  LocalizationProvider,
-  CacheHours,
   gql,
 } from '@shopify/hydrogen';
 
@@ -24,7 +22,6 @@ export default function Layout({children, hero}) {
       language: languageCode,
       numCollections: 3,
     },
-    cache: CacheHours(),
     preload: '*',
   });
   const collections = data ? flattenConnection(data.collections) : null;

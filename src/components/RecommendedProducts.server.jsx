@@ -6,7 +6,6 @@ import {
   gql
 } from '@shopify/hydrogen';
 
-import {Suspense} from 'react';
 import ProductCard from './ProductCard';
 import CollectionWrapperServer from './CollectionWrapper.server';
 export default function RecommendedProductsServer() {
@@ -21,9 +20,8 @@ export default function RecommendedProductsServer() {
     },
   });
   const products = data ? flattenConnection(data.products) : [];
-  console.log(products)
   return (
-    <Suspense fallback={null}>
+    <>
       <div className="mb-10 lg:mt-20 md:mt-14">
         <p className="mb-8 text-2xl text-center  text-black font-serif font-medium ">
           You might also like:
@@ -36,7 +34,7 @@ export default function RecommendedProductsServer() {
           ))}
         </CollectionWrapperServer>
       </div>
-    </Suspense>
+    </>
   );
 }
 

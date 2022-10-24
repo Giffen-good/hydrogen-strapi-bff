@@ -1,4 +1,4 @@
-import {NoStore, gql} from '@shopify/hydrogen';
+import {CacheNone, gql} from '@shopify/hydrogen';
 
 /**
  * This API route is used by the form on `/account/activate/[id]/[activationToken]`
@@ -25,7 +25,7 @@ export async function api(request, {session, queryShop}) {
         activationToken: jsonBody.activationToken,
       },
     },
-    cache: NoStore(),
+    cache: CacheNone(),
   });
 
   if (data?.customerActivate?.customerAccessToken?.accessToken) {

@@ -1,27 +1,11 @@
-import {useProduct, MediaFile} from '@shopify/hydrogen/client';
-import React, { useEffect, useState } from "react";
-import Arrow from './icons/Arrow';
+import {useProductOptions, MediaFile} from '@shopify/hydrogen/client';
+import React, {useEffect, useState} from 'react';
 /**
  * A client component that defines a media gallery for hosting images, 3D models, and videos of products
  */
-export default function Gallery() {
-  const {media, selectedVariant} = useProduct();
-  const featuredMedia = selectedVariant.image || media[0].image;
-  const featuredMediaSrc = featuredMedia.url.split('?')[0];
+export default function Gallery({media}) {
+  const {selectedVariant} = useProductOptions();
 
-
-
-
-  const galleryMedia = media.filter((med) => {
-    if (
-      med.mediaContentType === MODEL_3D_TYPE ||
-      med.mediaContentType === VIDEO_TYPE
-    ) {
-      return true;
-    }
-
-    return !med.image.url;
-  });
   if (!media.length) {
     return null;
   }
@@ -29,20 +13,15 @@ export default function Gallery() {
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
 
-  useEffect( () => {
-    console.log(selectedVariant)
-    console.log(media)
+  useEffect(() => {
     const i = findVariantInSlide(media, selectedVariant);
-    console.log(i)
     if (i) setCurrentSlide(i);
   }, [selectedVariant]);
 
   function findVariantInSlide(media, selectedVariant) {
     const id = selectedVariant.image.url;
-    console.log({id})
-    for (let i = 0; i < media.length;i++) {
+    for (let i = 0; i < media.length; i++) {
       const id2 = media[i].image.url;
-      console.log({id2})
       if (id === id2) return i;
     }
     return null;
@@ -92,57 +71,110 @@ export default function Gallery() {
       onTouchEnd={() => handleTouchEnd()}
     >
       {media.map((med, idx) => {
-        let extraProps = {};
+        let mediaProps = {};
 
-        if (med.mediaContentType === MODEL_3D_TYPE) {
-          extraProps = MODEL_3D_PROPS;
+        const data = {
+          ...med,
+          image: {
+            // @ts-ignore
+            ...med.image,
+            altText: med.alt || 'Product image',
+          },
+        };
+
+        switch (med.mediaContentType) {
+          case 'IMAGE':
+            mediaProps = {
+              width: 800,
+              widths: [400, 800, 1200, 1600, 2000, 2400],
+            };
+            break;
+          case 'VIDEO':
+            mediaProps = {
+              width: '100%',
+              autoPlay: true,
+              controls: false,
+              muted: true,
+              loop: true,
+              preload: 'auto',
+            };
+            break;
+          case 'EXTERNAL_VIDEO':
+            mediaProps = {width: '100%'};
+            break;
+          case 'MODEL_3D':
+            mediaProps = {
+              width: '100%',
+              interactionPromptThreshold: '0',
+              ar: true,
+              loading: 'eager',
+              disableZoom: true,
+            };
+            break;
         }
+
+        if (idx === 0 && med.mediaContentType === 'IMAGE') {
+          mediaProps.loading = 'eager';
+        }
+
         if (med?.mediaContentType)
-        return (
-          <MediaFile
-            tabIndex={idx}
-            key={med.image.url.split('?')[0]}
-            className={`w-full md:absolute  md:h-screen object-cover object-center transition-all snap-start flex-shrink-0
-            ${idx == currentSlide ? 'md:opacity-100 block' : 'md:opacity-0  hidden md:block'}`}
-            data={med}
-            options={{
-              height: '1500',
-              crop: 'center',
-            }}
-            {...extraProps}
-          />
-        );
+          return (
+            <MediaFile
+              width={'100%'}
+              height={'100vh'}
+              tabIndex={idx}
+              key={med.image.url.split('?')[0]}
+              className={`w-full md:absolute md:h-screen object-cover object-center transition-all snap-start flex-shrink-0
+            ${
+              idx == currentSlide
+                ? 'md:opacity-100 block'
+                : 'md:opacity-0  hidden md:block'
+            }`}
+              data={data}
+              options={{
+                crop: 'center',
+              }}
+              {...mediaProps}
+            />
+          );
       })}
       {media.length > 1 ? (
         <div className={'flex justify-center dots'}>
-        {media.map((med, idx) => {
-          return (
-            <span className={'dot-wrapper'} key={idx}
-                  onClick={() => setCurrentSlide(idx)}
-            >
-          <span
-            className={`dot ${currentSlide === idx ? 'active' : ''}`} ></span></span>
-          )
-        })}
-      </div>) : ''}
+          {media.map((med, idx) => {
+            return (
+              <span
+                className={'dot-wrapper'}
+                key={idx}
+                onClick={() => setCurrentSlide(idx)}
+              >
+                <span
+                  className={`dot ${currentSlide === idx ? 'active' : ''}`}
+                ></span>
+              </span>
+            );
+          })}
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   );
 }
 
-const MODEL_3D_TYPE = 'MODEL_3D';
-const MODEL_3D_PROPS = {
-  interactionPromptThreshold: '0',
-};
-const VIDEO_TYPE = 'VIDEO';
-
-const settings = {
-  infinite: true,
-  speed: 500,
-  slidesToShow: 1,
-  useTransform: false,
-  fade: true,
-  slidesToScroll: 1,
-};
+// const MODEL_3D_TYPE = 'MODEL_3D';
+// const MODEL_3D_PROPS = {
+//   interactionPromptThreshold: '0',
+// };
+// const VIDEO_TYPE = 'VIDEO';
+//
+// const settings = {
+//   infinite: true,
+//   speed: 500,
+//   slidesToShow: 1,
+//   useTransform: false,
+//   fade: true,
+//   slidesToScroll: 1,
+// };
 // <div className={' hidden  overflow-x-scroll no-scrollbar scroll-snap-x scroll-smooth  md:h-auto place-content-start relative gap-4 md:sticky '}>
 //   {media.map((med, idx) => {
 //     let extraProps = {};

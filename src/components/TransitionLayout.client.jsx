@@ -11,7 +11,6 @@ export default function TransitionLayout({ children, classes }) {
   }, []);
   const [init, setInit] = useState(true)
   useEffect(() => {
-    console.log(children !== displayChildren)
     if (children !== displayChildren) {
       setDisplayChildren(children)
       setTransitionStage("fadeIn");
@@ -21,15 +20,12 @@ export default function TransitionLayout({ children, classes }) {
   const [path, setPath] = useState(location.pathname)
   useEffect(() => {
     if (location.pathname !== path) {
-      console.log('fade out');
       setTransitionStage('fadeOut');
       setPath(location.pathname)
     }
 
   }, [location]);
   return (
-    <div className={`${styles.content} ${styles[transitionStage]} ${classes}`}>
-      {displayChildren}
-    </div>
+    <div className={`${styles.content} ${styles[transitionStage]} ${classes}`}>{displayChildren}</div>
   );
 }

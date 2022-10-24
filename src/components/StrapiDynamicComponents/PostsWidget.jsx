@@ -27,7 +27,6 @@ export default function PostsWidget({title, designer, pages, conversations, stor
 function PostWrapper({posts, post_style, sort_posts, show_all_posts}) {
   if (sort_posts == 'manual' && !posts) return
   const slug = getPlural(show_all_posts)
-  console.log('SLUG:', slug)
   const query = qs.stringify(
     {
       populate: 'deep',

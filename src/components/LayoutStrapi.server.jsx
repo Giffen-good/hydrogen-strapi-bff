@@ -1,4 +1,4 @@
-import { useQuery, Seo, useShopQuery, CacheDays } from "@shopify/hydrogen";
+import {useQuery} from '@shopify/hydrogen';
 
 import {Suspense} from 'react';
 import StrapiDynamicZone from './StrapiHelpers/StrapiDynamicZone';
@@ -8,7 +8,7 @@ import Header from './Header';
 import FooterServer from './Footer.server';
 import FooterSettings from './Footer';
 import NotFound from './NotFound.server';
-import TransitionLayout from "./TransitionLayout.client";
+import TransitionLayout from './TransitionLayout.client';
 import {Head} from '@shopify/hydrogen';
 
 import {
@@ -20,6 +20,7 @@ export default function StrapiCollectionServer({
   isSingleType,
   ApiSlug,
   query,
+  params,
   hasDynamicZone,
 }) {
   const {data} = useQuery(
@@ -39,27 +40,57 @@ export default function StrapiCollectionServer({
       return await res.json();
     },
   );
-  console.log( `${import.meta.env.VITE_STRAPI}/api/${ApiSlug}?${query}`,)
+  console.log(`${import.meta.env.VITE_STRAPI}/api/${ApiSlug}?${query}`);
   if (data?.error || data?.data == null) return <NotFound />;
 
   const p = getStrapiData(data, isSingleType, hasDynamicZone);
 
   if (!isSingleType && !p) return <NotFound />;
-
-  const {backgroundColor, flush, useSpecialLayout, useNavigation, useSpecialFooter, useFullLogo, footerTextColor, footerBackgroundColor} =
-    getGlobalPageSettings(p?.page_settings);
-  function SEO() {
-    const {meta_title, meta_description} = p?.page_settings
+  const {
+    metaTitle,
+    metaDescription,
+    backgroundColor,
+    flush,
+    useSpecialLayout,
+    useNavigation,
+    useSpecialFooter,
+    useFullLogo,
+    footerTextColor,
+    footerBackgroundColor,
+  } = getGlobalPageSettings(p?.page_settings);
+  function SEO({metaTitle, metaDescription}) {
+    console.log('metaTitle', metaTitle)
     return (
       <Head titleTemplate="%s">
-        { meta_title ? (<title>{`${meta_title} — Black Fashion Fair`}</title>) : '' }
-        { meta_description ? (<meta property={'description'} content={meta_description} />) : ''}
+        {metaTitle ? (
+          <title>{`${metaTitle} — Black Fashion Fair`}</title>
+        ) : (
+          <title>{`${getTitleFromHandle()}Black Fashion Fair`}</title>
+        )}
+        {metaDescription ? (
+          <meta property={'description'} content={metaDescription} />
+        ) : (
+          ''
+        )}
       </Head>
-    )
+    );
   }
-
+  function getTitleFromHandle() {
+    const {handle} = params;
+    if (!handle) return '';
+    const raw = handle.split('-').join(' ');
+    return `${toTitleCase(raw)} - `;
+  }
+  function toTitleCase(str) {
+    return str.replace(/\w\S*/g, function (txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+  }
   return (
     <>
+      <Suspense>
+        <SEO metaTitle={metaTitle} metaDescription={metaDescription} />
+      </Suspense>
       <Suspense fallback={<HeaderFallback />}>
         <Header
           useFullLogo={useFullLogo}
@@ -73,32 +104,36 @@ export default function StrapiCollectionServer({
 
       <Suspense fallback={<MainContent />}>
         <TransitionLayout classes={'main-body-area'}>
-          <SEO />
-        <main
-          role="main"
-          id="mainContent"
-          className={`relative ${flush ? '' : 'header-offset'} `}
-          style={{
-            backgroundColor: backgroundColor ? backgroundColor : 'inherit',
-          }}
-        >
-          <div className="flex flex-col max-w-screen text-black font-sans">
-            <div className="relative site-wrapper">
-              <BuildStrapiPage data={p} slug={ApiSlug}>
-                <StrapiDynamicZone mainContent={p?.main_content} />
-              </BuildStrapiPage>
+          <main
+            role="main"
+            id="mainContent"
+            className={`relative ${flush ? '' : 'header-offset'} `}
+            style={{
+              backgroundColor: backgroundColor ? backgroundColor : 'inherit',
+            }}
+          >
+            <div className="flex flex-col max-w-screen text-black font-sans">
+              <div className="relative site-wrapper">
+                <BuildStrapiPage data={p} slug={ApiSlug}>
+                  <StrapiDynamicZone mainContent={p?.main_content} />
+                </BuildStrapiPage>
+              </div>
             </div>
-          </div>
-        </main>
-      </TransitionLayout>
+          </main>
+        </TransitionLayout>
       </Suspense>
       <Suspense fallback={null}>
         <TransitionLayout>
           {useNavigation ? (
-            <FooterSettings textColor={footerTextColor} backgroundColor={footerBackgroundColor}  >
-              <FooterServer  useSpecialFooter={useSpecialFooter} />
+            <FooterSettings
+              textColor={footerTextColor}
+              backgroundColor={footerBackgroundColor}
+            >
+              <FooterServer useSpecialFooter={useSpecialFooter} />
             </FooterSettings>
-          ) : ''}
+          ) : (
+            ''
+          )}
         </TransitionLayout>
       </Suspense>
     </>

@@ -1,9 +1,9 @@
-import {useSession, NoStore} from '@shopify/hydrogen';
+import {useSession, CacheNone} from '@shopify/hydrogen';
 
 import AccountDetails from '../../components/account/AccountDetails.server';
 
 export default function Account({response}) {
-  response.cache(NoStore());
+  response.cache(CacheNone());
 
   const {customerAccessToken} = useSession();
 

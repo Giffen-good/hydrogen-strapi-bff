@@ -5,13 +5,13 @@ import HeaderFallback from './FallbackHeader';
 import {useQuery} from '@shopify/hydrogen';
 import Logo from './Logo';
 
-export default function getHeader({
+export default function GetHeader({
   backgroundTransparency,
   useSpecialLayout,
   useNavigation,
-  flush
+  flush,
 }) {
-  const {data} = useQuery(['use', 'asdfsadf'], async () => {
+  const {data} = useQuery(['use', 'header_strapi_components'], async () => {
     const res = await fetch(
       `${import.meta.env.VITE_STRAPI}/api/header?populate=deep`,
       {
@@ -37,18 +37,27 @@ export default function getHeader({
           flush={flush}
           useNavigation={useNavigation}
         />
-      ) : <NoNavHeader />}
+      ) : (
+        <NoNavHeader />
+      )}
       <Cart />
     </Suspense>
   );
 }
 const NoNavHeader = () => {
   return (
-    <div className={' flex place-content-between absolute z-20  w-full  mx-auto noNavHeader'}>
-      <div className={'text-center flex no-mw gutter z-20  pt-2 w-full flex justify-center items-center head-wrap alt-logo'}>
+    <div
+      className={
+        ' flex place-content-between absolute z-20  w-full  mx-auto noNavHeader'
+      }
+    >
+      <div
+        className={
+          'text-center flex no-mw gutter z-20  pt-2 w-full flex justify-center items-center head-wrap alt-logo'
+        }
+      >
         <Logo />
       </div>
     </div>
-  )
-}
-
+  );
+};

@@ -358,7 +358,10 @@ p + p {
   }
 }
 .full-logo > div {
-  top:-8px;
+  top:14px;
+  transform:translateX(-50%);
+  display: inline-block;
+  left:50%;
 }
 .alt-logo img, .logo img {
   max-width:82px;
@@ -661,6 +664,10 @@ p + p {
 /*    height: 70vw;*/
 /*  }*/
 /*}*/
+.shopping-badge {
+  right: 0.6em;
+  bottom: 1.3em;
+}
 @media screen and (max-width: 1023px){
   .article-info-section .banner {
     height:70vh;
@@ -702,6 +709,7 @@ p + p {
     scrollbar-width: none;  /* Firefox */
     max-height: 0;
     height:auto;
+    @apply text-2xl;
   }
   .head-wrap {
     padding-top:0.75rem;
@@ -724,7 +732,9 @@ p + p {
     height:25px
   }
   .full-logo > div {
-    top:0px;
+    transform:translateX(-50%);
+    display: inline-block;
+    left:50%;
   }
 
 }
